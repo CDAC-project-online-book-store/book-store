@@ -11,6 +11,15 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+
+  /* Custom colors to be used throughout our frontend. Please find the Component-Specific Color Mapping table in README.md */
+  --lapis-lazuli: #22577aff;
+  --verdigris: #38a3a5ff;
+  --emerald: #57cc99ff;
+  --light-green: #80ed99ff;
+  --tea-green: #c7f9ccff;
+  --white: #ffffff;
 }
 
 a {
@@ -65,4 +74,6 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+
+  
 }
