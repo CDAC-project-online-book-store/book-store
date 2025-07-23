@@ -1,0 +1,128 @@
+.review-card {
+  max-width: 450px;
+  margin: 40px auto;
+  padding: 25px;
+  background-color: #c7f9cc;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
+  color: #22577a;
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  background-color: #57cc99;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+.username {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.book-section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.book-thumbnail {
+  width: 70px;
+  height: 90px;
+  background-color: #fdd835;
+  color: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-right: 20px;
+  border-radius: 6px;
+}
+
+.book-author {
+  font-weight: normal;
+  font-size: 0.8rem;
+  color: #333;
+}
+
+.rating-section .rating-question {
+  margin-bottom: 5px;
+}
+
+.stars {
+  display: flex;
+  gap: 4px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.star {
+  color: #ccc;
+}
+
+.star.filled {
+  color: #38a3a5;
+}
+
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.review-form label {
+  font-weight: 600;
+}
+
+.review-form textarea {
+  resize: vertical;
+  padding: 10px;
+  border: 1px solid #57cc99;
+  border-radius: 6px;
+  background-color: #f6fff8;
+  font-size: 0.95rem;
+}
+
+.review-form input[type="text"] {
+  padding: 10px;
+  border: 1px solid #57cc99;
+  border-radius: 6px;
+  background-color: #f6fff8;
+  font-size: 0.95rem;
+}
+
+.review-form input[type="file"] {
+  background-color: #f0fff4;
+  padding: 8px;
+  border: 1px dashed #80ed99;
+  border-radius: 6px;
+}
+
+.review-form button {
+  padding: 10px;
+  background-color: #22577a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.review-form button:hover {
+  background-color: #38a3a5;
+}
