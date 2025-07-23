@@ -1,0 +1,47 @@
+.address-page {
+  background-color: #ffffff;
+  padding: 2rem;
+  min-height: 100vh;
+}
+
+.address-heading {
+  color: #22577a;
+  margin-bottom: 1rem;
+}
+
+.address-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.add-address-box {
+  border: 2px dashed #38a3a5;
+  padding: 2rem;
+  border-radius: 15px;
+  cursor: pointer;
+  background-color: #80ed99;
+  color: #22577a;
+  text-align: center;
+  width: 200px;
+}
+
+.address-card {
+  border: 1px solid #38a3a5;
+  background-color: #80ed99;
+  padding: 1rem;
+  border-radius: 15px;
+  min-width: 200px;
+  max-width: 250px;
+}
+
+.address-card button {
+  background-color: #22577a;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  margin-right: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  cursor: pointer;
+  margin-top: 1rem;
+}
