@@ -1,0 +1,56 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.settings-container {
+  max-width: 600px;
+  margin: auto;
+  padding: 30px;
+  border: 2px solid #22577a;
+  border-radius: 10px;
+  background-color: #c7f9cc;
+}
+
+.settings-title {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #22577a;
+  border-bottom: 2px solid #22577a;
+  padding-bottom: 8px;
+}
+
+.settings-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+
+.settings-item label {
+  width: 90px;
+  font-weight: bold;
+  color: #22577a;
+}
+
+.settings-item input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #38a3a5;
+  border-radius: 5px;
+  background-color: #f0fff4;
+  color: #22577a;
+}
+
+.settings-item button {
+  background-color: #57cc99;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.settings-item button:hover {
+  background-color: #38a3a5;
+}
