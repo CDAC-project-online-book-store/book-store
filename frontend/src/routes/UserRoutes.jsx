@@ -10,6 +10,11 @@ import ContactUs from '../pages/user/ContactUs'
 function UserRoutes() {
   return (
    <Routes>
+      <Route path='/user' element={<Reviews />} />
+      <Route path='/user/add-new-address' element={<AddNewAddress />} />
+      <Route path='/user/addresses' element={<Address />} />
+      <Route path='/user/edit-address' element={<EditAddress />} />
+      <Route path='/user/settings' element={<Settings />} />
       <Route path='/add-review' element={<Reviews />} />
       <Route path='/add-new-address' element={<AddNewAddress />} />
       <Route path='/addresses' element={<Address />} />
