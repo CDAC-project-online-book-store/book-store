@@ -1,11 +1,13 @@
+import React from 'react'
+import BookDetails from '../pages/books/BookDetails'
 import { Routes, Route } from 'react-router-dom'
-// import ViewReview from '../components/ViewReview'
 
 function BookRoutes() {
   return (
-    <Routes>
-        {/* <Route path="/book/reviews" element={<ViewReview/>} /> */}
-      </Routes>
+   <Routes>
+      <Route path='/book-details' element={<BookDetails />} />
+      {/* <Route path="/book/reviews" element={<ViewReview/>} /> */}
+    </Routes>
   )
 }
 

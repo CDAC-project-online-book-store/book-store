@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import "../../css/EditAddress.css";
 
 const EditAddress = () => {
   const location = useLocation();
@@ -31,7 +30,6 @@ const EditAddress = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const updatedAddress = {
       ...formData,
       address: `${formData.flat}, ${formData.area}, ${formData.landmark}`,
@@ -40,83 +38,107 @@ const EditAddress = () => {
     const stored = JSON.parse(localStorage.getItem('addresses')) || [];
     stored[index] = updatedAddress;
     localStorage.setItem('addresses', JSON.stringify(stored));
-
     navigate('/address');
   };
 
   return (
-    <div className="form-container">
-      <h2 className="form-title">Edit Address</h2>
-      <form onSubmit={handleSubmit} className="form-body">
-        <label>Full Name</label>
-        <input
-          type="text"
-          name="fullName"
-          value={formData.fullName}
-          onChange={handleChange}
-          required
-        />
+    <div className="container mt-5 mb-4">
+      <h3 className="mb-4 text-primary">Edit Address</h3>
+      <form className="border p-4 rounded shadow bg-light" onSubmit={handleSubmit}>
+        <div className="mb-3">
+          <label className="form-label">Full Name</label>
+          <input
+            type="text"
+            className="form-control"
+            name="fullName"
+            value={formData.fullName}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-        <label>Mobile number</label>
-        <input
-          type="text"
-          name="phone"
-          value={formData.phone}
-          onChange={handleChange}
-          required
-        />
+        <div className="mb-3">
+          <label className="form-label">Mobile Number</label>
+          <input
+            type="text"
+            className="form-control"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-        <label>Pincode</label>
-        <input
-          type="text"
-          name="pincode"
-          value={formData.pincode}
-          onChange={handleChange}
-          placeholder="6 digit pin code"
-          required
-        />
+        <div className="mb-3">
+          <label className="form-label">Pincode</label>
+          <input
+            type="text"
+            className="form-control"
+            name="pincode"
+            placeholder="6 digit pin code"
+            value={formData.pincode}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-        <label>Flat, House no., Building, Company, Apartment</label>
-        <input
-          type="text"
-          name="flat"
-          value={formData.flat}
-          onChange={handleChange}
-          required
-        />
+        <div className="mb-3">
+          <label className="form-label">Flat, House No., Building, Apartment</label>
+          <input
+            type="text"
+            className="form-control"
+            name="flat"
+            value={formData.flat}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-        <label>Area, Street, Sector, Village</label>
-        <input
-          type="text"
-          name="area"
-          value={formData.area}
-          onChange={handleChange}
-          required
-        />
+        <div className="mb-3">
+          <label className="form-label">Area, Street, Sector, Village</label>
+          <input
+            type="text"
+            className="form-control"
+            name="area"
+            value={formData.area}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-        <label>Landmark (Optional)</label>
-        <input
-          type="text"
-          name="landmark"
-          value={formData.landmark}
-          onChange={handleChange}
-        />
+        <div className="mb-3">
+          <label className="form-label">Landmark (Optional)</label>
+          <input
+            type="text"
+            className="form-control"
+            name="landmark"
+            value={formData.landmark}
+            onChange={handleChange}
+          />
+        </div>
 
-        <div className="row-group">
-          <div>
-            <label>Town/City</label>
+        <div className="row mb-3">
+          <div className="col-md-6">
+            <label className="form-label">Town/City</label>
             <input
               type="text"
+              className="form-control"
               name="city"
               value={formData.city}
               onChange={handleChange}
               required
             />
           </div>
-          <div>
-            <label>State</label>
-            <select name="state" value={formData.state} onChange={handleChange} required>
-              <option value="">choose a state</option>
+          <div className="col-md-6">
+            <label className="form-label">State</label>
+            <select
+              className="form-select"
+              name="state"
+              value={formData.state}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Choose a state</option>
               <option value="Maharashtra">Maharashtra</option>
               <option value="Gujarat">Gujarat</option>
               <option value="Delhi">Delhi</option>
@@ -127,7 +149,7 @@ const EditAddress = () => {
           </div>
         </div>
 
-        <button type="submit" className="submit-btn">Submit</button>
+        <button type="submit" className="btn btn-success">Update Address</button>
       </form>
     </div>
   );
