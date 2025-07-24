@@ -6,7 +6,7 @@ function BookRoutes() {
   return (
    <Routes>
       <Route path='/book-details' element={<BookDetails />} />
-      
+      {/* <Route path="/book/reviews" element={<ViewReview/>} /> */}
     </Routes>
   )
 }
