@@ -1,8 +1,15 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 
 function AddBookForm() {
 // Get today's date in YYYY-MM-DD format
 const today = new Date().toISOString().split('T')[0];
+ 
+
+const navigate = useNavigate();
+  const OnCancel = () => {
+    navigate('/admin/books');
+  }
 
 return (
     <div className="container mt-4">
@@ -55,6 +62,7 @@ return (
             </div>
             
             <button type="submit" className="btn btn-primary">Add Book</button>
+            <button type="button" className="btn btn-secondary ms-2" onClick={OnCancel}>Cancel</button>
         </form>
     </div>
 )
