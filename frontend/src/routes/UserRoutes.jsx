@@ -9,11 +9,11 @@ import { Routes, Route } from 'react-router-dom'
 function UserRoutes() {
   return (
    <Routes>
-      <Route path='/' element={<Reviews />} />
-      <Route path='/add-new-address' element={<AddNewAddress />} />
-      <Route path='/addresses' element={<Address />} />
-      <Route path='/edit-address' element={<EditAddress />} />
-      <Route path='/settings' element={<Settings />} />
+      <Route path='/user' element={<Reviews />} />
+      <Route path='/user/add-new-address' element={<AddNewAddress />} />
+      <Route path='/user/addresses' element={<Address />} />
+      <Route path='/user/edit-address' element={<EditAddress />} />
+      <Route path='/user/settings' element={<Settings />} />
     </Routes>
   )
 }
