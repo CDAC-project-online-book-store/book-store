@@ -14,11 +14,12 @@ function Cart() {
 
     return (
         <div className="d-flex">
-            <div className="container-xl">
+            <div className="container-xl" style={{width:"70%"}}>
                 <h2>Shopping Cart</h2>
 
                 <div className="d-flex flex-row-reverse pe-2 fw-semibold">Price (Rupees)</div>
                 <hr />
+
 
                 <div className="d-flex align-items-center p-2 pe-4 ps-4" style={{ height: "220px", gap: "1rem", border: "1px solid #38a3a5ff", borderRadius: "25px" }}>
                     {/* Image */}
@@ -139,7 +140,9 @@ function Cart() {
                     </div>
                 </div>
             </div>
-            <div className="mt-5 me-4" >
+            <div className="mt-5 ms-4" style={{ minWidth: "250px", maxWidth: "300px", paddingRight:"20px", }}>
+
+            {/* <div className="mt-5 me-4" style={{marginRight:"400px"}} > */}
                 <h4>Total</h4>
                 <hr />
                 <div className="fs-6w fw-semibold">(9 item):2070 rupees</div>
