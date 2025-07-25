@@ -23,7 +23,7 @@ const Profile = () => {
         </div>
 
         <div className="col-md-3 mb-4">
-          <Link to="/user/orderhistory" className="dashboard-card text-decoration-none">
+          <Link to="/user/order-history" className="dashboard-card text-decoration-none">
             <div className="card h-100 shadow-sm">
               <div className="card-body text-center">
                 <h5 className="card-title text-light-green">📝Order History</h5>

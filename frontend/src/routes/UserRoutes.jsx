@@ -20,6 +20,8 @@ function UserRoutes() {
       <Route path='/user/contact-us' element={<ContactUs />} />  
       <Route path='/user/profile' element={<Profile />} />  
       <Route path='/user/order-history' element={<OrderHistory />} />  
+      <Route path='/user/add-review' element={<Reviews />} />
+
     </Routes>
   )
 }
