@@ -5,7 +5,7 @@ import { Routes, Route } from 'react-router-dom'
 function BookRoutes() {
   return (
    <Routes>
-      <Route path='/book-details' element={<BookDetails />} />
+      <Route path='/book/book-details' element={<BookDetails />} />
       {/* <Route path="/book/reviews" element={<ViewReview/>} /> */}
     </Routes>
   )

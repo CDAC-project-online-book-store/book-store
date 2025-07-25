@@ -11,7 +11,7 @@ function Address() {
   }, []);
 
   const handleAddClick = () => {
-    navigate('/add-new-address');
+    navigate('/user/add-new-address');
   };
 
   const handleRemove = (indexToRemove) => {
@@ -48,7 +48,7 @@ function Address() {
                 <div className="d-flex justify-content-between">
                   <button
                     className="btn btn-outline-primary btn-sm"
-                    onClick={() => navigate('/edit-address', { state: { address: addr, index } })}
+                    onClick={() => navigate('/user/edit-address', { state: { address: addr, index } })}
                   >
                     Edit
                   </button>

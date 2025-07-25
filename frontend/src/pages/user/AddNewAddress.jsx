@@ -32,7 +32,7 @@ const AddNewAddress = () => {
     stored.push(newAddress);
     localStorage.setItem('addresses', JSON.stringify(stored));
 
-    navigate('/addresses');
+    navigate('/user/addresses');
   };
 
   return (
