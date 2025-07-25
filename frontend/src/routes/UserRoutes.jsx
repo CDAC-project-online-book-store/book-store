@@ -16,6 +16,8 @@ function UserRoutes() {
       <Route path='/user/edit-address' element={<EditAddress />} />
       <Route path='/user/settings' element={<Settings />} />
       <Route path='/user/contact-us' element={<ContactUs />} />  
+      <Route path='/user/add-review' element={<Reviews />} />
+
     </Routes>
   )
 }
