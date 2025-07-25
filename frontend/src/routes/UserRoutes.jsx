@@ -6,6 +6,8 @@ import EditAddress from '../pages/user/EditAddress'
 import Settings from '../pages/user/Settings'
 import { Routes, Route } from 'react-router-dom'
 import ContactUs from '../pages/user/ContactUs'
+import Profile from '../pages/user/Profile'
+import OrderHistory from '../pages/user/OrderHistory'
 
 function UserRoutes() {
   return (
@@ -16,6 +18,8 @@ function UserRoutes() {
       <Route path='/user/edit-address' element={<EditAddress />} />
       <Route path='/user/settings' element={<Settings />} />
       <Route path='/user/contact-us' element={<ContactUs />} />  
+      <Route path='/user/profile' element={<Profile />} />  
+      <Route path='/user/order-history' element={<OrderHistory />} />  
     </Routes>
   )
 }
