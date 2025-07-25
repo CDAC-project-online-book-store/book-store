@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import AddressBox from '../../components/AddressBox';
 
 function Address() {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ function Address() {
   }, []);
 
   const handleAddClick = () => {
-    navigate('/add-new-address');
+    navigate('/user/add-new-address');
   };
 
   const handleRemove = (indexToRemove) => {
@@ -25,16 +26,7 @@ function Address() {
       <h3 className="mb-4 text-primary">Your Addresses</h3>
       <div className="row g-4">
         {/* Add Address Box */}
-        <div className="col-md-4">
-          <div
-            className="card text-center border-dashed p-4 h-100 d-flex align-items-center justify-content-center"
-            style={{ cursor: "pointer", border: "2px dashed #38a3a5", minHeight: "200px" }}
-            onClick={handleAddClick}
-          >
-            <div style={{ fontSize: '2rem', color: '#38a3a5' }}>+</div>
-            <div>Add Address</div>
-          </div>
-        </div>
+        <AddressBox title={"Add Address"} onClickHandler={handleAddClick}/>       
 
         {/* Existing Address Cards */}
         {addresses.map((addr, index) => (
@@ -48,7 +40,7 @@ function Address() {
                 <div className="d-flex justify-content-between">
                   <button
                     className="btn btn-outline-primary btn-sm"
-                    onClick={() => navigate('/edit-address', { state: { address: addr, index } })}
+                    onClick={() => navigate('/user/edit-address', { state: { address: addr, index } })}
                   >
                     Edit
                   </button>
