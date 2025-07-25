@@ -1,8 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import AdminNavbar from '../../components/AdminNavbar'
 
 function AdminDashboard() {
   return (
+    
    <div className='container mt-4'>
       <h2>Welcome, Admin</h2>
       <p className="lead">select a module to manage: </p>
@@ -12,7 +14,7 @@ function AdminDashboard() {
             <Link to="/admin/orders">Manage Order</Link>
             <Link to="/admin/analytics">Analytics</Link>    
         </div>
-    </div>
+      </div>
   )
 }
 

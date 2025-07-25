@@ -6,10 +6,12 @@ import EditAddress from '../pages/user/EditAddress'
 import Settings from '../pages/user/Settings'
 import { Routes, Route } from 'react-router-dom'
 import ContactUs from '../pages/user/ContactUs'
+import UserNavbar from '../components/UserNavbar'
 
 function UserRoutes() {
   return (
-   <Routes>
+    
+    <Routes>
       <Route path='/user/add-review' element={<Reviews />} />
       <Route path='/user/add-new-address' element={<AddNewAddress />} />
       <Route path='/user/addresses' element={<Address />} />
@@ -17,6 +19,7 @@ function UserRoutes() {
       <Route path='/user/settings' element={<Settings />} />
       <Route path='/user/contact-us' element={<ContactUs />} />  
     </Routes>
+   
   )
 }
 
