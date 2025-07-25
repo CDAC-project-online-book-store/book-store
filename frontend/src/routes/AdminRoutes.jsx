@@ -10,6 +10,7 @@ import AddBookForm from '../pages/admin/forms/AddBookForm'
 
 function AdminRoutes() {
   return (
+
     <Routes>
         <Route path="/admin" element={<AdminDashboard/>} />
         <Route path="/admin/books" element={<ManageBooks/>} />
@@ -19,6 +20,7 @@ function AdminRoutes() {
         <Route path="/admin/books/edit/:isbn" element={<EditBookForm />} />
         <Route path="/admin/books/add" element={<AddBookForm />} />
       </Routes>
+ 
   )
 }
 

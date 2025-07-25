@@ -11,7 +11,8 @@ import OrderHistory from '../pages/user/OrderHistory'
 
 function UserRoutes() {
   return (
-   <Routes>
+    
+    <Routes>
       <Route path='/user/add-review' element={<Reviews />} />
       <Route path='/user/add-new-address' element={<AddNewAddress />} />
       <Route path='/user/addresses' element={<Address />} />
@@ -23,6 +24,7 @@ function UserRoutes() {
       <Route path='/user/add-review' element={<Reviews />} />
 
     </Routes>
+   
   )
 }
 
