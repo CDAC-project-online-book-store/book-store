@@ -8,6 +8,8 @@ import { Routes, Route } from 'react-router-dom'
 import ContactUs from '../pages/user/ContactUs'
 import Profile from '../pages/user/Profile'
 import OrderHistory from '../pages/user/OrderHistory'
+import AddOrEditAddress from '../pages/user/AddOrEditAddress'
+import AddressList from '../pages/user/AddressList'
 
 function UserRoutes() {
   return (
@@ -15,7 +17,9 @@ function UserRoutes() {
     <Routes>
       <Route path='/user/add-review' element={<Reviews />} />
       <Route path='/user/add-new-address' element={<AddNewAddress />} />
-      <Route path='/user/addresses' element={<Address />} />
+      <Route path='/user/addresses' element={<AddressList />} />
+      <Route path='/user/address' element={<AddOrEditAddress />} />
+      <Route path='/user/address/:index' element={<AddOrEditAddress />} />
       <Route path='/user/edit-address' element={<EditAddress />} />
       <Route path='/user/settings' element={<Settings />} />
       <Route path='/user/contact-us' element={<ContactUs />} />  
