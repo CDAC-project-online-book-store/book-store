@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-
-const UserNavbar = () => {
+import { useNavigate } from 'react-router-dom';
+const AdminNavbar = () => {
   const [showSidebar, setShowSidebar] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -10,6 +11,11 @@ const UserNavbar = () => {
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
+  
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate('/');
+  }
 
   return (
     <>
@@ -20,35 +26,14 @@ const UserNavbar = () => {
           <i className="bi bi-list"></i>
         </button>
 
-        {/* Search Bar */}
+        {/* Search Bar
         <form className="d-flex flex-grow-1 mx-3">
           <input className="form-control me-2" type="search" placeholder="Search" />
           <button className="btn btn-light" type="submit">
             <i className="bi bi-search"></i>
           </button>
-        </form>
-
-        {/* Login/Register Dropdown */}
-        <div className="dropdown me-3">
-          <button
-            className="btn btn-light dropdown-toggle"
-            type="button"
-            id="loginRegisterDropdown"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            Login/Register
-          </button>
-          <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="loginRegisterDropdown">
-            <li><a className="dropdown-item" href="#login">Login</a></li>
-            <li><a className="dropdown-item" href="#register">Register</a></li>
-          </ul>
-        </div>
-
-        {/* Dashboard Button (Cart Icon) */}
-        <button className="btn btn-light">
-          <i className="bi bi-cart"></i>
-        </button>
+        </form>         */}
+        <button className='btn btn-primary' onClick={handleLogout}> Logout</button>
       </nav>
 
       {/* Sidebar */}
@@ -67,9 +52,12 @@ const UserNavbar = () => {
         </div>
         <ul className="nav flex-column">
           <li className="nav-item"><a className="nav-link" href="#home">Home</a></li>
-          <li className="nav-item"><a className="nav-link" href="#wishlist">Your Wishlist</a></li>
-          <li className="nav-item"><a className="nav-link" href="#orders">Your Orders</a></li>
-          <li className="nav-item"><a className="nav-link" href="#signout">Sign out</a></li>
+          <li className="nav-item"><a className="nav-link" href="#adduser">Add User</a></li>
+          <li className="nav-item"><a className="nav-link" href="#updateuser">Update User</a></li>
+          <li className="nav-item"><a className="nav-link" href="#deleteuser">Delete User</a></li>
+          <li className="nav-item"><a className="nav-link" href="#addbook">Add Book</a></li>
+          <li className="nav-item"><a className="nav-link" href="#updatebook">Update Book</a></li>
+          <li className="nav-item"><a className="nav-link" href="#deletebook">Delete Book</a></li>
         </ul>
       </div>
 
@@ -85,4 +73,4 @@ const UserNavbar = () => {
   );
 };
 
-export default UserNavbar;
+export default AdminNavbar;
