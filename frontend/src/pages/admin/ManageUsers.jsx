@@ -48,7 +48,7 @@ function ManageUsers() {
 
   const navigate = useNavigate();
   const OnClickDashboard = () => {
-    navigate('/admin');
+    navigate('/admin/dashboard');
   }
 
   return (

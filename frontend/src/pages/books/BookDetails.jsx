@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import UserNavbar from '../../components/UserNavbar';
 
 function BookDetails() {
   const [quantity, setQuantity] = useState(1);
@@ -8,7 +7,7 @@ function BookDetails() {
   const handleStarClick = (index) => setSelectedRating(index + 1);
 
   return (
-   <><UserNavbar/>
+   <>
     <div className="container mt-4">
       <h2 className="mb-4 text-primary">Book Details</h2>
 

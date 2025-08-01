@@ -15,10 +15,6 @@ function Home() {
 
   return (
     <div className="container-fluid px-4 py-3">
-      <header className="mb-4">
-        <h2 className="text-center">📚 Online Book Store</h2>
-      </header>
-
       <section className="mb-5">
         <div className="bg-dark text-light p-5 rounded text-center">
           <h1>Discover Your Next Great Read</h1>
