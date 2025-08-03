@@ -21,44 +21,44 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserEntity extends BaseEntity {
-	
+
 	@Column(name = "user_name", nullable = false, length = 100)
 	private String userName;
-	
+
 	@Column(name = "email", nullable = false, unique = true, length = 256)
 	private String email;
-	
+
 	@Column(name = "password", nullable = false, length = 255)
 	private String password;
-	
+
 	@Column(name = "phone_number", nullable = false, unique = true, length = 10)
 	private String phoneNumber;
-	
+
 	@Column(nullable = false)
 	private Boolean isActive = true; // Default is active
-	
+
 	@Enumerated(EnumType.STRING)
 	@Column(length = 50)
-	private UserRole role = UserRole.CUSTOMER;	// Default role is USER;
-	
+	private UserRole role = UserRole.CUSTOMER; // Default role is USER;
+
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<OrderEntity> orders;
-	
+
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<ReviewEntity> reviews;
-	
+
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<AddressEntity> addresses;
-	
+
 	public void addAddress(AddressEntity address) {
 		addresses.add(address);
 		address.setUser(this);
-		
+
 	}
-	
+
 	public void removeAddress(AddressEntity address) {
 		addresses.remove(address);
 		address.setUser(null);
 	}
-	
+
 }
