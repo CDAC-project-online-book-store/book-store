@@ -1,5 +1,6 @@
 package com.bookstore.bookstore_backend.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -13,6 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "user")
@@ -20,6 +22,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString(callSuper = true, exclude = { "orders", "reviews", "addresses" })
 public class UserEntity extends BaseEntity {
 
 	@Column(name = "user_name", nullable = false, length = 100)
@@ -42,13 +45,13 @@ public class UserEntity extends BaseEntity {
 	private UserRole role = UserRole.CUSTOMER; // Default role is USER;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<OrderEntity> orders;
+	private List<OrderEntity> orders = new ArrayList<>();
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<ReviewEntity> reviews;
+	private List<ReviewEntity> reviews = new ArrayList<>();
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<AddressEntity> addresses;
+	private List<AddressEntity> addresses = new ArrayList<>();
 
 	public void addAddress(AddressEntity address) {
 		addresses.add(address);

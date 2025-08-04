@@ -1,6 +1,7 @@
 package com.bookstore.bookstore_backend.entities;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,6 +20,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "book")
@@ -26,6 +28,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(callSuper = true, exclude = { "orderItems", "reviews", "categories", "authors" })
 public class BookEntity extends BaseEntity {
 
 	@Column(name = "title", nullable = false)
@@ -68,11 +71,14 @@ public class BookEntity extends BaseEntity {
 	@Column(name = "is_active", nullable = false)
 	private Boolean isActive = true;
 
-	@OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<OrderItemEntity> orderItems;
+	@Column(name = "rating")
+	private Double rating;
 
 	@OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<ReviewEntity> reviews;
+	private List<OrderItemEntity> orderItems = new ArrayList<>();
+
+	@OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<ReviewEntity> reviews = new ArrayList<>();
 
 	@ManyToMany
 	@JoinTable(name = "book_category", // join table name
