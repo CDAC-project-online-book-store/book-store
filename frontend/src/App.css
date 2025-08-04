@@ -40,3 +40,43 @@
 .read-the-docs {
   color: #888;
 } */
+.get-in-touch-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.get-in-touch-form,
+.get-in-touch-contact {
+  flex: 1 1 45%;
+  margin: 1rem;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.policy-links a {
+  margin: 0 8px;
+  text-decoration: none;
+}
+.card-img-top {
+  border-radius: 10% ;
+  height: 200px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.book-card {
+  border: 2px solid #222;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  border-radius: 10px;
+  width: 220px;
+  height: 350px;
+}
+.card-body {
+  text-align: center;
+  padding: 1rem;
+  margin: 10px;
+}

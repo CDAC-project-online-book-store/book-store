@@ -1,6 +1,8 @@
 import React from 'react'
 import dummyBooks from '../data/dummyBooks'
 import BookCarousel from '../components/BookCarousal'
+import GetInTouch from './../components/GetInTouch';
+import HeroSection from './../components/HeroSection';
 
 
 export const booksByCategory =  dummyBooks.reduce((acc, book) => {
@@ -17,15 +19,18 @@ function Home() {
     <div className="container-fluid px-4 py-3">
       <section className="mb-5">
         <div className="bg-dark text-light p-5 rounded text-center">
-          <h1>Discover Your Next Great Read</h1>
-          <p>Explore stories, manga, and documentaries curated for you.</p>
+          <HeroSection />
           {/* <button className="btn btn-primary mt-3">Search</button> */}
         </div>
       </section>
-
+      <section className="book-grid mb-5">
       {Object.entries(booksByCategory).map(([category, books]) => (
         <BookCarousel key={category} title={category} books={books} />
       ))}
+      </section>
+      <section className="get-in-touch mb-5">
+      <GetInTouch />
+      </section>
     </div>
 
   )
