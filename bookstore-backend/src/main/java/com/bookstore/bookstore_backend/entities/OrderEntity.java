@@ -12,18 +12,21 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
-@Table(name = "order")
+@Table(name = "`order`")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(callSuper = true, exclude = { "user", "address", "orderItems", "paymentDetail" })
 public class OrderEntity extends BaseEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY) // This establishes a ManyToOne relationship with UserEntity
@@ -41,8 +44,11 @@ public class OrderEntity extends BaseEntity {
 																											// relationship
 																											// with
 																											// OrderItemEntity
-
 	private List<OrderItemEntity> orderItems;// Represents the list of items in the order
+
+	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true) // one -> one relationship between
+																					// order and payment_detail
+	private PaymentDetailsEntity paymentDetail;
 
 	@Column(name = "order_date")
 	private LocalDateTime orderDate;

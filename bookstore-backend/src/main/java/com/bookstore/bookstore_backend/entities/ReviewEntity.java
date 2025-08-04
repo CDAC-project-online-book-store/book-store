@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "review")
@@ -17,14 +18,15 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(callSuper = true, exclude = { "user", "book" })
 public class ReviewEntity extends BaseEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "user_id", nullable = false)
 	private UserEntity user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "book_id")
+	@JoinColumn(name = "book_id", nullable = false)
 	private BookEntity book;
 
 	@Column(name = "rating")

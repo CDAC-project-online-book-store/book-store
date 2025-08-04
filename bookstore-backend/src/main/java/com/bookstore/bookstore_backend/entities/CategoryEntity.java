@@ -1,6 +1,5 @@
 package com.bookstore.bookstore_backend.entities;
 
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "category")
@@ -19,15 +19,16 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString(callSuper = true, exclude = { "books" })
 public class CategoryEntity extends BaseEntity {
-	
+
 	@Column(name = "name", nullable = false, unique = true)
 	private String name;
-	
+
 	@Column(name = "description", length = 500)
 	private String description;
-	
+
 	@ManyToMany(mappedBy = "categories") // Many-to-many relationship with BookEntity)
 	private Set<BookEntity> books = new HashSet<>(); // Many-to-many relationship with BookEntity
-	
+
 }

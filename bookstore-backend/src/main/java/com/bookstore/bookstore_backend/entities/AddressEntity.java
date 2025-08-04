@@ -1,5 +1,6 @@
 package com.bookstore.bookstore_backend.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -14,6 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "addresses")
@@ -21,6 +23,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(callSuper = true, exclude = { "user", "orders" })
 public class AddressEntity extends BaseEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -57,7 +60,7 @@ public class AddressEntity extends BaseEntity {
 	@OneToMany(mappedBy = "address", cascade = CascadeType.ALL, orphanRemoval = true) // one to many relationship:
 																						// address -> order
 	// -> orders
-	private List<OrderEntity> orders;
+	private List<OrderEntity> orders = new ArrayList<>();
 
 	public void addOrder(OrderEntity order) {
 		orders.add(order);
