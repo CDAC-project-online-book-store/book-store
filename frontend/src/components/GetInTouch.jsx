@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
 const GetInTouch = () => (
     <footer className="get-in-touch-footer">
         <hr />
@@ -38,11 +38,12 @@ const GetInTouch = () => (
                     Sunbeam Infotech,<br />
                     Hinjewadi, Pune, India
                 </p>
-                <div className="social-icons">
-                    <a href="#"><img src="/icons/facebook.svg" alt="Facebook" /></a>
-                    <a href="#"><img src="/icons/twitter.svg" alt="Twitter" /></a>
-                    <a href="#"><img src="/icons/instagram.svg" alt="Instagram" /></a>
-                    <a href="#"><img src="/icons/linkedin.svg" alt="LinkedIn" /></a>
+                <div className="social-icons d-flex gap-3">
+                    <a href="#" className='social-link'><FaFacebookF /></a>
+                    <a href="#" className='social-link'><FaTwitter /></a>
+                    <a href="#" className='social-link'><FaInstagram /></a>
+                    <a href="#" className='social-link'><FaLinkedin /></a>
+
                 </div>
             </div>
         </div>

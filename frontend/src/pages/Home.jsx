@@ -18,12 +18,12 @@ function Home() {
   return (
     <div className="container-fluid px-4 py-3">
       <section className="mb-5">
-        <div className="bg-dark text-light p-5 rounded text-center">
           <HeroSection />
+        <div className="text-light p-5 rounded text-center">
           {/* <button className="btn btn-primary mt-3">Search</button> */}
         </div>
       </section>
-      <section className="book-grid mb-5">
+      <section className="book-grid mb-5" id='shop-section'>
       {Object.entries(booksByCategory).map(([category, books]) => (
         <BookCarousel key={category} title={category} books={books} />
       ))}
