@@ -59,7 +59,7 @@ public class BookEntity extends BaseEntity {
 	private String coverImageUrl;
 
 	@Column(name = "price", nullable = false)
-	private Double price;
+	private double price;
 
 	@Column(name = "stock_quantity", nullable = false)
 	private Integer stockQuantity;
