@@ -2,6 +2,8 @@
 <section name="Workbench">
 	<section name="MavenProjectImportWizardPage">
 		<list key="rootDirectory">
+			<item value="D:\DAC\Online Book Store\book-store\bookstore-backend"/>
+			<item value="D:\DAC\Online Book Store\book-store\bookstore-backend\src"/>
 		</list>
 		<list key="projectNameTemplate">
 			<item value="[artifactId]"/>
