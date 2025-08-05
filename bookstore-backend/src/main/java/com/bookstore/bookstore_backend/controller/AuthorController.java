@@ -12,9 +12,11 @@ import com.bookstore.bookstore_backend.dto.AuthorDTO;
 import com.bookstore.bookstore_backend.service.AuthorService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/api/authors")
+@AllArgsConstructor
 public class AuthorController {
 
 	@Autowired
@@ -25,4 +27,5 @@ public class AuthorController {
 	public List<AuthorDTO> searchAuthors(@RequestParam("name") String name) {
 		return authorService.searchAuthorsByName(name);
 	}
+
 }
