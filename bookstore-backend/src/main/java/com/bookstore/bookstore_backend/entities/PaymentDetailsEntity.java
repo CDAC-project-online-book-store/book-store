@@ -49,6 +49,6 @@ public class PaymentDetailsEntity extends BaseEntity {
 	@Column(name = "contact")
 	private String contact;
 
-	@Column(name = "is_verified")
-	private boolean isVerified = true;
+//	@Column(name = "is_verified")
+//	private boolean isVerified = true;
 }

@@ -29,10 +29,10 @@ public class OrderItemEntity extends BaseEntity {
 	@JoinColumn(name = "book_id", nullable = false)
 	private BookEntity book;
 
-	@Column(name = "quantity")
+	@Column(name = "quantity", nullable = false)
 	private int quantity;
 
-	@Column(name = "price")
+	@Column(name = "price", nullable = false)
 	private double price;
 
 }

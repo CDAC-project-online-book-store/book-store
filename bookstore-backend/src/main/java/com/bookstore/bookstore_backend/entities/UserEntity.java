@@ -10,6 +10,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -29,6 +30,7 @@ public class UserEntity extends BaseEntity {
 	private String userName;
 
 	@Column(name = "email", nullable = false, unique = true, length = 256)
+	@Email
 	private String email;
 
 	@Column(name = "password", nullable = false, length = 255)
@@ -37,14 +39,11 @@ public class UserEntity extends BaseEntity {
 	@Column(name = "phone_number", nullable = false, unique = true, length = 10)
 	private String phoneNumber;
 
-	@Column(nullable = false)
-	private Boolean isActive = true; // Default is active
-
 	@Enumerated(EnumType.STRING)
 	@Column(length = 50)
 	private UserRole role = UserRole.CUSTOMER; // Default role is USER;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<OrderEntity> orders = new ArrayList<>();
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)

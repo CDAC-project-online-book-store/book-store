@@ -34,4 +34,7 @@ public class BaseEntity {
 	@UpdateTimestamp
 	@Column(name = "updated_on")
 	private LocalDateTime updatedOn;
+	
+	@Column(name = "is_active",nullable = false)
+	private Boolean isActive = true;
 }

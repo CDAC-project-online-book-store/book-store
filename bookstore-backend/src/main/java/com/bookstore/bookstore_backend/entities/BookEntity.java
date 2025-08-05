@@ -16,6 +16,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Index;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,15 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "book")
+@Table(
+    name = "book",
+    indexes = {
+        @Index(name = "idx_book_isbn",     columnList = "isbn"),     // unique also creates an index
+        
+        // If BaseEntity maps is_active column into this table and you want it indexed:
+        // @Index(name = "idx_book_is_active", columnList = "is_active")
+    }
+)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -34,10 +43,7 @@ public class BookEntity extends BaseEntity {
 	@Column(name = "title", nullable = false)
 	private String title;
 
-//	@Column(name = "author", nullable = false)
-//	private String author;
-
-	@Column(name = "isbn", unique = true, nullable = false)
+	@Column(name = "isbn", unique = true, nullable = false, length = 20)
 	private String isbn;
 
 	@Column(name = "publisher", nullable = false)
@@ -68,9 +74,6 @@ public class BookEntity extends BaseEntity {
 	@Column(name = "format", nullable = false)
 	private Format format;
 
-	@Column(name = "is_active", nullable = false)
-	private Boolean isActive = true;
-
 	@Column(name = "rating")
 	private Double rating;
 
@@ -90,4 +93,25 @@ public class BookEntity extends BaseEntity {
 			joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
 	private Set<AuthorEntity> authors = new HashSet<>();
 
+	public void addCategory(CategoryEntity c) {
+		categories.add(c);
+		c.getBooks().add(this);
+	}
+
+	public void removeCategory(CategoryEntity c) {
+		categories.remove(c);
+		c.getBooks().remove(this);
+	}
+
+	public void addAuthor(AuthorEntity a) {
+		authors.add(a);
+		a.getBooks().add(this);
+	}
+
+	public void removeAuthor(AuthorEntity a) {
+		authors.remove(a);
+		a.getBooks().remove(this);
+	}
 }
+
+//title, isbn, language, format, author, rating, is_active, price for fast search using indexing

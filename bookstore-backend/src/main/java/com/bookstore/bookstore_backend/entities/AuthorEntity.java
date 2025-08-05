@@ -5,6 +5,7 @@ import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Index;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,12 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "author")
+@Table(
+    name = "author",
+    indexes = {
+        @Index(name = "idx_author_name", columnList = "author") // for name-based search
+    }
+)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -28,13 +34,13 @@ public class AuthorEntity extends BaseEntity {
 	@Column(name = "author", nullable = false, length = 100)
 	private String author;
 
-	@Column(name = "bio", nullable = false)
+	@Column(name = "bio")
 	private String bio;
 
-	@Column(name = "website", nullable = false, length = 500)
+	@Column(name = "website", length = 500)
 	private String website;
 
-	@Column(name = "nationality", nullable = false, length = 50)
+	@Column(name = "nationality", length = 50)
 	private String nationality;
 
 }
