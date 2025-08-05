@@ -1,6 +1,7 @@
 package com.bookstore.bookstore_backend.entities;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -93,25 +94,4 @@ public class BookEntity extends BaseEntity {
 			joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
 	private Set<AuthorEntity> authors = new HashSet<>();
 
-	public void addCategory(CategoryEntity c) {
-		categories.add(c);
-		c.getBooks().add(this);
-	}
-
-	public void removeCategory(CategoryEntity c) {
-		categories.remove(c);
-		c.getBooks().remove(this);
-	}
-
-	public void addAuthor(AuthorEntity a) {
-		authors.add(a);
-		a.getBooks().add(this);
-	}
-
-	public void removeAuthor(AuthorEntity a) {
-		authors.remove(a);
-		a.getBooks().remove(this);
-	}
 }
-
-//title, isbn, language, format, author, rating, is_active, price for fast search using indexing

@@ -1,5 +1,6 @@
 package com.bookstore.bookstore_backend.entities;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -42,5 +43,18 @@ public class AuthorEntity extends BaseEntity {
 
 	@Column(name = "nationality", length = 50)
 	private String nationality;
+
+	@ManyToMany(mappedBy = "authors")
+	private Set<BookEntity> bookEntities = new HashSet<>();
+
+	public AuthorEntity(Long id, LocalDateTime createdOn, LocalDateTime updatedOn, Set<BookEntity> books, String author,
+			String bio, String website, String nationality) {
+		super(id, createdOn, updatedOn);
+		this.books = books;
+		this.author = author;
+		this.bio = bio;
+		this.website = website;
+		this.nationality = nationality;
+	}
 
 }
