@@ -6,6 +6,8 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -54,8 +56,9 @@ public class AddressEntity extends BaseEntity {
 	@Column(name = "country")
 	private String country = "India";
 
-	@Column(name = "label")
-	private String label;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "label", nullable = false)
+	private Label label;
 
 	@OneToMany(mappedBy = "address", cascade = CascadeType.ALL, orphanRemoval = true) // one to many relationship:
 																						// address -> order

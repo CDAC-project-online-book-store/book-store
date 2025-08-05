@@ -34,7 +34,7 @@ public class ReviewEntity extends BaseEntity {
 
 	@Column(name = "comments")
 	private String comments;
-
+	
 	@Column(name = "is_approved")
 	private boolean isApproved = true;
 

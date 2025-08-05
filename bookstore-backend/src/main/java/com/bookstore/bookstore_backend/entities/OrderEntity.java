@@ -21,7 +21,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "`order`")
+@Table(name = "orders")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -37,13 +37,8 @@ public class OrderEntity extends BaseEntity {
 	@JoinColumn(name = "address_id", nullable = false) // foreign key referencing to the address entity
 	private AddressEntity address;
 
-	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY) // This
-																											// establishes
-																											// a
-																											// OneToMany
-																											// relationship
-																											// with
-																											// OrderItemEntity
+	//OneToMany relationship with OrderItemEntity
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY) 
 	private List<OrderItemEntity> orderItems;// Represents the list of items in the order
 
 	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true) // one -> one relationship between
