@@ -1,6 +1,7 @@
 package com.bookstore.bookstore_backend.entities;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -34,8 +35,8 @@ public class BookEntity extends BaseEntity {
 	@Column(name = "title", nullable = false)
 	private String title;
 
-//	@Column(name = "author", nullable = false)
-//	private String author;
+	@Column(name = "author", nullable = false)
+	private String author;
 
 	@Column(name = "isbn", unique = true, nullable = false)
 	private String isbn;
@@ -89,5 +90,31 @@ public class BookEntity extends BaseEntity {
 	@JoinTable(name = "book_author", // join table name
 			joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
 	private Set<AuthorEntity> authors = new HashSet<>();
+
+	public BookEntity(Long id, LocalDateTime createdOn, LocalDateTime updatedOn, String title, String author,
+			String isbn, String publisher, LocalDate publicationDate, String description, String edition,
+			String language, String coverImageUrl, double price, Integer stockQuantity, Format format, Boolean isActive,
+			Double rating, List<OrderItemEntity> orderItems, List<ReviewEntity> reviews, Set<CategoryEntity> categories,
+			Set<AuthorEntity> authors) {
+		super(id, createdOn, updatedOn);
+		this.title = title;
+		this.author = author;
+		this.isbn = isbn;
+		this.publisher = publisher;
+		this.publicationDate = publicationDate;
+		this.description = description;
+		this.edition = edition;
+		this.language = language;
+		this.coverImageUrl = coverImageUrl;
+		this.price = price;
+		this.stockQuantity = stockQuantity;
+		this.format = format;
+		this.isActive = isActive;
+		this.rating = rating;
+		this.orderItems = orderItems;
+		this.reviews = reviews;
+		this.categories = categories;
+		this.authors = authors;
+	}
 
 }
