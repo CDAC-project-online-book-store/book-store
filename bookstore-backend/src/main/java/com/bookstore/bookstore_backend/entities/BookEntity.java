@@ -25,15 +25,11 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(
-    name = "book",
-    indexes = {
-        @Index(name = "idx_book_isbn",     columnList = "isbn"),     // unique also creates an index
-        
-        // If BaseEntity maps is_active column into this table and you want it indexed:
-        // @Index(name = "idx_book_is_active", columnList = "is_active")
-    }
-)
+@Table(name = "book", indexes = { @Index(name = "idx_book_isbn", columnList = "isbn"), // unique also creates an index
+
+// If BaseEntity maps is_active column into this table and you want it indexed:
+// @Index(name = "idx_book_is_active", columnList = "is_active")
+})
 @Getter
 @Setter
 @NoArgsConstructor

@@ -4,11 +4,13 @@ import java.time.LocalDate;
 
 import com.bookstore.bookstore_backend.entities.Format;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
@@ -29,23 +31,10 @@ public class BookRespDTO extends BaseDTO {
 	private Boolean isActive = true;
 	private Double rating;
 
-	public BookRespDTO(String title, String isbn, String publisher, LocalDate publicationDate, String description,
-			String edition, String language, String coverImageUrl, Double price, Integer stockQuantity, Format format,
-			Boolean isActive, Double rating) {
-		super();
-		this.title = title;
-		this.isbn = isbn;
-		this.publisher = publisher;
-		this.publicationDate = publicationDate;
-		this.description = description;
-		this.edition = edition;
-		this.language = language;
-		this.coverImageUrl = coverImageUrl;
-		this.price = price;
-		this.stockQuantity = stockQuantity;
-		this.format = format;
-		this.isActive = isActive;
-		this.rating = rating;
-	}
+	// Add authors and categories for frontend display
+	private java.util.List<String> authors;
+	private java.util.List<String> categories;
+
+	
 
 }

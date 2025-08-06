@@ -26,5 +26,6 @@ public class AdminUpdateBookDTO {
 	private Integer stockQuantity;
 	
 	private Boolean isActive;
+	private Set<Long> authorIds;
 	private Set<Long> categoryIds;
 }

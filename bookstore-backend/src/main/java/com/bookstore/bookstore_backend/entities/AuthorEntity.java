@@ -16,12 +16,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(
-    name = "author",
-    indexes = {
-        @Index(name = "idx_author_name", columnList = "author") // for name-based search
-    }
-)
+@Table(name = "author", 
+	   indexes = { @Index(name = "idx_author_name", columnList = "author")}) // for name-based search})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -47,14 +43,14 @@ public class AuthorEntity extends BaseEntity {
 	@ManyToMany(mappedBy = "authors")
 	private Set<BookEntity> bookEntities = new HashSet<>();
 
-	public AuthorEntity(Long id, LocalDateTime createdOn, LocalDateTime updatedOn, Set<BookEntity> books, String author,
-			String bio, String website, String nationality) {
-		super(id, createdOn, updatedOn);
-		this.books = books;
-		this.author = author;
-		this.bio = bio;
-		this.website = website;
-		this.nationality = nationality;
-	}
+//	public AuthorEntity(Long id, LocalDateTime createdOn, LocalDateTime updatedOn, Set<BookEntity> books, String author,
+//			String bio, String website, String nationality) {
+//		super(id, createdOn, updatedOn, true);
+//		this.books = books;
+//		this.author = author;
+//		this.bio = bio;
+//		this.website = website;
+//		this.nationality = nationality;
+//	}
 
 }

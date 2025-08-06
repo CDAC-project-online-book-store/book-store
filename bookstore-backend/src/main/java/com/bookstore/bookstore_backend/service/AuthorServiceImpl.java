@@ -34,4 +34,17 @@ public class AuthorServiceImpl implements AuthorService {
 		return entities.stream().map(author -> modelMapper.map(author, AuthorDTO.class)).collect(Collectors.toList());
 	}
 
+	@Override
+	public List<AuthorDTO> getAllAuthors() {
+		List<AuthorEntity> entities = authorDao.findAll();
+		return entities.stream().map(author -> modelMapper.map(author, AuthorDTO.class)).collect(Collectors.toList());
+	}
+
+	@Override
+	public AuthorDTO addAuthor(AuthorDTO authorDTO) {
+		AuthorEntity entity = modelMapper.map(authorDTO, AuthorEntity.class);
+		AuthorEntity saved = authorDao.save(entity);
+		return modelMapper.map(saved, AuthorDTO.class);
+	}
+
 }

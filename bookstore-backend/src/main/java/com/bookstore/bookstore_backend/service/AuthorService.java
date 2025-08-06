@@ -8,4 +8,8 @@ public interface AuthorService {
 
 	List<AuthorDTO> searchAuthorsByName(String name);
 
+	List<AuthorDTO> getAllAuthors();
+
+	AuthorDTO addAuthor(AuthorDTO authorDTO);
+
 }
