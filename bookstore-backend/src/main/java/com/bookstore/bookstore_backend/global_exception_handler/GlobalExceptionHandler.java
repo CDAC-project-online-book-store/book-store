@@ -23,6 +23,12 @@ public class GlobalExceptionHandler {
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
 							 .body(new ApiResponse("UNAUTHORIZED", e.getMessage(), "AUTH_FAILED"));
 	}
+	@ExceptionHandler(InvalidCredentialsException.class)
+	public ResponseEntity<?> handleInvalidCredentialsException(InvalidCredentialsException e){
+		System.out.println("in handleInvalidCredentialsException");
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+				.body(new ApiResponse("UNAUTHORIZED", e.getMessage(), "INVALID_USER_CREDENTIALS"));
+	}
 	
 	// equivalent to catch-all
 	@ExceptionHandler(Exception.class)
