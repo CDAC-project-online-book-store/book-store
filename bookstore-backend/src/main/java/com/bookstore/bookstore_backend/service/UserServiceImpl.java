@@ -8,14 +8,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bookstore.bookstore_backend.custom_exceptions.InvalidCredentialsException;
+import com.bookstore.bookstore_backend.custom_exceptions.UserNotFoundException;
 import com.bookstore.bookstore_backend.dao.UserDao;
 import com.bookstore.bookstore_backend.dto.LoginRequestDTO;
+import com.bookstore.bookstore_backend.dto.ProfileDTO;
 import com.bookstore.bookstore_backend.dto.SignupRequestDTO;
 import com.bookstore.bookstore_backend.dto.UserResponseDTO;
 import com.bookstore.bookstore_backend.entities.UserEntity;
 import com.bookstore.bookstore_backend.entities.UserRole;
 
-import jakarta.validation.Valid;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -67,6 +68,23 @@ public class UserServiceImpl implements UserService {
 		UserResponseDTO responseDTO = modelMapper.map(user, UserResponseDTO.class);
 		responseDTO.setRole(user.getRole().name());
 		return responseDTO;
+	}
+
+	@Override
+	public void updateUserProfile(ProfileDTO profileRequest, Long userId) {
+		UserEntity user = userDao.findById(userId)
+				.orElseThrow(() -> new UserNotFoundException("User " + userId + "not found"));
+
+		if (profileRequest.getUserName() != null && !profileRequest.getUserName().isBlank())
+			user.setUserName(profileRequest.getUserName().trim());
+
+		if (profileRequest.getPassword() != null && !profileRequest.getPassword().isBlank())
+			user.setPassword(passwordEncoder.encode(profileRequest.getPassword()));
+
+		if (profileRequest.getPhoneNumber() != null && !profileRequest.getPhoneNumber().isBlank())
+			user.setPhoneNumber(profileRequest.getPhoneNumber().trim());
+		
+		userDao.save(user);
 	}
 
 }

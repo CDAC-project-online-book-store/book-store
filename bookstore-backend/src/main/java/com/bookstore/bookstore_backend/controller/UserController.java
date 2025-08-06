@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bookstore.bookstore_backend.dto.LoginRequestDTO;
+import com.bookstore.bookstore_backend.dto.ProfileDTO;
 import com.bookstore.bookstore_backend.dto.SignupRequestDTO;
 import com.bookstore.bookstore_backend.dto.UserResponseDTO;
 import com.bookstore.bookstore_backend.service.UserService;
@@ -34,5 +35,11 @@ public class UserController {
 		UserResponseDTO response = userService.login(loginRequest);
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
 	}
-
+	
+	@PostMapping("/settings")
+	public ResponseEntity<?> profileSettings(@Valid @RequestBody ProfileDTO profileRequest, Long userId){
+		userService.updateUserProfile(profileRequest, userId);
+		return ResponseEntity.ok("Profile updated successfully");
+		
+	}
 }
