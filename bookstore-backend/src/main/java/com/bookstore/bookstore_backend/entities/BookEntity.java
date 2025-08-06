@@ -12,12 +12,12 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Index;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,15 +25,11 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(
-    name = "book",
-    indexes = {
-        @Index(name = "idx_book_isbn",     columnList = "isbn"),     // unique also creates an index
-        
-        // If BaseEntity maps is_active column into this table and you want it indexed:
-        // @Index(name = "idx_book_is_active", columnList = "is_active")
-    }
-)
+@Table(name = "book", indexes = { @Index(name = "idx_book_isbn", columnList = "isbn"), // unique also creates an index
+
+// If BaseEntity maps is_active column into this table and you want it indexed:
+// @Index(name = "idx_book_is_active", columnList = "is_active")
+})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -85,13 +81,49 @@ public class BookEntity extends BaseEntity {
 	private List<ReviewEntity> reviews = new ArrayList<>();
 
 	@ManyToMany
-	@JoinTable(name = "book_category", // join table name
-			joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
-	private Set<CategoryEntity> categories = new HashSet<>();
+	@JoinTable(name = "book_author", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
+	private Set<AuthorEntity> authors = new HashSet<>();
 
 	@ManyToMany
-	@JoinTable(name = "book_author", // join table name
-			joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
-	private Set<AuthorEntity> authors = new HashSet<>();
+	@JoinTable(name = "book_category", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+	private Set<CategoryEntity> categories = new HashSet<>();
+
+	public BookEntity(Long id, LocalDateTime createdOn, LocalDateTime updatedOn, Boolean isActive, String title,
+			String isbn, String publisher, LocalDate publicationDate, String description, String edition,
+			String language, String coverImageUrl, double price, Integer stockQuantity, Format format, Double rating) {
+		super(id, createdOn, updatedOn, isActive);
+		this.title = title;
+		this.isbn = isbn;
+		this.publisher = publisher;
+		this.publicationDate = publicationDate;
+		this.description = description;
+		this.edition = edition;
+		this.language = language;
+		this.coverImageUrl = coverImageUrl;
+		this.price = price;
+		this.stockQuantity = stockQuantity;
+		this.format = format;
+		this.rating = rating;
+	}
+
+	public void addAuthor(AuthorEntity author) {
+		this.authors.add(author);
+		author.getBooks().add(this);
+	}
+
+	public void removeAuthor(AuthorEntity author) {
+		this.authors.remove(author);
+		author.getBooks().remove(this);
+	}
+
+	public void addCategory(CategoryEntity category) {
+		this.categories.add(category);
+		category.getBooks().add(this);
+	}
+
+	public void removeCategory(CategoryEntity category) {
+		this.categories.remove(category);
+		category.getBooks().remove(this);
+	}
 
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import com.bookstore.bookstore_backend.dto.AuthorDTO;
 
 public interface AuthorService {
-
-	List<AuthorDTO> searchAuthorsByName(String name);
-
+    List<AuthorDTO> searchAuthorsByName(String name);
+    AuthorDTO addAuthorToBook(Long bookId, AuthorDTO dto);
 }
