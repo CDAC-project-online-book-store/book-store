@@ -5,9 +5,8 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import BookRoutes from './routes/BookRoutes'
 import PaymentRoutes from './routes/PaymentRoutes'
 import DefaultRoutes from './routes/DefaultRoutes'
-
+import AdminBar from './components/navbar/AdminBar'
 import DefaultNavbar from './components/navbar/DefaultNavbar'
-import AdminNavbar from './components/navbar/AdminNavbar'
 import UserNavbar from './components/navbar/UserNavbar'
 
 
@@ -16,7 +15,7 @@ function App() {
   const role = localStorage.getItem('userRole');
   const renderNavbar = () => {
     if (role === 'Admin') {
-      return <AdminNavbar />
+      return <AdminBar />
     }
     if (role === 'Customer') {
       return <UserNavbar />

@@ -48,10 +48,10 @@ function EditBookForm() {
     setForm(prev => ({ ...prev, [name]: value }));
   };
   const handleAuthorsSelect = (ids) => {
-    setForm(prev => ({ ...prev, authors: ids }));
+    setForm(prev => ({ ...prev, authors: ids.map(Number) }));
   };
   const handleCategoriesSelect = (ids) => {
-    setForm(prev => ({ ...prev, categories: ids }));
+    setForm(prev => ({ ...prev, categories: ids.map(Number) }));
   };
   const handleAddAuthor = (author) => {
     addAuthor({ author }).then(res => setAuthorOptions(prev => [...prev, res.data]));
@@ -134,6 +134,18 @@ function EditBookForm() {
           <div className="col-6">
             <label className="form-label">Language</label>
             <input type="text" className="form-control" name="language" value={form.language || ''} onChange={handleChange} />
+          </div>
+          <div className="col-6">
+            <label className="form-label">Active Status</label>
+            <select
+              className="form-select"
+              name="isActive"
+              value={form.isActive ? "true" : "false"}
+              onChange={e => setForm(prev => ({ ...prev, isActive: e.target.value === "true" }))}
+            >
+              <option value="true">Active</option>
+              <option value="false">Inactive</option>
+            </select>
           </div>
           <div className="col-6">
             <label className="form-label">Publisher</label>

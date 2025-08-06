@@ -18,7 +18,7 @@ function SelectWithAddModal({ label, options, selected, onSelect, onAdd, placeho
           }}
         >
           {options.map(opt => (
-            <option key={opt.id || opt.name} value={opt.id || opt.name}>{opt.name}</option>
+            <option key={opt.id} value={opt.id}>{opt.name}</option>
           ))}
         </select>
         <button type="button" className="btn btn-outline-primary" onClick={() => setShowModal(true)}>
