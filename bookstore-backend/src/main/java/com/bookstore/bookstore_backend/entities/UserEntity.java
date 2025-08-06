@@ -25,15 +25,13 @@ import lombok.ToString;
 @Setter
 @ToString(callSuper = true, exclude = { "orders", "reviews", "addresses" })
 public class UserEntity extends BaseEntity {
-
 	@Column(name = "user_name", nullable = false, length = 100)
 	private String userName;
 
 	@Column(name = "email", nullable = false, unique = true, length = 256)
-	@Email
 	private String email;
 
-	@Column(name = "password", nullable = false, length = 255)
+	@Column(name = "password", nullable = false, length = 256)
 	private String password;
 
 	@Column(name = "phone_number", nullable = false, unique = true, length = 10)

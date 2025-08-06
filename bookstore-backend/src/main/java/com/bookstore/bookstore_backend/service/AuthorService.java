@@ -12,4 +12,5 @@ public interface AuthorService {
 
 	AuthorDTO addAuthor(AuthorDTO authorDTO);
 
+    AuthorDTO addAuthorToBook(Long bookId, AuthorDTO dto);
 }

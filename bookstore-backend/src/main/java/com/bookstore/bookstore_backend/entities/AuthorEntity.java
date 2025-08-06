@@ -25,9 +25,6 @@ import lombok.ToString;
 @ToString(callSuper = true, exclude = { "books" })
 public class AuthorEntity extends BaseEntity {
 
-	@ManyToMany(mappedBy = "authors")
-	private Set<BookEntity> books = new HashSet<>();
-
 	@Column(name = "author", nullable = false, length = 100)
 	private String author;
 
@@ -41,16 +38,15 @@ public class AuthorEntity extends BaseEntity {
 	private String nationality;
 
 	@ManyToMany(mappedBy = "authors")
-	private Set<BookEntity> bookEntities = new HashSet<>();
+	private Set<BookEntity> books = new HashSet<>();
 
-//	public AuthorEntity(Long id, LocalDateTime createdOn, LocalDateTime updatedOn, Set<BookEntity> books, String author,
-//			String bio, String website, String nationality) {
-//		super(id, createdOn, updatedOn, true);
-//		this.books = books;
-//		this.author = author;
-//		this.bio = bio;
-//		this.website = website;
-//		this.nationality = nationality;
-//	}
+	public AuthorEntity(Long id, LocalDateTime createdOn, LocalDateTime updatedOn, Boolean isActive, String author,
+			String bio, String website, String nationality) {
+		super(id, createdOn, updatedOn, isActive);
+		this.author = author;
+		this.bio = bio;
+		this.website = website;
+		this.nationality = nationality;
+	}
 
 }

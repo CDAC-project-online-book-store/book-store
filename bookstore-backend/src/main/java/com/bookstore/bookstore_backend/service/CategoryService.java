@@ -6,4 +6,5 @@ import java.util.List;
 public interface CategoryService {
     List<CategoryDTO> getAllCategories();
     CategoryDTO addCategory(CategoryDTO categoryDTO);
+    CategoryDTO addCategoryToBook(Long bookId, CategoryDTO dto);
 }
