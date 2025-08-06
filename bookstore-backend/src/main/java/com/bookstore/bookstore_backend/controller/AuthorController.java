@@ -2,6 +2,7 @@ package com.bookstore.bookstore_backend.controller;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import com.bookstore.bookstore_backend.service.AuthorService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 
+@CrossOrigin(maxAge = 48000) // Allow all origins for testing; adjust as needed for production
 @RestController
 @RequestMapping("/api/authors")
 @AllArgsConstructor
@@ -30,6 +32,16 @@ public class AuthorController {
     public List<AuthorDTO> searchAuthors(@RequestParam("name") String name) {
         return authorService.searchAuthorsByName(name);
     }
+
+	@GetMapping
+	public List<AuthorDTO> getAllAuthors() {
+		return authorService.getAllAuthors();
+	}
+
+	@PostMapping
+	public AuthorDTO addAuthor(@RequestBody AuthorDTO authorDTO) {
+		return authorService.addAuthor(authorDTO);
+	}
 
     @PostMapping("/{bookId}")
     public ResponseEntity<AuthorDTO> addAuthor(@PathVariable Long bookId, @RequestBody AuthorDTO dto) {

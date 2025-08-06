@@ -16,8 +16,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "author", indexes = { @Index(name = "idx_author_name", columnList = "author") // for name-based search
-})
+@Table(name = "author", 
+	   indexes = { @Index(name = "idx_author_name", columnList = "author")}) // for name-based search})
 @Getter
 @Setter
 @NoArgsConstructor

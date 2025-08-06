@@ -1,40 +1,45 @@
 package com.bookstore.bookstore_backend.dto;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import com.bookstore.bookstore_backend.entities.Format;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @ToString(callSuper = true)
-public class BookRespDTO extends BaseDTO {
-
+public class AdminCreateBookDTO {
+	@NotBlank(message = "Title is required")
 	private String title;
+	@NotBlank(message = "ISBN is required")
 	private String isbn;
+	@NotBlank(message = "Publisher is required")
 	private String publisher;
+	
 	private LocalDate publicationDate;
 	private String description;
 	private String edition;
 	private String language;
 	private String coverImageUrl;
-	private Double price;
-	private Integer stockQuantity;
+
+	@NotNull(message = "Price is required")  
+	Double price;
+	@NotNull(message = "Stock quantity is required")  
+	Integer stockQuantity;
+	@NotNull(message = "Format is required")
 	private Format format;
 	private Boolean isActive = true;
-	private Double rating;
-
-	// Add authors and categories for frontend display
-	private java.util.List<String> authors;
-	private java.util.List<String> categories;
-
-	
+	private Set<Long> authorIds;
+	private Set<Long> categoryIds;
 
 }

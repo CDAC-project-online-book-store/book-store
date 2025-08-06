@@ -7,6 +7,7 @@ import ManageOrders from '../pages/admin/ManageOrders'
 import Analytics from '../pages/admin/Analytics'
 import EditBookForm from '../pages/admin/forms/EditBookForm'
 import AddBookForm from '../pages/admin/forms/AddBookForm'
+import BookDetails from '../pages/books/BookDetails';
 import ProtectedRoute from './ProtectedRoute';
 
 function AdminRoutes() {
@@ -38,9 +39,14 @@ function AdminRoutes() {
           <Analytics />
         </ProtectedRoute>
       } />
-      <Route path="/admin/books/edit/:isbn" element={
+      <Route path="/admin/books/edit/:id" element={
         <ProtectedRoute allowedRoles={['Admin']}>
           <EditBookForm />
+        </ProtectedRoute>
+      } />
+      <Route path="/admin/books/details/:id" element={
+        <ProtectedRoute allowedRoles={['Admin']}>
+          <BookDetails />
         </ProtectedRoute>
       } />
       <Route path="/admin/books/add" element={

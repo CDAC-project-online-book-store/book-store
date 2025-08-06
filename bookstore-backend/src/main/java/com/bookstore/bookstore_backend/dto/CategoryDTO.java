@@ -1,5 +1,4 @@
 package com.bookstore.bookstore_backend.dto;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +11,6 @@ import lombok.ToString;
 @Setter
 @ToString(callSuper = true)
 public class CategoryDTO extends BaseDTO {
-
-	private String name;
-	private String description;
+    private String name;
+    private String description;
 }

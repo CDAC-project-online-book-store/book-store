@@ -1,9 +1,10 @@
 package com.bookstore.bookstore_backend.service;
 
 import com.bookstore.bookstore_backend.dto.CategoryDTO;
+import java.util.List;
 
 public interface CategoryService {
-
-	CategoryDTO addCategoryToBook(Long bookId, CategoryDTO dto);
-
+    List<CategoryDTO> getAllCategories();
+    CategoryDTO addCategory(CategoryDTO categoryDTO);
+    CategoryDTO addCategoryToBook(Long bookId, CategoryDTO dto);
 }

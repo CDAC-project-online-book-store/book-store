@@ -38,8 +38,7 @@ public class AuthorServiceImpl implements AuthorService {
         BookEntity bookEntity = bookDao.findById(bookId)
                 .orElseThrow(() -> new ResourceNotFoundException("Invalid book id - authors cannot be assigned"));
         AuthorEntity authorEntity = modelMapper.map(dto, AuthorEntity.class);
-
-        // Set both sides of the relationship
+		// Set both sides of the relationship
         bookEntity.addAuthor(authorEntity);
 
         // Save the author (or book, either works due to cascade)
@@ -47,4 +46,18 @@ public class AuthorServiceImpl implements AuthorService {
 
         return modelMapper.map(authorEntity, AuthorDTO.class);
     }
+
+	@Override
+	public List<AuthorDTO> getAllAuthors() {
+		List<AuthorEntity> entities = authorDao.findAll();
+		return entities.stream().map(author -> modelMapper.map(author, AuthorDTO.class)).collect(Collectors.toList());
+	}
+
+	@Override
+	public AuthorDTO addAuthor(AuthorDTO authorDTO) {
+		AuthorEntity entity = modelMapper.map(authorDTO, AuthorEntity.class);
+		AuthorEntity saved = authorDao.save(entity);
+		return modelMapper.map(saved, AuthorDTO.class);
+	}
+
 }
