@@ -58,19 +58,13 @@ function ManageUsers() {
   return (
     <div style={{ background: '#f8f9fa', minHeight: '100vh', paddingBottom: 40 }}>
       <div className="container">
-        {/* Header */}
-        <div style={{ background: '#fff', borderBottom: '2px solid #e9ecef', padding: '1.5rem 0', boxShadow: '0 2px 10px rgba(0,0,0,0.07)', marginBottom: 32 }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#333' }}>Library Management System</div>
-            <button className="btn btn-outline-dark" style={{ borderRadius: 5, fontWeight: 500 }} onClick={() => navigate('/admin/dashboard')}>← Back to Dashboard</button>
-          </div>
-        </div>
+        
 
         {/* Page header */}
         <div style={{ background: '#fff', padding: '2rem', borderRadius: 10, border: '1px solid #e9ecef', boxShadow: '0 5px 15px rgba(0,0,0,0.1)', marginBottom: 32, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
             <h1 style={{ fontSize: '2rem', color: '#333', marginBottom: 8 }}>User Management</h1>
-            <p style={{ color: '#666', fontSize: '1.1rem' }}>Manage library members and their account status</p>
+            <p style={{ color: '#666', fontSize: '1.1rem' }}>Manage users members and their account status</p>
           </div>
           <button className="btn btn-dark" style={{ fontWeight: 500, fontSize: '1rem', borderRadius: 5 }}>+ Add New Member</button>
         </div>
@@ -85,10 +79,7 @@ function ManageUsers() {
             <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#333', marginBottom: 8 }}>{activeUsers}</div>
             <div style={{ color: '#666', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: 1 }}>Active Members</div>
           </div>
-          <div style={{ background: '#fff', padding: '1.5rem', borderRadius: 8, border: '1px solid #e9ecef', textAlign: 'center', boxShadow: '0 3px 10px rgba(0,0,0,0.1)' }}>
-            <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#333', marginBottom: 8 }}>{overdueUsers}</div>
-            <div style={{ color: '#666', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: 1 }}>Payment Due</div>
-          </div>
+          
           <div style={{ background: '#fff', padding: '1.5rem', borderRadius: 8, border: '1px solid #e9ecef', textAlign: 'center', boxShadow: '0 3px 10px rgba(0,0,0,0.1)' }}>
             <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#333', marginBottom: 8 }}>{newUsers}</div>
             <div style={{ color: '#666', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: 1 }}>New This Month</div>
@@ -115,7 +106,7 @@ function ManageUsers() {
                 <select className="form-select" value={statusFilter} onChange={e => setStatusFilter(e.target.value)} style={{ padding: '0.6rem', border: '2px solid #e9ecef', borderRadius: 5, fontSize: '1rem' }}>
                   <option value="all">All Members</option>
                   <option value="active">Active</option>
-                  <option value="overdue">Payment Overdue</option>
+                  <option value="blocked">Blocked</option>
                   <option value="new">New Members</option>
                 </select>
               </div>
@@ -138,11 +129,11 @@ function ManageUsers() {
         {/* Users table section */}
         <div style={{ background: '#fff', borderRadius: 10, border: '1px solid #e9ecef', boxShadow: '0 5px 15px rgba(0,0,0,0.1)', marginBottom: 32 }}>
           <div style={{ padding: '1.5rem', borderBottom: '1px solid #e9ecef', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h2 style={{ color: '#333', margin: 0 }}>Library Members</h2>
+            <h2 style={{ color: '#333', margin: 0 }}>Users</h2>
             <span style={{ color: '#666', fontSize: '0.9rem' }}>Showing {filteredUsers.length} of {users.length} members</span>
           </div>
           <div style={{ overflowX: 'auto' }}>
-            <table className="table" style={{ minWidth: 900, marginBottom: 0 }}>
+            <table className="table" style={{ minWidth: 900, marginBottom: 0}}>
               <thead>
                 <tr style={{ background: '#f8f9fa' }}>
                   <th>Member ID</th>
@@ -167,8 +158,8 @@ function ManageUsers() {
                       {user.status.toLowerCase() === 'active' && (
                         <span style={{ background: '#d4edda', color: '#155724', padding: '0.3rem 0.8rem', borderRadius: 15, fontSize: '0.8rem', fontWeight: 500, textTransform: 'uppercase' }}>Active</span>
                       )}
-                      {user.status.toLowerCase().includes('overdue') && (
-                        <span style={{ background: '#f8d7da', color: '#721c24', padding: '0.3rem 0.8rem', borderRadius: 15, fontSize: '0.8rem', fontWeight: 500, textTransform: 'uppercase' }}>Payment Due</span>
+                      {user.status.toLowerCase() === 'blocked' && (
+                        <span style={{ background: '#f8d7da', color: '#721c24', padding: '0.3rem 0.8rem', borderRadius: 15, fontSize: '0.8rem', fontWeight: 500, textTransform: 'uppercase' }}>Blocked</span>
                       )}
                       {user.isNew && (
                         <span style={{ background: '#cce5ff', color: '#004085', padding: '0.3rem 0.8rem', borderRadius: 15, fontSize: '0.8rem', fontWeight: 500, textTransform: 'uppercase', marginLeft: 8 }}>New</span>
