@@ -34,7 +34,7 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(callSuper = true, exclude = { "orderItems", "reviews", "categories", "authors" })
+@ToString(callSuper = true, exclude = { "reviews", "categories", "authors", "orders" })
 public class BookEntity extends BaseEntity {
 
 	@Column(name = "title", nullable = false)
@@ -75,10 +75,10 @@ public class BookEntity extends BaseEntity {
 	private Double rating;
 
 	@OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<OrderItemEntity> orderItems = new ArrayList<>();
+	private List<ReviewEntity> reviews = new ArrayList<>();
 
 	@OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<ReviewEntity> reviews = new ArrayList<>();
+	private List<OrderEntity> orders = new ArrayList<>();
 
 	@ManyToMany
 	@JoinTable(name = "book_author", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
