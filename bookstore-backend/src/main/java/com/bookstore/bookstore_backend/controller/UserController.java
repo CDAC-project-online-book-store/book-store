@@ -14,16 +14,14 @@ import com.bookstore.bookstore_backend.dto.UserResponseDTO;
 import com.bookstore.bookstore_backend.service.UserService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/users")
 public class UserController {
 	private final UserService userService;
-	
-	public UserController(UserService userService) {
-		this.userService = userService;
-	}
-	
+		
 	@PostMapping("/signup")
 	public ResponseEntity<UserResponseDTO> signup(@Valid @RequestBody SignupRequestDTO signupRequest){
 		UserResponseDTO response = userService.signup(signupRequest);
