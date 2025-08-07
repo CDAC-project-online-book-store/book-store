@@ -60,4 +60,14 @@ public class UserEntity extends BaseEntity {
 		address.setUser(null);
 	}
 
+	public void addOrder(OrderEntity order) {
+		orders.add(order);
+		order.setUser(this);
+	}
+
+	public void removeOrder(OrderEntity order) {
+		orders.remove(order);
+		order.setUser(null);
+	}
+
 }

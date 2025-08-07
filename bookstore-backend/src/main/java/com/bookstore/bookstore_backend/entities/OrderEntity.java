@@ -34,7 +34,7 @@ public class OrderEntity extends BaseEntity {
 	@JoinColumn(name = "user_id", nullable = false) // This column is a foreign key referencing the UserEntity
 	private UserEntity user; // Represents the user who placed the order
 
-	@ManyToOne(fetch = FetchType.LAZY) // many to one relationship: order -> address
+	@ManyToOne() // many to one relationship: order -> address
 	@JoinColumn(name = "address_id", nullable = false) // foreign key referencing to the address entity
 	private AddressEntity address;
 
