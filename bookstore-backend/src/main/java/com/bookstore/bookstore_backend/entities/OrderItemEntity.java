@@ -1,5 +1,7 @@
 package com.bookstore.bookstore_backend.entities;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -18,21 +20,28 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(callSuper = true, exclude = { "order", "book" })
+@ToString(callSuper = true, exclude = { "order" })
 public class OrderItemEntity extends BaseEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "order_id", nullable = false)
 	private OrderEntity order;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "book_id", nullable = false)
-	private BookEntity book;
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "book_id", nullable = true)
+//	private BookEntity book;
 
 	@Column(name = "quantity", nullable = false)
 	private int quantity;
 
 	@Column(name = "price", nullable = false)
 	private double price;
+
+	public OrderItemEntity(Long id, LocalDateTime createdOn, LocalDateTime updatedOn, Boolean isActive, int quantity,
+			double price) {
+		super(id, createdOn, updatedOn, isActive);
+		this.quantity = quantity;
+		this.price = price;
+	}
 
 }
