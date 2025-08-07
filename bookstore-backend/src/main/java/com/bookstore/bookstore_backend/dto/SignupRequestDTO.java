@@ -1,5 +1,7 @@
 package com.bookstore.bookstore_backend.dto;
 
+import com.bookstore.bookstore_backend.entities.UserRole;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -33,4 +35,6 @@ public class SignupRequestDTO {
 	@NotBlank(message = "Phone number is required")
     @Pattern(regexp = "^[0-9]{10}$", message = "Phone number must be exactly 10 digits")
     private String phoneNumber;
+	
+	private UserRole role; // Optional, can be null
 }

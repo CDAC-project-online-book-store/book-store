@@ -1,5 +1,6 @@
 package com.bookstore.bookstore_backend.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
@@ -42,7 +43,17 @@ public class UserServiceImpl implements UserService {
 		entity.setUserName(signupRequest.getUserName());
 		entity.setPassword(passwordEncoder.encode(signupRequest.getPassword()));
 		entity.setPhoneNumber(signupRequest.getPhoneNumber());
-		entity.setRole(UserRole.CUSTOMER);
+//		check if role is present in signupRequest, if not set to CUSTOMER
+		if (signupRequest.getRole() != null) {
+			try {
+				entity.setRole(signupRequest.getRole());
+			} catch (IllegalArgumentException e) {
+				throw new IllegalArgumentException("Invalid role specified");
+			}
+		} else {
+			// default role
+			entity.setRole(UserRole.CUSTOMER);
+		}
 		entity.setIsActive(true);
 
 		UserEntity savedUser = userDao.save(entity);
@@ -84,6 +95,54 @@ public class UserServiceImpl implements UserService {
 			user.setPhoneNumber(profileRequest.getPhoneNumber().trim());
 		
 		userDao.save(user);
+	}
+
+	@Override
+	public List<UserResponseDTO> getAllUsers() {
+		List<UserResponseDTO> userList = userDao.findAll().stream()
+				.map(user -> {
+					UserResponseDTO responseDTO = modelMapper.map(user, UserResponseDTO.class);
+					responseDTO.setRole(user.getRole().name());
+					return responseDTO;
+				}).toList();
+		return userList;
+	}
+
+	@Override
+	public UserResponseDTO updateUserByAdmin(Long userId, com.bookstore.bookstore_backend.dto.SignupRequestDTO updateRequest) {
+		UserEntity user = userDao.findById(userId)
+				.orElseThrow(() -> new UserNotFoundException("User " + userId + " not found"));
+
+		if (updateRequest.getUserName() != null && !updateRequest.getUserName().isBlank())
+			user.setUserName(updateRequest.getUserName().trim());
+
+		if (updateRequest.getPassword() != null && !updateRequest.getPassword().isBlank())
+			user.setPassword(passwordEncoder.encode(updateRequest.getPassword()));
+
+		if (updateRequest.getPhoneNumber() != null && !updateRequest.getPhoneNumber().isBlank())
+			user.setPhoneNumber(updateRequest.getPhoneNumber().trim());
+
+		if (updateRequest.getEmail() != null && !updateRequest.getEmail().isBlank())
+			user.setEmail(updateRequest.getEmail().trim());
+
+		if (updateRequest.getRole() != null)
+			user.setRole(updateRequest.getRole());
+
+		UserEntity savedUser = userDao.save(user);
+		return modelMapper.map(savedUser, UserResponseDTO.class);
+	}
+
+
+
+
+	@Override
+	public UserResponseDTO deactivateUser(Long userId) {
+		UserEntity user = userDao.findById(userId)
+				.orElseThrow(() -> new UserNotFoundException("User " + userId + " not found"));
+
+		user.setIsActive(false);
+		UserEntity savedUser = userDao.save(user);
+		return modelMapper.map(savedUser, UserResponseDTO.class);
 	}
 
 }
