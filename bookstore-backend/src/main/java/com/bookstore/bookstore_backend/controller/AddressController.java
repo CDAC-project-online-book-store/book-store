@@ -36,4 +36,6 @@ public class AddressController {
 		List<AddressResponseDTO> addresslist = addressService.getAddresses(userId);
 		return ResponseEntity.ok(addresslist);
 	}
+	
+	
 }
