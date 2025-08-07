@@ -1,5 +1,9 @@
 package com.bookstore.bookstore_backend.dto;
 
+import java.time.LocalDateTime;
+
+import com.bookstore.bookstore_backend.entities.OrderStatus;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,9 +15,12 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString(callSuper = true)
-public class OrderItemDTO extends BaseDTO {
+public class OrderDTO extends BaseDTO {
 
-	private int quantity;
+	private LocalDateTime orderDate;
 
-	private double price;
+	private OrderStatus orderStatus;
+
+	private LocalDateTime deliveryDate;
+
 }
