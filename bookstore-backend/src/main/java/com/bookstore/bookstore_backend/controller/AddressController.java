@@ -1,7 +1,10 @@
 package com.bookstore.bookstore_backend.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,10 +23,17 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/addresses")
 public class AddressController {
 	private final AddressService addressService;
-	
+
 	@PostMapping("/create")
-	public ResponseEntity<AddressResponseDTO> createAddress(@RequestParam Long userId, @Valid @RequestBody AddressRequestDTO addressRequest){
+	public ResponseEntity<AddressResponseDTO> createAddress(@RequestParam Long userId,
+			@Valid @RequestBody AddressRequestDTO addressRequest) {
 		AddressResponseDTO response = addressService.createAddress(userId, addressRequest);
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
+	}
+
+	@GetMapping("/get")
+	public ResponseEntity<List<AddressResponseDTO>> getAllAddresses(@RequestParam Long userId) {
+		List<AddressResponseDTO> addresslist = addressService.getAddresses(userId);
+		return ResponseEntity.ok(addresslist);
 	}
 }

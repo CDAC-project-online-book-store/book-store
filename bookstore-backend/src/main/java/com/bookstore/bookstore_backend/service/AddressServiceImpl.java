@@ -1,5 +1,7 @@
 package com.bookstore.bookstore_backend.service;
 
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,13 +41,34 @@ public class AddressServiceImpl implements AddressService {
 		} catch (IllegalArgumentException e) {
 			throw new IllegalArgumentException("Invalid label value. Must be one of: HOME, OFFICE, OTHERS");
 		}
-		
+
 		addressEntity.setLabel(labelEnum);
 		addressEntity.setUser(userEntity); // assuming a @ManyToOne with UserEntity
 
-		AddressEntity savedAddress =  addressDao.save(addressEntity);
+		AddressEntity savedAddress = addressDao.save(addressEntity);
 		return mapper.map(savedAddress, AddressResponseDTO.class);
-	
+
+	}
+
+	@Transactional
+	@Override
+	public List<AddressResponseDTO> getAddresses(Long userId) {
+		// find user's id
+		UserEntity userEntity = userDao.findById(userId)
+				.orElseThrow(() -> new UserNotFoundException("User ID does not exists"));
+
+		List<AddressEntity> addresses =  addressDao.findByUser(userEntity);
+		
+		//mapping entities -> DTOs
+		
+		return addresses.stream()
+				.map(address->{
+				 AddressResponseDTO dto =	mapper.map(address, AddressResponseDTO.class);
+				 dto.setLabel(address.getLabel().name()); //to convert enum to String for FE
+				 return dto;
+				})
+				.toList();
+		
 	}
 
 }

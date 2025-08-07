@@ -12,12 +12,12 @@ import lombok.Setter;
 public class AddressResponseDTO {
 	private Long id;
 	private String name;
-	private String phoneNumber;
-	private String pinCode;
 	private String addressLineOne;
 	private String addressLineTwo;
 	private String landMark;
 	private String city;
 	private String state;
+	private String phoneNumber;
+	private String pinCode;
 	private String label;
 }
