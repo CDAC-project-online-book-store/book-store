@@ -18,18 +18,17 @@ import com.bookstore.bookstore_backend.dto.UserResponseDTO;
 import com.bookstore.bookstore_backend.entities.UserEntity;
 import com.bookstore.bookstore_backend.entities.UserRole;
 
+import lombok.RequiredArgsConstructor;
+
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 	private final UserDao userDao;
 	private final PasswordEncoder passwordEncoder;
 	private final ModelMapper modelMapper;
 
-	public UserServiceImpl(UserDao userDao, PasswordEncoder passwordEncoder, ModelMapper modelMapper) {
-		this.userDao = userDao;
-		this.passwordEncoder = passwordEncoder;
-		this.modelMapper = modelMapper;
-	}
+	
 
 	@Transactional
 	@Override

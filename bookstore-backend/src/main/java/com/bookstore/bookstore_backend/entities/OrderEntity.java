@@ -1,6 +1,7 @@
 package com.bookstore.bookstore_backend.entities;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -26,7 +27,7 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(callSuper = true, exclude = { "user", "address", "orderItems", "paymentDetail" })
+@ToString(callSuper = true, exclude = { "user", "address", "orderItems", "paymentDetail", "book" })
 public class OrderEntity extends BaseEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY) // This establishes a ManyToOne relationship with UserEntity
@@ -37,9 +38,13 @@ public class OrderEntity extends BaseEntity {
 	@JoinColumn(name = "address_id", nullable = false) // foreign key referencing to the address entity
 	private AddressEntity address;
 
-	//OneToMany relationship with OrderItemEntity
-	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY) 
-	private List<OrderItemEntity> orderItems;// Represents the list of items in the order
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "book_id", nullable = false)
+	private BookEntity book;
+
+	// OneToMany relationship with OrderItemEntity
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<OrderItemEntity> orderItems = new ArrayList<>();// Represents the list of items in the order
 
 	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true) // one -> one relationship between
 																					// order and payment_detail
@@ -54,5 +59,23 @@ public class OrderEntity extends BaseEntity {
 
 	@Column(name = "delivery_date")
 	private LocalDateTime deliveryDate;
+
+	public OrderEntity(Long id, LocalDateTime createdOn, LocalDateTime updatedOn, Boolean isActive,
+			LocalDateTime orderDate, OrderStatus orderStatus, LocalDateTime deliveryDate) {
+		super(id, createdOn, updatedOn, isActive);
+		this.orderDate = orderDate;
+		this.orderStatus = orderStatus;
+		this.deliveryDate = deliveryDate;
+	}
+
+	public void addOrderItem(OrderItemEntity orderItem) {
+		this.orderItems.add(orderItem);
+		orderItem.setOrder(this);
+	}
+
+	public void removeOrderItem(OrderItemEntity orderItem) {
+		this.orderItems.remove(orderItem);
+		orderItem.setOrder(null);
+	}
 
 }
