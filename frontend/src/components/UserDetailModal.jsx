@@ -13,12 +13,12 @@ function UserDetailModal({user, show, handleClose, onEdit, onDeactivate}) {
         <Modal.Title>User Details</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p><strong>User ID:</strong> {user.user_id}</p>
-        <p><strong>Name:</strong> {user.name}</p>
+        <p><strong>User ID:</strong> {user.id}</p>
+        <p><strong>Name:</strong> {user.userName}</p>
         <p><strong>Email:</strong> {user.email}</p>
         <p><strong>Role:</strong> {user.role}</p>
-        <p><strong>Status:</strong> {user.status}</p>
-        <p><strong>Created On:</strong> {user.created_on}</p>
+        <p><strong>Status:</strong> {user.isActive ? 'Active' : 'Inactive'}</p>
+        <p><strong>Created On:</strong> {user.createdOn}</p>
       </Modal.Body>
       <Modal.Footer>
         <button variant="warning" className='btn btn-warning' onClick={() => onEdit(user)}>
