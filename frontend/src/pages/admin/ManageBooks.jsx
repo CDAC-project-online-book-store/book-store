@@ -69,9 +69,6 @@ function ManageBooks() {
     filteredBooks = [...filteredBooks].sort((a, b) => a.price - b.price);
   }
 
-  const OnClickDashboard = () => {
-    navigate('/admin/dashboard');
-  };
 
   return (
     <div>
@@ -138,11 +135,7 @@ function ManageBooks() {
               <button className="btn btn-primary" >Add new Book</button>
             </Link>
           </div>
-          <div className="mb-3 p-2">
-            <button className="btn btn-secondary" onClick={OnClickDashboard}>
-              Dashboard
-            </button>
-          </div>
+          
         </div>
 
         {/* Book table */}
