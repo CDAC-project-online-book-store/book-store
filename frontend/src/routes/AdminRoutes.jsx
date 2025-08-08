@@ -8,12 +8,20 @@ import Analytics from '../pages/admin/Analytics'
 import EditBookForm from '../pages/admin/forms/EditBookForm'
 import AddBookForm from '../pages/admin/forms/AddBookForm'
 import AdminBookDetails from '../pages/admin/book/AdminBookDetails';
+import AdminProfile from '../pages/admin/AdminProfile';
 import ProtectedRoute from './ProtectedRoute';
 
 function AdminRoutes() {
   return (
 
     <Routes>
+      {/* route to Admin Profile */}
+      <Route path="/admin/profile" element={
+        <ProtectedRoute allowedRoles={['Admin']}>
+          <AdminProfile />
+        </ProtectedRoute>
+      } />
+
       <Route path="/admin/dashboard" element={
         <ProtectedRoute allowedRoles={['Admin']}>
           <AdminDashboard />

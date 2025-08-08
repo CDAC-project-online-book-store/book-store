@@ -89,8 +89,8 @@
   border: 1px solid #e9ecef;
   text-align: center;
   min-width: 140px;
-  max-width: 140px;
-  width: 140px;
+  /* max-width: 140; */
+  width: 100%;
   box-sizing: border-box;
 }
 
