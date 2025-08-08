@@ -11,4 +11,6 @@ public interface ReviewDao extends JpaRepository<ReviewEntity, Long> {
 	@Query("SELECT AVG(r.rating) FROM ReviewEntity r WHERE r.book.id = :bookId AND r.isApproved = true")
 	Double findAverageRatingByBookId(@Param("bookId") Long bookId);
 
+	boolean existsByUserIdAndBookId(Long userId, Long bookId);
+
 }
