@@ -56,6 +56,16 @@ const AdminDashboard = () => {
                 </div>
               </Link>
             </div>
+            <div className="col-md-3">
+              <Link to="/admin/profile" className="dashboard-card text-decoration-none">
+                <div className="card h-100 shadow-sm stat-card text-center">
+                  <div className="card-body">
+                    <div style={{ fontSize: '2.2rem' }}>🧑‍💼</div>
+                    <h5 className="card-title mt-2">Profile</h5>
+                  </div>
+                </div>
+              </Link>
+            </div>
           </div>
 
           <div className="row g-4">

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getBookById as getAdminBookById } from '../../services/adminBookService';
+import { getAdminBookById } from '../../services/adminBookService';
 import { getBookByIsbn } from '../../services/publicBookService';
 import AddToCartButton from '../../components/AddToCartButton';
 import BuyNowButton from '../../components/BuyNowButton';
@@ -18,7 +18,7 @@ function BookDetails() {
   const role = getUserRole();
 
   useEffect(() => {
-    if (role === 'Admin' && id) {
+    if (role?.toLowerCase() === 'admin' && id) {
       getAdminBookById(id)
         .then(res => {
           setBook(res.data);
@@ -81,7 +81,7 @@ function BookDetails() {
               <span className="badge bg-warning text-dark">{book.isActive ? 'Active' : 'Deleted'}</span>
             </div>
             <h4 className="text-success mb-3">₹{book.price}</h4>
-            {role === 'ADMIN' && <div className="mb-3"><strong>Stock:</strong> {book.stockQuantity}</div>}
+            {role?.toLowerCase() === 'admin' && <div className="mb-3"><strong>Stock:</strong> {book.stockQuantity}</div>}
             <div className="mb-3"><strong>ISBN:</strong> {book.isbn}</div>
             <div className="mb-3"><strong>Publisher:</strong> {book.publisher}</div>
             <div className="mb-3"><strong>Edition:</strong> {book.edition}</div>
@@ -95,7 +95,7 @@ function BookDetails() {
             <div className="mb-3"><strong>Description:</strong> {book.description}</div>
             <div className="d-flex mt-4 gap-2">
               <button className="btn btn-outline-secondary me-2" onClick={() => navigate(-1)}>Back</button>
-              {(role === 'CUSTOMER' || role === 'UNREGISTERED') && <>
+              {(role?.toLowerCase() === 'customer' || role?.toLowerCase() === 'unregistered') && <>
                 <BuyNowButton onClick={handleBuyNow} />
                 <AddToCartButton onClick={handleAddToCart} />
                 <input type="number" value={quantity} min="1" onChange={e => setQuantity(e.target.value)} className="form-control w-auto ms-2" style={{ maxWidth: '80px' }} />

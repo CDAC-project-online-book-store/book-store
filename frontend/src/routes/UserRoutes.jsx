@@ -19,19 +19,19 @@ function UserRoutes() {
   return (
     
     <Routes>
-      <Route path='/user/dashboard' element={<ProtectedRoute allowedRoles={['Customer']}><UserDashboard /></ProtectedRoute>} />
-      <Route path='/user/add-review' element={<ProtectedRoute allowedRoles={['Customer']}><Reviews /></ProtectedRoute>} />
-      <Route path='/user/add-new-address' element={<ProtectedRoute allowedRoles={['Customer']}><AddNewAddress /></ProtectedRoute>} />
-      <Route path='/user/addresses' element={<ProtectedRoute allowedRoles={['Customer']}><AddressList /></ProtectedRoute>} />
-      <Route path='/user/address' element={<ProtectedRoute allowedRoles={['Customer']}><AddOrEditAddress /></ProtectedRoute>} />
-      <Route path='/user/address/:index' element={<ProtectedRoute allowedRoles={['Customer']}><AddOrEditAddress /></ProtectedRoute>} />
-      <Route path='/user/edit-address' element={<ProtectedRoute allowedRoles={['Customer']}><EditAddress /></ProtectedRoute>} />
-      <Route path='/user/settings' element={<ProtectedRoute allowedRoles={['Customer']}><Settings /></ProtectedRoute>} />
+      <Route path='/user/dashboard' element={<ProtectedRoute allowedRoles={['customer']}><UserDashboard /></ProtectedRoute>} />
+      <Route path='/user/add-review' element={<ProtectedRoute allowedRoles={['customer']}><Reviews /></ProtectedRoute>} />
+      <Route path='/user/add-new-address' element={<ProtectedRoute allowedRoles={['customer']}><AddNewAddress /></ProtectedRoute>} />
+      <Route path='/user/addresses' element={<ProtectedRoute allowedRoles={['customer']}><AddressList /></ProtectedRoute>} />
+      <Route path='/user/address' element={<ProtectedRoute allowedRoles={['customer']}><AddOrEditAddress /></ProtectedRoute>} />
+      <Route path='/user/address/:index' element={<ProtectedRoute allowedRoles={['customer']}><AddOrEditAddress /></ProtectedRoute>} />
+      <Route path='/user/edit-address' element={<ProtectedRoute allowedRoles={['customer']}><EditAddress /></ProtectedRoute>} />
+      <Route path='/user/settings' element={<ProtectedRoute allowedRoles={['customer']}><Settings /></ProtectedRoute>} />
       <Route path='/user/contact-us' element={<ContactUs />} />  
-      <Route path='/user/profile' element={<ProtectedRoute allowedRoles={['Customer']}><Profile /></ProtectedRoute>} />  
-      <Route path='/user/order-history' element={<ProtectedRoute allowedRoles={['Customer']}><OrderHistory /></ProtectedRoute>} />  
-      <Route path='/user/add-review' element={<ProtectedRoute allowedRoles={['Customer']}><Reviews /></ProtectedRoute>} />
-      <Route path='/' element={<ProtectedRoute allowedRoles={['Customer']}><Home /></ProtectedRoute>} />
+      <Route path='/user/profile' element={<ProtectedRoute allowedRoles={['customer']}><Profile /></ProtectedRoute>} />  
+      <Route path='/user/order-history' element={<ProtectedRoute allowedRoles={['customer']}><OrderHistory /></ProtectedRoute>} />  
+      <Route path='/user/add-review' element={<ProtectedRoute allowedRoles={['customer']}><Reviews /></ProtectedRoute>} />
+      <Route path='/' element={<ProtectedRoute allowedRoles={['customer']}><Home /></ProtectedRoute>} />
     </Routes>
    
   )
