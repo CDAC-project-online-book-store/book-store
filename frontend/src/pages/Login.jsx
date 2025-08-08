@@ -29,49 +29,55 @@ function Login() {
 
 
     return (
-        <div className="container vh-100 d-flex align-items-center justify-content-center">
-            <div className="row w-100">
-                <div className="col-md-6 col-lg-4  mx-auto">
-                    <div className="card shadow p-4">
-                        <h3 className="text-center mb-4">Login</h3>
-                        <form onSubmit={handleLogin}>
-                            {error && <div className="alert alert-danger">{error}</div>}
-                            <div className="mb-3">
-                                <label htmlFor="email">Email Address</label>
-                                <input 
-                                type="email" 
-                                id="email" 
-                                className="form-control" 
-                                placeholder="Enter email" 
-                                value={email} 
-                                onChange={(e) => setEmail(e.target.value)}
-                                required 
-                                />
-                            </div>
-                            <div className="mb-4">
-                                <label htmlFor="password">Password</label>
-                                <input 
-                                type="password" 
-                                id="password" 
-                                className="form-control" 
-                                placeholder="Enter Password"
-                                value={password} 
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                                />
-                            </div>
-                            <div className="d-flex justify-content-center">
-                                <button type="submit" className="btn btn-primary w-75">Sign In</button>
-                            </div>
-                        </form>
-                        <p className="text-center mt-2">
-                            Don't have account?
-                            <Link to="/signup">Sign up</Link>
-                        </p>
-                    </div>
+      <div className="container vh-100 d-flex align-items-center justify-content-center bg-light">
+        <div className="row w-100">
+          <div className="col-md-6 col-lg-4 mx-auto">
+            <div className="card shadow-lg p-4 border-0" style={{ borderRadius: '16px', background: '#fff' }}>
+              <div className="text-center mb-4">
+                <div style={{ fontSize: '2.5rem', color: '#22577a', marginBottom: '0.5rem' }}>📚</div>
+                <h3 className="mb-1 fw-bold text-primary">Sign In</h3>
+                <p className="text-muted mb-0">Welcome back! Please login to your account.</p>
+              </div>
+              <form onSubmit={handleLogin}>
+                {error && <div className="alert alert-danger mb-3">{error}</div>}
+                <div className="mb-3">
+                  <label htmlFor="email" className="form-label fw-semibold">Email Address</label>
+                  <input
+                    type="email"
+                    id="email"
+                    className="form-control"
+                    placeholder="Enter email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
                 </div>
+                <div className="mb-3">
+                  <label htmlFor="password" className="form-label fw-semibold">Password</label>
+                  <input
+                    type="password"
+                    id="password"
+                    className="form-control"
+                    placeholder="Enter password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <button type="submit" className="btn btn-primary w-75">Sign In</button>
+                  <Link to="/forgot-password" className="btn btn-link p-0 ms-2">Forgot Password?</Link>
+                </div>
+              </form>
+              <hr className="my-4" />
+              <p className="text-center mb-0">
+                Don't have an account?
+                <Link to="/signup" className="btn btn-link">Sign up</Link>
+              </p>
             </div>
+          </div>
         </div>
+      </div>
     )
 }
 
