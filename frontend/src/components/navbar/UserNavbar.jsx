@@ -34,9 +34,9 @@ const handleLogout = () => {
         </form>
 
         
-        {/* Dashboard Button (Cart Icon) */}
-        <button className="btn btn-light">
-          <i className="bi bi-cart"></i>
+        {/* Dashboard Button */}
+        <button className="btn btn-light" onClick={() => navigate('/user/dashboard')}>
+          <i className="bi bi-person-circle"></i> Dashboard
         </button>
       </nav>
 

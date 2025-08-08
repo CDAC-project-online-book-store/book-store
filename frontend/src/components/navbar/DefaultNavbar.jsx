@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 function DefaultNavbar() {
   return (
     <div>
-        <nav className="navbar navbar-expand-lg navbar-light shadow-sm" style={{backgroundColor: '#38a3a5' }}>
+        <nav className="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm" style={{backgroundColor: '#22577a' }}>
             <div className="container-fluid">
                 <Link className="navbar-brand" to='/'>📚Online Book Store</Link>
                 {/* Search Bar */}

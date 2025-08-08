@@ -29,7 +29,12 @@ public class UserServiceImpl implements UserService {
 	private final ModelMapper modelMapper;
 
 	
-
+	/**
+	 * Method to register a new user
+	 * 
+	 * @param signupRequest - contains user details for registration
+	 * @return UserResponseDTO - the registered user's details
+	 */
 	@Transactional
 	@Override
 	public UserResponseDTO signup(SignupRequestDTO signupRequest) {
