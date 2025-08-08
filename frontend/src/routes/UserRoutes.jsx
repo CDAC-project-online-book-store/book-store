@@ -5,11 +5,12 @@ import Address from '../pages/user/Address'
 import EditAddress from '../pages/user/EditAddress'
 import Settings from '../pages/user/Settings'
 import { Routes, Route } from 'react-router-dom'
-import ContactUs from '../pages/user/ContactUs'
+import ContactUs from '../pages/ContactUs'
 import Profile from '../pages/user/Profile'
 import OrderHistory from '../pages/user/OrderHistory'
 import AddOrEditAddress from '../pages/user/AddOrEditAddress'
 import AddressList from '../pages/user/AddressList'
+import Home from '../pages/Home'
 
 import ProtectedRoute from './ProtectedRoute';
 import UserDashboard from '../pages/user/UserDashboard';
@@ -26,10 +27,11 @@ function UserRoutes() {
       <Route path='/user/address/:index' element={<ProtectedRoute allowedRoles={['Customer']}><AddOrEditAddress /></ProtectedRoute>} />
       <Route path='/user/edit-address' element={<ProtectedRoute allowedRoles={['Customer']}><EditAddress /></ProtectedRoute>} />
       <Route path='/user/settings' element={<ProtectedRoute allowedRoles={['Customer']}><Settings /></ProtectedRoute>} />
-      <Route path='/user/contact-us' element={<ProtectedRoute allowedRoles={['Customer']}><ContactUs /></ProtectedRoute>} />  
+      <Route path='/user/contact-us' element={<ContactUs />} />  
       <Route path='/user/profile' element={<ProtectedRoute allowedRoles={['Customer']}><Profile /></ProtectedRoute>} />  
       <Route path='/user/order-history' element={<ProtectedRoute allowedRoles={['Customer']}><OrderHistory /></ProtectedRoute>} />  
       <Route path='/user/add-review' element={<ProtectedRoute allowedRoles={['Customer']}><Reviews /></ProtectedRoute>} />
+      <Route path='/' element={<ProtectedRoute allowedRoles={['Customer']}><Home /></ProtectedRoute>} />
     </Routes>
    
   )
