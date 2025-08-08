@@ -11,29 +11,26 @@ import UserNavbar from './components/navbar/UserNavbar'
 
 
 function App() {
+  const user = JSON.parse(localStorage.getItem('user'));
 
-  const role = localStorage.getItem('userRole');
+  const role = user?.role;
+
   const renderNavbar = () => {
-    if (role === 'Admin') {
-      return <AdminBar />
-    }
-    if (role === 'Customer') {
-      return <UserNavbar />
-    }
+    if (role === 'Admin') return <AdminBar />;
+    if (role === 'Customer') return <UserNavbar />;
     return <DefaultNavbar />;
   };
 
   return (
     <>
-    {renderNavbar()}
-      <DefaultRoutes/>
-      <AdminRoutes />
-      <UserRoutes />
+      {renderNavbar()}
+      {(!role || role === 'Guest') && <DefaultRoutes />}
+      {role === 'Admin' && <AdminRoutes />}
+      {role === 'Customer' && <UserRoutes />}
       <BookRoutes />
-      <PaymentRoutes/>
-
+      <PaymentRoutes />
     </>
-  )
+  );
 }
 
 export default App

@@ -13,24 +13,17 @@ function Login() {
         setError('');
 
         const foundUser = dummyUsers.find(user => user.email === email && user.password === password);
-        if (foundUser) 
-            {
-                localStorage.setItem('isLoggedIn', 'true');
-                localStorage.setItem('userRole', foundUser.role);
-                localStorage.setItem('userId', foundUser.id);
-                if (foundUser.role === 'Admin'){
-
-                    navigate ('/admin/dashboard');
-                }
-                else{
-                    navigate ('/');
-                }
+        if (foundUser) {
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('user', JSON.stringify(foundUser));
+            if (foundUser.role === 'Admin') {
+                navigate('/admin/dashboard');
+            } else {
+                navigate('/');
             }
-            else 
-            {
-                setError('Invalid email or password');
-            }
-
+        } else {
+            setError('Invalid email or password');
+        }
     };
 
 
