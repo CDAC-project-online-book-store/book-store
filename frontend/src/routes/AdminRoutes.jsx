@@ -17,48 +17,48 @@ function AdminRoutes() {
     <Routes>
       {/* route to Admin Profile */}
       <Route path="/admin/profile" element={
-        <ProtectedRoute allowedRoles={['Admin']}>
+        <ProtectedRoute allowedRoles={['admin']}>
           <AdminProfile />
         </ProtectedRoute>
       } />
 
       <Route path="/admin/dashboard" element={
-        <ProtectedRoute allowedRoles={['Admin']}>
+        <ProtectedRoute allowedRoles={['admin']}>
           <AdminDashboard />
         </ProtectedRoute>
       } />
       <Route path="/admin/books" element={
-        <ProtectedRoute allowedRoles={['Admin']}>
+        <ProtectedRoute allowedRoles={['admin']}>
           <ManageBooks />
         </ProtectedRoute>
       } />
       <Route path="/admin/users" element={
-        <ProtectedRoute allowedRoles={['Admin']}>
+        <ProtectedRoute allowedRoles={['admin']}>
           <ManageUsers />
         </ProtectedRoute>
       } />
       <Route path="/admin/orders" element={
-        <ProtectedRoute allowedRoles={['Admin']}>
+        <ProtectedRoute allowedRoles={['admin']}>
           <ManageOrders />
         </ProtectedRoute>
       } />
       <Route path="/admin/analytics" element={
-        <ProtectedRoute allowedRoles={['Admin']}>
+        <ProtectedRoute allowedRoles={['admin']}>
           <Analytics />
         </ProtectedRoute>
       } />
       <Route path="/admin/books/edit/:id" element={
-        <ProtectedRoute allowedRoles={['Admin']}>
+        <ProtectedRoute allowedRoles={['admin']}>
           <EditBookForm />
         </ProtectedRoute>
       } />
       <Route path="/admin/books/details/:id" element={
-        <ProtectedRoute allowedRoles={['Admin']}>
+        <ProtectedRoute allowedRoles={['admin']}>
           <AdminBookDetails />
         </ProtectedRoute>
       } />
       <Route path="/admin/books/add" element={
-        <ProtectedRoute allowedRoles={['Admin']}>
+        <ProtectedRoute allowedRoles={['admin']}>
           <AddBookForm />
         </ProtectedRoute>
       } />

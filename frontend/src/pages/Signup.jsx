@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { signupUser } from '../services/userService'
 
 function Signup() {
     const [form, setForm] = useState({
@@ -18,7 +19,7 @@ function Signup() {
       setSuccess('');
     };
 
-    const handleSubmit = e => {
+    const handleSubmit = async e => {
       e.preventDefault();
       setError('');
       setSuccess('');
@@ -43,9 +44,19 @@ function Signup() {
         setError('Mobile number must be 10 digits.');
         return;
       }
-      // Simulate success
-      setSuccess('Registration successful! You can now log in.');
-      setForm({ name: '', email: '', password: '', confirmPassword: '', mobile: '' });
+      // Call backend API
+      try {
+        await signupUser({
+          userName: form.name,
+          email: form.email,
+          password: form.password,
+          phoneNumber: form.mobile,
+        });
+        setSuccess('Registration successful! You can now log in.');
+        setForm({ name: '', email: '', password: '', confirmPassword: '', mobile: '' });
+      } catch (err) {
+        setError(err?.response?.data?.message || 'Registration failed.');
+      }
     };
 
     return (

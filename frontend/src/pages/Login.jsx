@@ -1,6 +1,6 @@
-import { React ,useState } from 'react';
-import {Link, useNavigate} from 'react-router-dom'
-import dummyUsers from '../data/dummyUsers'
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { loginUser } from '../services/userService';
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -8,21 +8,21 @@ function Login() {
     const [error, setError] = useState('');
     
     const navigate = useNavigate();
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
         setError('');
-
-        const foundUser = dummyUsers.find(user => user.email === email && user.password === password);
-        if (foundUser) {
+        try {
+            const res = await loginUser({ email, password });
+            const user = res.data;
             localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('user', JSON.stringify(foundUser));
-            if (foundUser.role === 'Admin') {
+            localStorage.setItem('user', JSON.stringify(user));
+            if (user.role?.toLowerCase() === 'admin') {
                 navigate('/admin/dashboard');
             } else {
                 navigate('/');
             }
-        } else {
-            setError('Invalid email or password');
+        } catch (err) {
+            setError(err?.response?.data?.message || 'Invalid email or password');
         }
     };
 

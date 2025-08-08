@@ -27,7 +27,7 @@ const AdminBar = () => {
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           <span style={{ background: '#333', color: '#fff', padding: '0.3rem 0.8rem', borderRadius: 15, fontSize: '0.8rem', fontWeight: 500, textTransform: 'uppercase' }}>Admin</span>
-          <span>{user?.name ? user.name : ''}</span>
+          <span>{user?.userName ? user.userName : ''}</span>
           <Link to="/admin/profile" className="btn btn-outline-dark btn-sm">Profile</Link>
           <Link to="/" className="btn btn-outline-dark btn-sm" onClick={handleLogout}>Sign Out</Link>
         </div>

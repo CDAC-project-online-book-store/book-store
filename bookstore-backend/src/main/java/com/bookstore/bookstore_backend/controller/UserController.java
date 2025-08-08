@@ -2,6 +2,7 @@ package com.bookstore.bookstore_backend.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import com.bookstore.bookstore_backend.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+@CrossOrigin(origins = "http://localhost:5173", maxAge = 48000) // Allow all origins for testing; adjust as needed for production")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
