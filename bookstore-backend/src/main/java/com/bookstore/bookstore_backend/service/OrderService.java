@@ -1,12 +1,9 @@
 package com.bookstore.bookstore_backend.service;
 
-import org.springframework.stereotype.Service;
+import com.bookstore.bookstore_backend.dto.OrderDTO;
+import com.bookstore.bookstore_backend.dto.OrderRequestDTO;
 
-@Service
-public class OrderService {
-	public String buyNow(Long bookId, int quantity) {
-		// TODO: Implement order logic (create order for book)
-		return "Order placed for book: " + bookId + " (qty: " + quantity + ")";
-	}
+public interface OrderService {
 
+	OrderDTO createOrder(OrderRequestDTO orderRequestDTO);
 }
