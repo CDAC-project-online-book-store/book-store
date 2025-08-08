@@ -34,6 +34,7 @@ public class AdminBookController {
 	private final BookService bookService;
 
 	// GET /admin/books - returns only active books
+	
 	@Operation(summary = "Get all active books (admin)")
 	@GetMapping("/books")
 	public ResponseEntity<?> getAllBooks() {
@@ -62,9 +63,11 @@ public class AdminBookController {
 		return ResponseEntity.ok(updatedBook);
 	}
 	
-	//method for deleting(soft delete) a book by id
 
-	// GET /admin/books/{id} - get all details of a book by id
+	/* 
+	 * GET /admin/books/{id} - get all details of a book by id
+	 * 
+	 */
 	@Operation(summary = "Get all details of a book by id (admin)")
 	@GetMapping("/books/{id}")
 	public ResponseEntity<?> getBookById(@PathVariable Long id) {
@@ -74,6 +77,15 @@ public class AdminBookController {
 		}
 		return ResponseEntity.ok(book);
 	}
+	
+	/*
+	 * * Soft delete a book by id This method marks the book as inactive instead of
+	 * deleting it from the database
+	 * 
+	 * @param id - ID of the book to be deleted
+	 * 
+	 * @return ResponseEntity with no content status
+	 */
 	@DeleteMapping("/books/{id}")
 	public ResponseEntity<Void> deactivateBook(@PathVariable Long id) {
 		bookService.softDeleteBook(id);

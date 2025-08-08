@@ -3,7 +3,7 @@ import { getAllAuthors, addAuthor } from '../../../services/authorService';
 import { getAllCategories, addCategory } from '../../../services/categoryService';
 import SelectWithAddModal from '../../../components/SelectWithAddModal';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getBookById, updateBook } from '../../../services/adminBookService';
+import { getAdminBookById, updateBook } from '../../../services/adminBookService';
 
 function EditBookForm() {
   const { id } = useParams();
@@ -17,14 +17,14 @@ function EditBookForm() {
 
   useEffect(() => {
     console.log('EditBookForm: isbn param:', id);
-    getBookById(id)
+    getAdminBookById(id)
       .then(res => {
-        console.log('EditBookForm: getBookById response:', res);
+        console.log('EditBookForm: getAdminBookById response:', res);
         setBook(res.data);
         setForm(res.data);
       })
       .catch((err) => {
-        console.error('EditBookForm: getBookById error:', err);
+        console.error('EditBookForm: getAdminBookById error:', err);
         setError("Book not found!");
       })
       .finally(() => setLoading(false));

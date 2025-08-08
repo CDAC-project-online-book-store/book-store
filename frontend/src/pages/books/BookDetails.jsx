@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getBookById as getAdminBookById } from '../../services/adminBookService';
+import { getAdminBookById } from '../../services/adminBookService';
 import { getBookByIsbn } from '../../services/publicBookService';
 import AddToCartButton from '../../components/AddToCartButton';
 import BuyNowButton from '../../components/BuyNowButton';

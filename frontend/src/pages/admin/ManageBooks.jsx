@@ -194,7 +194,7 @@ function ManageBooks() {
         {/* Books table section */}
         <div className="books-section bg-white rounded shadow-sm mb-4">
           <div className="section-header d-flex justify-content-between align-items-center">
-            <h4 className="mb-0">Library Catalog</h4>
+            <h4 className="mb-0">Book List</h4>
             <span className="results-info">Showing {paginatedBooks.length} of {totalBooks} books</span>
           </div>
           <div className="table-responsive">
