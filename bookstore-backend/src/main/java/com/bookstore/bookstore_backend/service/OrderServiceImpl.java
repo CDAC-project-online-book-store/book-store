@@ -36,41 +36,41 @@ public class OrderServiceImpl implements OrderService {
 	private final BookDao bookDao;
 	private final ModelMapper modelMapper;
 
-	@Override
-	public OrderDTO createOrder(OrderRequestDTO dto) {
-		UserEntity user = userDao.findById(dto.getUserId())
-				.orElseThrow(() -> new ResourceNotFoundException("User not found"));
-
-		AddressEntity address = addressDao.findById(dto.getAddressId())
-				.orElseThrow(() -> new ResourceNotFoundException("Address not found"));
-
-		PaymentDetailsEntity payment = paymentDao.findById(dto.getPaymentId())
-				.orElseThrow(() -> new ResourceNotFoundException("Payment not found"));
-
-		OrderEntity order = new OrderEntity();
-		order.setUser(user);
-		order.setAddress(address);
-		order.setOrderDate(LocalDateTime.now());
-		order.setOrderStatus(
-				dto.getOrderStatus() != null ? OrderStatus.valueOf(dto.getOrderStatus()) : OrderStatus.PENDING);
-		order.setIsActive(true);
-
-		for (Long bookId : dto.getBookIds()) {
-			BookEntity book = bookDao.findById(bookId)
-					.orElseThrow(() -> new ResourceNotFoundException("Book not found with id " + bookId));
-
-			// Add book to order — assuming single book logic or handling with
-			// OrderItemEntity
-			order.setBook(book); // if only one book per order
-		}
-
-		// Set payment detail
-		payment.setOrder(order);
-		order.setPaymentDetail(payment);
-
-		OrderEntity savedOrder = orderDao.save(order);
-		return modelMapper.map(savedOrder, OrderDTO.class);
-	}
+//	@Override
+//	public OrderDTO createOrder(OrderRequestDTO dto) {
+//		UserEntity user = userDao.findById(dto.getUserId())
+//				.orElseThrow(() -> new ResourceNotFoundException("User not found"));
+//
+//		AddressEntity address = addressDao.findById(dto.getAddressId())
+//				.orElseThrow(() -> new ResourceNotFoundException("Address not found"));
+//
+//		PaymentDetailsEntity payment = paymentDao.findById(dto.getPaymentId())
+//				.orElseThrow(() -> new ResourceNotFoundException("Payment not found"));
+//
+//		OrderEntity order = new OrderEntity();
+//		order.setUser(user);
+//		order.setAddress(address);
+//		order.setOrderDate(LocalDateTime.now());
+//		order.setOrderStatus(
+//				dto.getOrderStatus() != null ? OrderStatus.valueOf(dto.getOrderStatus()) : OrderStatus.PENDING);
+//		order.setIsActive(true);
+//
+//		for (Long bookId : dto.getBookIds()) {
+//			BookEntity book = bookDao.findById(bookId)
+//					.orElseThrow(() -> new ResourceNotFoundException("Book not found with id " + bookId));
+//
+//			// Add book to order — assuming single book logic or handling with
+//			// OrderItemEntity
+//			order.setBook(book); // if only one book per order
+//		}
+//
+//		// Set payment detail
+//		payment.setOrder(order);
+//		order.setPaymentDetail(payment);
+//
+//		OrderEntity savedOrder = orderDao.save(order);
+//		return modelMapper.map(savedOrder, OrderDTO.class);
+//	}
 
 	@Override
 	public List<OrderDTO> getAllOrders() {
@@ -78,10 +78,11 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public OrderDTO getOrderById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public OrderDTO getOrderById(Long id) {
+        return orderDao.findById(id)
+        		.map(orders->modelMapper.map(orders, OrderDTO.class))
+                .orElse(null);
+    }
 
 	@Override
 	public String getOrderStatus(Long id) {
@@ -100,4 +101,11 @@ public class OrderServiceImpl implements OrderService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	 @Override
+	    public OrderDTO createOrder(OrderDTO orderDTO) {
+	    	OrderEntity order = modelMapper.map(orderDTO, OrderEntity.class);
+	    	OrderEntity savedOrder = orderDao.save(order);
+	        return orderDTO;
+	    }
 }
