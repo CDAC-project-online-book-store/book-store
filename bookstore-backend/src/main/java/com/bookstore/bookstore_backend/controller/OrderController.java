@@ -38,29 +38,35 @@ public class OrderController {
 	public ResponseEntity<List<OrderDTO>> getAllOrders() {
 		return new ResponseEntity<>(orderService.getAllOrders(), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/{id}")
-    public ResponseEntity<OrderDTO> getOrderById(@PathVariable Long id) {
-        OrderDTO order = orderService.getOrderById(id);
-        return order != null ? ResponseEntity.ok(order) : ResponseEntity.notFound().build();
-    }
-	
+	public ResponseEntity<OrderDTO> getOrderById(@PathVariable Long id) {
+		OrderDTO order = orderService.getOrderById(id);
+		return order != null ? ResponseEntity.ok(order) : ResponseEntity.notFound().build();
+	}
+
 	@PostMapping
-    public ResponseEntity<OrderDTO> createOrder(@RequestBody OrderDTO orderDTO) {
-        return new ResponseEntity<>(orderService.createOrder(orderDTO), HttpStatus.CREATED);
-    }
-	
+	public ResponseEntity<OrderDTO> createOrder(@RequestBody OrderDTO orderDTO) {
+		return new ResponseEntity<>(orderService.createOrder(orderDTO), HttpStatus.CREATED);
+	}
+
 	@DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
-        orderService.deleteOrder(id);
-        return ResponseEntity.noContent().build();
-    }
-	
-	  @GetMapping("/status/{id}")
-	    public ResponseEntity<?> getOrderStatus(@PathVariable Long id) {
-	    	String status = orderService.getOrderStatus(id);
-	    	return ResponseEntity.ok(status);
-	    	 
-	    }
+	public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
+		orderService.deleteOrder(id);
+		return ResponseEntity.noContent().build();
+	}
+
+	@GetMapping("/status/{id}")
+	public ResponseEntity<?> getOrderStatus(@PathVariable Long id) {
+		String status = orderService.getOrderStatus(id);
+		return ResponseEntity.ok(status);
+
+	}
+
+	@GetMapping("/st/{status}")
+	public ResponseEntity<List<OrderDTO>> getOrdersbyStatus(@PathVariable String status) {
+		return new ResponseEntity<>(orderService.getAllOrderswithStatus(status), HttpStatus.OK);
+
+	}
 
 }
