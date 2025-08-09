@@ -13,7 +13,7 @@ public interface OrderService {
 
 	OrderDTO getOrderById(Long id);
 
-	OrderDTO createOrder(OrderRequestDTO request);
+	OrderDTO createOrder(OrderDTO orderDTO);
 
 	String getOrderStatus(Long id);
 

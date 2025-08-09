@@ -27,11 +27,11 @@ public class OrderController {
 
 	private final OrderService orderService;
 
-	@PostMapping
-	public ResponseEntity<OrderDTO> placeOrder(@RequestBody @Valid OrderRequestDTO request) {
-		OrderDTO response = orderService.createOrder(request);
-		return ResponseEntity.ok(response);
-	}
+//	@PostMapping
+//	public ResponseEntity<OrderDTO> placeOrder(@RequestBody OrderRequestDTO request) {
+//		OrderDTO response = orderService.createOrder(request);
+//		return ResponseEntity.ok(response);
+//	}
 
 	@GetMapping
 	public ResponseEntity<List<OrderDTO>> getAllOrders() {
@@ -42,6 +42,11 @@ public class OrderController {
     public ResponseEntity<OrderDTO> getOrderById(@PathVariable Long id) {
         OrderDTO order = orderService.getOrderById(id);
         return order != null ? ResponseEntity.ok(order) : ResponseEntity.notFound().build();
+    }
+	
+	@PostMapping
+    public ResponseEntity<OrderDTO> createOrder(@RequestBody OrderDTO orderDTO) {
+        return new ResponseEntity<>(orderService.createOrder(orderDTO), HttpStatus.CREATED);
     }
 
 }
