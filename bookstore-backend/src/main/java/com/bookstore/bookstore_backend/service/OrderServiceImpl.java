@@ -2,6 +2,7 @@ package com.bookstore.bookstore_backend.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -83,10 +84,13 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public String getOrderStatus(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public String getOrderStatus(Long id) {
+    	Optional<OrderEntity> order = orderDao.findById(id);
+    	if(order.isPresent()) {
+    		return order.get().getOrderStatus().toString();
+    	}
+    	return "false";
+    }
 
 	//do not delete, only soft delete(mark as delete)
 	@Override
