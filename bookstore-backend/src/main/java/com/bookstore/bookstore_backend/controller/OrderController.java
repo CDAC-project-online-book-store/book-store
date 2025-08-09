@@ -55,5 +55,12 @@ public class OrderController {
         orderService.deleteOrder(id);
         return ResponseEntity.noContent().build();
     }
+	
+	  @GetMapping("/status/{id}")
+	    public ResponseEntity<?> getOrderStatus(@PathVariable Long id) {
+	    	String status = orderService.getOrderStatus(id);
+	    	return ResponseEntity.ok(status);
+	    	 
+	    }
 
 }
