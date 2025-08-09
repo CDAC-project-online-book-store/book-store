@@ -98,11 +98,15 @@ public class OrderServiceImpl implements OrderService {
 		orderDao.deleteById(id);
 	}
 
-	@Override
-	public List<OrderDTO> getAllOrderswithStatus(String status) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	 @Override
+	    public List<OrderDTO> getAllOrderswithStatus(String status) {
+	        List<OrderEntity> orders = orderDao.findByOrderStatus(status);
+
+	        return orders.stream()
+	                     .map(order -> modelMapper.map(order, OrderDTO.class))
+	                     .toList();
+	    }
+
 
 	@Override
 	public OrderDTO createOrder(OrderDTO orderDTO) {
