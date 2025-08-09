@@ -78,11 +78,9 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-    public OrderDTO getOrderById(Long id) {
-        return orderDao.findById(id)
-        		.map(orders->modelMapper.map(orders, OrderDTO.class))
-                .orElse(null);
-    }
+	public OrderDTO getOrderById(Long id) {
+		return orderDao.findById(id).map(orders -> modelMapper.map(orders, OrderDTO.class)).orElse(null);
+	}
 
 	@Override
 	public String getOrderStatus(Long id) {
@@ -90,10 +88,10 @@ public class OrderServiceImpl implements OrderService {
 		return null;
 	}
 
+	//do not delete, only soft delete(mark as delete)
 	@Override
 	public void deleteOrder(Long id) {
-		// TODO Auto-generated method stub
-
+		orderDao.deleteById(id);
 	}
 
 	@Override
@@ -102,10 +100,10 @@ public class OrderServiceImpl implements OrderService {
 		return null;
 	}
 
-	 @Override
-	    public OrderDTO createOrder(OrderDTO orderDTO) {
-	    	OrderEntity order = modelMapper.map(orderDTO, OrderEntity.class);
-	    	OrderEntity savedOrder = orderDao.save(order);
-	        return orderDTO;
-	    }
+	@Override
+	public OrderDTO createOrder(OrderDTO orderDTO) {
+		OrderEntity order = modelMapper.map(orderDTO, OrderEntity.class);
+		OrderEntity savedOrder = orderDao.save(order);
+		return orderDTO;
+	}
 }
