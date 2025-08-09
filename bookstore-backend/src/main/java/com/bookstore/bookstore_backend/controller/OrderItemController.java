@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bookstore.bookstore_backend.dto.ApiResponse;
 import com.bookstore.bookstore_backend.dto.OrderItemDTO;
 import com.bookstore.bookstore_backend.service.OrderItemService;
 
