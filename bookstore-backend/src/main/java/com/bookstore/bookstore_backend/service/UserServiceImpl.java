@@ -28,13 +28,7 @@ public class UserServiceImpl implements UserService {
 	private final PasswordEncoder passwordEncoder;
 	private final ModelMapper modelMapper;
 
-	
-	/**
-	 * Method to register a new user
-	 * 
-	 * @param signupRequest - contains user details for registration
-	 * @return UserResponseDTO - the registered user's details
-	 */
+	//signup
 	@Transactional
 	@Override
 	public UserResponseDTO signup(SignupRequestDTO signupRequest) {
@@ -66,6 +60,7 @@ public class UserServiceImpl implements UserService {
 		return modelMapper.map(savedUser, UserResponseDTO.class);
 	}
 
+	//login
 	@Transactional(readOnly = true)
 	@Override
 	public UserResponseDTO login(LoginRequestDTO loginRequest) {
@@ -85,6 +80,7 @@ public class UserServiceImpl implements UserService {
 		return responseDTO;
 	}
 
+	//update profile
 	@Override
 	public void updateUserProfile(ProfileDTO profileRequest, Long userId) {
 		UserEntity user = userDao.findById(userId)
@@ -102,6 +98,7 @@ public class UserServiceImpl implements UserService {
 		userDao.save(user);
 	}
 
+	//get all users
 	@Override
 	public List<UserResponseDTO> getAllUsers() {
 		List<UserResponseDTO> userList = userDao.findAll().stream()

@@ -6,7 +6,6 @@ import com.bookstore.bookstore_backend.dto.AdminCreateBookDTO;
 import com.bookstore.bookstore_backend.dto.AdminUpdateBookDTO;
 import com.bookstore.bookstore_backend.dto.BookRespDTO;
 import com.bookstore.bookstore_backend.entities.Format;
-import com.bookstore.bookstore_backend.entities.BookDTO;
 
 import jakarta.validation.Valid;
 

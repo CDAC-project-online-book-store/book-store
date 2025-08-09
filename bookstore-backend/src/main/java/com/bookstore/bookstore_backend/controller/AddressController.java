@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class AddressController {
 	private final AddressService addressService;
 
+	//create a new address
 	@PostMapping("/create")
 	public ResponseEntity<AddressResponseDTO> createAddress(@RequestParam Long userId,
 			@Valid @RequestBody AddressRequestDTO addressRequest) {
@@ -31,11 +33,18 @@ public class AddressController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
 
+	//get all addresses
 	@GetMapping("/get")
 	public ResponseEntity<List<AddressResponseDTO>> getAllAddresses(@RequestParam Long userId) {
 		List<AddressResponseDTO> addresslist = addressService.getAddresses(userId);
 		return ResponseEntity.ok(addresslist);
 	}
 	
+	@PutMapping("/edit")
+	public ResponseEntity<AddressResponseDTO> editAddress(@RequestParam Long userId, @RequestParam Long addressId, @Valid @RequestBody AddressRequestDTO addressRequestDTO){
+		AddressResponseDTO response = addressService.editMyAddress(userId, addressId, addressRequestDTO);
+//		return ResponseEntity.status(HttpStatus.OK)
+		return ResponseEntity.ok(response);
+	}
 	
 }

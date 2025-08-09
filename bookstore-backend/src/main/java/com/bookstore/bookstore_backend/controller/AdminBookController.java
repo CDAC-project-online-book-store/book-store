@@ -3,7 +3,6 @@ package com.bookstore.bookstore_backend.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bookstore.bookstore_backend.dto.AdminCreateBookDTO;
 import com.bookstore.bookstore_backend.dto.AdminUpdateBookDTO;
 import com.bookstore.bookstore_backend.dto.BookRespDTO;
-import com.bookstore.bookstore_backend.entities.BookDTO;
 import com.bookstore.bookstore_backend.service.BookService;
 
 import io.swagger.v3.oas.annotations.Operation;

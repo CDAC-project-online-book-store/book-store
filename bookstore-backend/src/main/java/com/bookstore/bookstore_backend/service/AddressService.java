@@ -13,4 +13,6 @@ public interface AddressService {
 
 	List<AddressResponseDTO> getAddresses(Long userId);
 
+	AddressResponseDTO editMyAddress(Long userId, Long addressId, @Valid AddressRequestDTO addressRequestDTO);
+
 }

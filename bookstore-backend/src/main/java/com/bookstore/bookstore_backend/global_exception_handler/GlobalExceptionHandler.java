@@ -37,6 +37,12 @@ public class GlobalExceptionHandler {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND)
 				.body(new ApiResponse("NOT_FOUND", e.getMessage(), "USER_NOT_FOUND"));
 	}
+	@ExceptionHandler(AddressNotFoundException.class)
+	public ResponseEntity<?> handleAddressNotFoundException(AddressNotFoundException e) {
+		System.out.println("in handleAddressNotFoundException");
+		return ResponseEntity.status(HttpStatus.NOT_FOUND)
+				.body(new ApiResponse("NOT_FOUND", e.getMessage(), "ADDRESS_NOT_FOUND"));
+	}
 
 	// equivalent to catch-all
 	@ExceptionHandler(Exception.class)
