@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -45,6 +46,12 @@ public class AddressController {
 		AddressResponseDTO response = addressService.editMyAddress(userId, addressId, addressRequestDTO);
 //		return ResponseEntity.status(HttpStatus.OK)
 		return ResponseEntity.ok(response);
+	}
+	
+	@DeleteMapping("/{addressId}")
+	public ResponseEntity<AddressResponseDTO> deleteAddress(@RequestParam Long userId, @RequestParam Long addressId){
+		addressService.softDeleteAddress(userId, addressId);
+		return ResponseEntity.noContent().build();
 	}
 	
 }
