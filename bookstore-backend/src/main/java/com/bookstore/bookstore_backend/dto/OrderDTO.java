@@ -1,26 +1,31 @@
 package com.bookstore.bookstore_backend.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.bookstore.bookstore_backend.entities.OrderStatus;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-@ToString(callSuper = true)
-public class OrderDTO extends BaseDTO {
+@Builder
+public class OrderDTO {
 
-	private LocalDateTime orderDate;
+    private Long id;
 
-	private OrderStatus orderStatus;
+    private Long userId;              // user reference (flattened)
+    private Long addressId;           // address reference (flattened)
 
-	private LocalDateTime deliveryDate;
+    private List<OrderItemDTO> orderItems;
 
+    private PaymentDetailsDTO paymentDetail;
+
+    private LocalDateTime orderDate;
+    private OrderStatus orderStatus;
+    private LocalDateTime deliveryDate;
 }
