@@ -1,27 +1,18 @@
 package com.bookstore.bookstore_backend.service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import com.bookstore.bookstore_backend.custom_exceptions.ResourceNotFoundException;
 import com.bookstore.bookstore_backend.dao.AddressDao;
 import com.bookstore.bookstore_backend.dao.BookDao;
 import com.bookstore.bookstore_backend.dao.OrderDao;
 import com.bookstore.bookstore_backend.dao.PaymentDao;
 import com.bookstore.bookstore_backend.dao.UserDao;
 import com.bookstore.bookstore_backend.dto.OrderDTO;
-import com.bookstore.bookstore_backend.dto.OrderRequestDTO;
-import com.bookstore.bookstore_backend.entities.AddressEntity;
-import com.bookstore.bookstore_backend.entities.BookEntity;
 import com.bookstore.bookstore_backend.entities.OrderEntity;
-import com.bookstore.bookstore_backend.entities.OrderStatus;
-import com.bookstore.bookstore_backend.entities.PaymentDetailsEntity;
-import com.bookstore.bookstore_backend.entities.UserEntity;
-
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
@@ -84,29 +75,26 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-    public String getOrderStatus(Long id) {
-    	Optional<OrderEntity> order = orderDao.findById(id);
-    	if(order.isPresent()) {
-    		return order.get().getOrderStatus().toString();
-    	}
-    	return "false";
-    }
+	public String getOrderStatus(Long id) {
+		Optional<OrderEntity> order = orderDao.findById(id);
+		if (order.isPresent()) {
+			return order.get().getOrderStatus().toString();
+		}
+		return "false";
+	}
 
-	//do not delete, only soft delete(mark as delete)
+	// do not delete, only soft delete(mark as delete)
 	@Override
 	public void deleteOrder(Long id) {
 		orderDao.deleteById(id);
 	}
 
-	 @Override
-	    public List<OrderDTO> getAllOrderswithStatus(String status) {
-	        List<OrderEntity> orders = orderDao.findByOrderStatus(status);
+	@Override
+	public List<OrderDTO> getAllOrderswithStatus(String status) {
+		List<OrderEntity> orders = orderDao.findByOrderStatus(status);
 
-	        return orders.stream()
-	                     .map(order -> modelMapper.map(order, OrderDTO.class))
-	                     .toList();
-	    }
-
+		return orders.stream().map(order -> modelMapper.map(order, OrderDTO.class)).toList();
+	}
 
 	@Override
 	public OrderDTO createOrder(OrderDTO orderDTO) {
