@@ -14,6 +14,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class AddressRequestDTO {
+	private Long id;
+	
     @NotBlank(message = "Full name is required")
     private String name;
 

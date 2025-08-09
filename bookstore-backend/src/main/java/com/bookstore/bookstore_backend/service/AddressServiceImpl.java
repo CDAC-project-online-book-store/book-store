@@ -6,6 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bookstore.bookstore_backend.custom_exceptions.AddressNotFoundException;
 import com.bookstore.bookstore_backend.custom_exceptions.UserNotFoundException;
 import com.bookstore.bookstore_backend.dao.AddressDao;
 import com.bookstore.bookstore_backend.dao.UserDao;
@@ -57,18 +58,42 @@ public class AddressServiceImpl implements AddressService {
 		UserEntity userEntity = userDao.findById(userId)
 				.orElseThrow(() -> new UserNotFoundException("User ID does not exists"));
 
-		List<AddressEntity> addresses =  addressDao.findByUser(userEntity);
+		List<AddressEntity> addresses = addressDao.findByUser(userEntity);
+
+		// mapping entities -> DTOs
+
+		return addresses.stream().map(address -> {
+			AddressResponseDTO dto = mapper.map(address, AddressResponseDTO.class);
+			dto.setLabel(address.getLabel().name()); // to convert enum to String for FE
+			return dto;
+		}).toList();
+
+	}
+
+	@Transactional
+	@Override
+	public AddressResponseDTO editMyAddress(Long userId, Long addressId, @Valid AddressRequestDTO addressRequestDTO) {
+		AddressEntity addressEntity = addressDao.findById(addressId)
+				.orElseThrow(()-> new AddressNotFoundException("Address does not exists"));
+
+		if(!addressEntity.getUser().getId().equals(userId))
+			throw new IllegalArgumentException("This address does not belong to the given user");
+			
+		// DTO -> entity
+		mapper.map(addressRequestDTO, addressEntity);
 		
-		//mapping entities -> DTOs
+		Label label;
+		try {
+			label = Label.valueOf(addressRequestDTO.getLabel().toUpperCase());
+		} catch (IllegalArgumentException e) {
+			throw new IllegalArgumentException("Invalid label value. Must be one of: HOME, OFFICE, OTHERS");
+		}
 		
-		return addresses.stream()
-				.map(address->{
-				 AddressResponseDTO dto =	mapper.map(address, AddressResponseDTO.class);
-				 dto.setLabel(address.getLabel().name()); //to convert enum to String for FE
-				 return dto;
-				})
-				.toList();
+		addressEntity.setLabel(label);
 		
+		//save and return
+		AddressEntity savedUpdatedAddress = addressDao.save(addressEntity);
+		return mapper.map(savedUpdatedAddress, AddressResponseDTO.class);
 	}
 
 }

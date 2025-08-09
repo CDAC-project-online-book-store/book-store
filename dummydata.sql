@@ -1,10 +1,10 @@
 -- Insert sample users
 INSERT INTO users (email, password, phone_number, role, user_name, is_active)
 VALUES 
-('admin@example.com', 'admin123', '9876543210', 'ADMIN', 'AdminUser', 1),
-('john@example.com', 'john123', '9123456789', 'CUSTOMER', 'JohnDoe', 1),
-('jane@example.com', 'jane123', '9988776655', 'CUSTOMER', 'JaneSmith', 1),
-('bob@example.com', 'bob123', '9001122334', 'CUSTOMER', 'BobBrown', 1);
+('admin@example.com', '$2a$10$N9RmwYrSvt6XBvEnK9YS.OGUPrMDtQtziFhVEQboGbJ3Chx8aDRtW', '9876543210', 'ADMIN', 'AdminUser', 1),
+('john@example.com', '$2a$10$QCCgHHN4phyPvXKD8fDMiOCGAxbJhNQHhSZWHlhTDQd7KkI1L57cy', '9123456789', 'CUSTOMER', 'JohnDoe', 1),
+('jane@example.com', '$2a$10$TqdxD27UAM8Rqdws8co2AObOmQWucqx.NDn90cq2AuHdDaWvWl2.6', '9988776655', 'CUSTOMER', 'JaneSmith', 1),
+('bob@example.com', '$2a$10$.YfMp.tu0nTZWbIhR8ELzetrSxr/cUAKz6Th2tB4O8muEreZPUwLy', '9001122334', 'CUSTOMER', 'BobBrown', 1);
 
 -- Insert sample addresses
 INSERT INTO addresses (address_line_one, city, country, state, pincode, user_id, is_active)
