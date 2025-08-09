@@ -58,7 +58,7 @@ public class AddressServiceImpl implements AddressService {
 		UserEntity userEntity = userDao.findById(userId)
 				.orElseThrow(() -> new UserNotFoundException("User ID does not exists"));
 
-		List<AddressEntity> addresses = addressDao.findByUser(userEntity);
+		List<AddressEntity> addresses = addressDao.findByUserAndIsActiveTrue(userEntity);
 
 		// mapping entities -> DTOs
 
