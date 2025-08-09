@@ -15,4 +15,6 @@ public interface AddressService {
 
 	AddressResponseDTO editMyAddress(Long userId, Long addressId, @Valid AddressRequestDTO addressRequestDTO);
 
+	void softDeleteAddress(Long userId, Long addressId);
+
 }
