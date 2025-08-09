@@ -1,11 +1,23 @@
 package com.bookstore.bookstore_backend.service;
 
+import java.util.List;
+
 import com.bookstore.bookstore_backend.dto.OrderDTO;
 import com.bookstore.bookstore_backend.dto.OrderRequestDTO;
 
+import jakarta.validation.Valid;
+
 public interface OrderService {
 
-	OrderDTO createOrder(OrderRequestDTO orderRequestDTO);
+	List<OrderDTO> getAllOrders();
 
-	Object getAllOrders();
+	OrderDTO getOrderById(Long id);
+
+	OrderDTO createOrder(OrderRequestDTO request);
+
+	String getOrderStatus(Long id);
+
+	void deleteOrder(Long id);
+
+	List<OrderDTO> getAllOrderswithStatus(String status);
 }

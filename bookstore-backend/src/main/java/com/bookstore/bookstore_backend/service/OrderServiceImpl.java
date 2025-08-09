@@ -1,6 +1,7 @@
 package com.bookstore.bookstore_backend.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -69,5 +70,34 @@ public class OrderServiceImpl implements OrderService {
 
 		OrderEntity savedOrder = orderDao.save(order);
 		return modelMapper.map(savedOrder, OrderDTO.class);
+	}
+
+	@Override
+	public List<OrderDTO> getAllOrders() {
+		return orderDao.findAll().stream().map(orders -> modelMapper.map(orders, OrderDTO.class)).toList();
+	}
+
+	@Override
+	public OrderDTO getOrderById(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getOrderStatus(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteOrder(Long id) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public List<OrderDTO> getAllOrderswithStatus(String status) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
