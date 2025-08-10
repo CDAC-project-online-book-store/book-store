@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import ViewOrderDetails from '../orders/ViewOrderDetails';
 
 const PAGE_SIZE = 10;
+const ORDER_STATUSES = ['PENDING', 'SHIPPED', 'DELIVERED', 'CANCELLED'];
 
 function ManageOrders() {
   const [orders, setOrders] = useState([]);
@@ -13,22 +14,42 @@ function ManageOrders() {
   const [viewMode, setViewMode] = useState('list');
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchOrders(page);
+    if (statusFilter) {
+      fetchOrdersByStatus(statusFilter, page);
+    } else {
+      fetchOrders(page);
+    }
     // eslint-disable-next-line
-  }, [page]);
+  }, [page, statusFilter]);
 
-  const fetchOrders = async () => {
+  const fetchOrders = async (pageNum) => {
     setLoading(true);
     try {
-      const response = await axios.get('http://localhost:8080/admin/orders');
-      console.log('Fetched orders:', response.data);
+      const response = await axios.get('http://localhost:8080/admin/orders', {
+        params: { page: pageNum, size: PAGE_SIZE }
+      });
       setOrders(response.data.content || []);
       setTotalPages(response.data.totalPages || 1);
     } catch (error) {
       console.error('Error fetching orders:', error);
+    }
+    setLoading(false);
+  };
+
+  const fetchOrdersByStatus = async (status, pageNum) => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`http://localhost:8080/admin/orders/status/${status}`, {
+        params: { page: pageNum, size: PAGE_SIZE }
+      });
+      setOrders(response.data.content || []);
+      setTotalPages(response.data.totalPages || 1);
+    } catch (error) {
+      console.error('Error fetching filtered orders:', error);
     }
     setLoading(false);
   };
@@ -50,6 +71,16 @@ function ManageOrders() {
     navigate('/admin/dashboard');
   };
 
+  const handleStatusChange = (e) => {
+    setStatusFilter(e.target.value);
+    setPage(0);
+  };
+
+  const handleClearFilter = () => {
+    setStatusFilter('');
+    setPage(0);
+  };
+
   return (
     <div className="container mt-4">
       <h2>Manage Orders</h2>
@@ -68,9 +99,26 @@ function ManageOrders() {
               />
             </div>
             <div className="mb-3 p-2">
+              <select
+                className="form-select"
+                value={statusFilter}
+                onChange={handleStatusChange}
+              >
+                <option value="">All Statuses</option>
+                {ORDER_STATUSES.map(status => (
+                  <option key={status} value={status}>{status}</option>
+                ))}
+              </select>
+            </div>
+            <div className="mb-3 p-2">
               <button className="btn btn-secondary" onClick={OnClickDashboard}>
                 Dashboard
               </button>
+              {statusFilter && (
+                <button className="btn btn-outline-danger ms-2" onClick={handleClearFilter}>
+                  Clear Filter
+                </button>
+              )}
             </div>
           </div>
           <table className="table table-bordered">
