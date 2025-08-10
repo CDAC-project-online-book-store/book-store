@@ -140,6 +140,12 @@ public class OrderServiceImpl implements OrderService {
 		return orders.map(this::mapToAdminOrderRespDTO);
 	}
 
+	@Override
+	public Page<AdminOrderRespDTO> getOrdersByStatus(OrderStatus status, Pageable pageable) {
+		Page<OrderEntity> orders = orderDao.findByOrderStatus(status, pageable);
+		return orders.map(this::mapToAdminOrderRespDTO);
+	}
+
 	// * @param orderId - ID of the order to update
 	// * @param status - New status to set for the order
 	// * @return AdminOrderRespDTO containing updated order details

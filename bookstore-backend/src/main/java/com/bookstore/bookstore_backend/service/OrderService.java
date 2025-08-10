@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import com.bookstore.bookstore_backend.dto.AdminOrderRespDTO;
 import com.bookstore.bookstore_backend.dto.OrderDTO;
 import com.bookstore.bookstore_backend.dto.OrderRequestDTO;
+import com.bookstore.bookstore_backend.entities.OrderStatus;
 
 import jakarta.validation.Valid;
 
@@ -36,4 +37,6 @@ public interface OrderService {
 	void softDeleteOrder(Long orderId);
 
 	List<AdminOrderRespDTO> searchOrdersForAdmin(String query);
+
+	Page<AdminOrderRespDTO> getOrdersByStatus(OrderStatus status, Pageable pageable);
 }
