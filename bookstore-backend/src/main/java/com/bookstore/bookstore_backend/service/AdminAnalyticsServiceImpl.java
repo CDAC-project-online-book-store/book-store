@@ -24,6 +24,11 @@ public class AdminAnalyticsServiceImpl implements AdminAnalyticsService {
     private OrderItemDao orderItemDao;
     @Autowired
     private PaymentDao paymentDao;
+    /**
+     * Aggregates and returns order statistics:
+     * - Total orders today, this week, this month
+     * - Orders by status (pending, shipped, delivered, cancelled)
+     */
     @Override
     public OrderSummaryDTO getOrderSummary() {
         OrderSummaryDTO dto = new OrderSummaryDTO();
@@ -43,6 +48,10 @@ public class AdminAnalyticsServiceImpl implements AdminAnalyticsService {
         dto.setCancelledOrders((int) allOrders.stream().filter(o -> o.getOrderStatus() == com.bookstore.bookstore_backend.entities.OrderStatus.CANCELLED).count());
         return dto;
     }
+    /**
+     * Returns a list of top selling books by quantity sold.
+     * Aggregates sales from order items and sorts by quantity.
+     */
     @Transactional(readOnly = true)
     @Override
     public TopBooksDTO getTopSellingBooks() {
@@ -69,6 +78,12 @@ public class AdminAnalyticsServiceImpl implements AdminAnalyticsService {
             return dto;
     }
     
+    /**
+     * Returns inventory statistics:
+     * - Total books in stock
+     * - Books with low stock (<= 5)
+     * - Books with zero sales
+     */
     @Override
     public InventorySummaryDTO getInventorySummary() {
             var books = bookDao.findByIsActiveTrue();
@@ -105,6 +120,12 @@ public class AdminAnalyticsServiceImpl implements AdminAnalyticsService {
             dto.setZeroSalesBooks(zeroSalesBooks);
             return dto;
     }
+    /**
+     * Returns user statistics:
+     * - Total users
+     * - New users this month
+     * - Top buyers by total spent
+     */
     @Transactional
     @Override
     public UserSummaryDTO getUserSummary() {
@@ -143,6 +164,11 @@ public class AdminAnalyticsServiceImpl implements AdminAnalyticsService {
             dto.setTopBuyers(topBuyers);
             return dto;
     }
+    /**
+     * Returns revenue statistics:
+     * - Total revenue for the current month
+     * - All-time revenue from successful payments
+     */
     @Override
     public RevenueSummaryDTO getRevenueSummary() {
             var payments = paymentDao.findAll();
