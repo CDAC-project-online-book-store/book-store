@@ -27,9 +27,9 @@ public class OrderItemEntity extends BaseEntity {
 	@JoinColumn(name = "order_id", nullable = false)
 	private OrderEntity order;
 
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "book_id", nullable = true)
-//	private BookEntity book;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "book_id", nullable = true)
+	private BookEntity book;
 
 	@Column(name = "quantity", nullable = false)
 	private int quantity;

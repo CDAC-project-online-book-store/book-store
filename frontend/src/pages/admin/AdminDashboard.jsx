@@ -1,9 +1,23 @@
-import React from 'react';
+import React, {useEffect,useState} from 'react';
 import { Link } from 'react-router-dom';
 import AdminBar from '../../components/navbar/AdminBar';
+import AdminAnalyticsService from '../../services/AdminAnalyticsService';
 
 const AdminDashboard = () => {
   const today = new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+const [orderSummary, setOrderSummary] = useState({});
+const [inventorySummary, setInventorySummary] = useState({});
+const [userSummary, setUserSummary] = useState({});
+const [revenueSummary, setRevenueSummary] = useState({});
+
+useEffect(() => {
+  AdminAnalyticsService.getOrderSummary().then(data => setOrderSummary(data));
+  AdminAnalyticsService.getInventorySummary().then(data => setInventorySummary(data));
+  AdminAnalyticsService.getUserSummary().then(data => setUserSummary(data));
+  AdminAnalyticsService.getRevenueSummary().then(data => setRevenueSummary(data));
+}, []);
+
+
   return (
     <div style={{ background: '#f8f9fa', minHeight: '100vh', paddingBottom: 40 }}>
       {/* <AdminBar user="Anurag" /> */}
@@ -83,24 +97,24 @@ const AdminDashboard = () => {
             <div className="col-md-4">
               <div className="panel p-4 bg-white rounded shadow-sm mb-4">
                 <h2 className="mb-3" style={{ color: '#333', borderBottom: '1px solid #e9ecef', paddingBottom: '0.5rem' }}>Quick Stats</h2>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0', borderBottom: '1px solid #e9ecef' }}>
-                    <span>Total Books:</span>
-                    <strong>247</strong>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0', borderBottom: '1px solid #e9ecef' }}>
+                      <span>Total Books:</span>
+                      <strong>{inventorySummary.totalBooksInStock ?? '-'}</strong>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0', borderBottom: '1px solid #e9ecef' }}>
+                      <span>Total Users:</span>
+                      <strong>{userSummary.totalUsers ?? '-'}</strong>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0', borderBottom: '1px solid #e9ecef' }}>
+                      <span>Orders Today:</span>
+                      <strong>{orderSummary.totalOrdersToday ?? '-'}</strong>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0' }}>
+                      <span>Revenue (Month):</span>
+                      <strong>₹{revenueSummary.totalRevenueMonth ?? '-'}</strong>
+                    </div>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0', borderBottom: '1px solid #e9ecef' }}>
-                    <span>Active Users:</span>
-                    <strong>45</strong>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0', borderBottom: '1px solid #e9ecef' }}>
-                    <span>Orders Today:</span>
-                    <strong>12</strong>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0' }}>
-                    <span>Revenue Today:</span>
-                    <strong>₹2,850</strong>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
