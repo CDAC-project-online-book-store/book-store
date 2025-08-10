@@ -2,6 +2,10 @@ package com.bookstore.bookstore_backend.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import com.bookstore.bookstore_backend.dto.AdminOrderRespDTO;
 import com.bookstore.bookstore_backend.dto.OrderDTO;
 import com.bookstore.bookstore_backend.dto.OrderRequestDTO;
 
@@ -20,4 +24,16 @@ public interface OrderService {
 	void deleteOrder(Long id);
 
 	List<OrderDTO> getAllOrderswithStatus(String status);
+
+	OrderDTO createOrder(OrderRequestDTO orderRequestDTO);
+
+	Page<AdminOrderRespDTO> getAllOrdersForAdmin(Pageable pageable);
+
+	AdminOrderRespDTO getOrderDetailsForAdmin(Long orderId);
+
+	AdminOrderRespDTO updateOrderStatus(Long orderId, String status);
+
+	void softDeleteOrder(Long orderId);
+
+	List<AdminOrderRespDTO> searchOrdersForAdmin(String query);
 }

@@ -9,14 +9,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OrderDTO {
+@ToString(callSuper = true)
+// DTO for order get order status
+public class OrderDTO extends BaseDTO {
 
-    private Long id;
 
     private Long userId;              // user reference (flattened)
     private Long addressId;           // address reference (flattened)
