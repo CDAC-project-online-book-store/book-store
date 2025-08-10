@@ -17,7 +17,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
-@CrossOrigin(origins = "http://localhost:5173", maxAge = 48000) // Allow all origins for testing; adjust as needed for production")
+@CrossOrigin(origins = {"http://localhost:5173"}, allowCredentials = "true", maxAge = 48000)
 @RestController
 @RequestMapping("/admin/users") 
 //Uncomment this line to restrict access to ADMIN role
