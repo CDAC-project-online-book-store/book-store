@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import api from '../../services/api';
 
 const AddNewAddress = () => {
   const navigate = useNavigate();
+  const { state } = useLocation();
 
   const [pincodeError, setPincodeError] = useState('');
   const [formData, setFormData] = useState({
@@ -66,19 +68,34 @@ const AddNewAddress = () => {
     }
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const newAddress = {
-      ...formData,
-      address: `${formData.flat}, ${formData.area}, ${formData.landmark}`,
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user?.id) {
+      navigate('/login', { replace: true, state: { redirectTo: state?.redirectTo || '/payment/checkout' } });
+      return;
+    }
+    const payload = {
+      name: formData.fullName,
+      addressLineOne: formData.flat,
+      addressLineTwo: formData.area,
+      landMark: formData.landmark,
+      city: formData.city,
+      state: formData.state,
+      phoneNumber: formData.phone,
+      pinCode: formData.pincode,
+      label: 'HOME'
     };
-
-    const stored = JSON.parse(localStorage.getItem('addresses')) || [];
-    stored.push(newAddress);
-    localStorage.setItem('addresses', JSON.stringify(stored));
-
-    navigate('/user/addresses');
+    try {
+      await api.post(`/addresses/create`, payload, { params: { userId: user?.id } });
+      const redirect = state?.redirectTo || '/payment/checkout';
+      // if returning to checkout, go back to checkout
+      navigate(redirect, { replace: true, state: state?.fromCheckout ? { book: state.book, quantity: state.quantity } : undefined });
+    } catch (err) {
+      console.error('Save address error:', err?.response || err);
+      const msg = err?.response?.data?.message || err?.response?.data?.error || 'Failed to save address';
+      alert(msg);
+    }
   };
 
   return (
@@ -174,7 +191,6 @@ const AddNewAddress = () => {
               name="city"
               value={formData.city}
               onChange={handleChange}
-              readOnly
               required
             />
           </div>
@@ -186,7 +202,6 @@ const AddNewAddress = () => {
               name="state"
               value={formData.state}
               onChange={handleChange}
-              readOnly
               required
             />
           </div>

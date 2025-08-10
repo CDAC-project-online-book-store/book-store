@@ -1,29 +1,44 @@
 import React from 'react'
 import AddressForm from '../../components/AddressForm';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import api from '../../services/api';
 
 const AddOrEditAddress = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const { index } = useParams();
     const stored = JSON.parse(localStorage.getItem("addresses")) || [];
     
     const isEdit = typeof index !== 'undefined';
     const existing = isEdit ? stored[parseInt(index)] : null;
     
-    const handleSubmit = (formData) => {
-        const updated = {
-            ...formData,
-            address: `${formData.flat}, ${formData.area}, ${formData.landmark}`,
+    const handleSubmit = async (formData) => {
+        const user = JSON.parse(localStorage.getItem('user'));
+        const payload = {
+            name: formData.fullName,
+            addressLineOne: formData.flat,
+            addressLineTwo: formData.area,
+            landMark: formData.landmark,
+            city: formData.city,
+            state: formData.state,
+            phoneNumber: formData.phone,
+            pinCode: formData.pincode,
+            label: 'HOME'
         };
-        if (isEdit){
-            stored[parseInt(index)] = updated;
+        try {
+            if (isEdit && location.state?.addressId) {
+                await api.put(`/addresses/edit`, payload, { params: { userId: user.id, addressId: location.state.addressId } });
+            } else {
+                await api.post(`/addresses/create`, payload, { params: { userId: user.id } });
+            }
+            const redirectTo = location.state?.redirectTo || '/payment/checkout';
+            const fromCheckout = location.state?.fromCheckout;
+            navigate(redirectTo, { replace: true, state: fromCheckout ? { book: location.state.book, quantity: location.state.quantity, buyNow: location.state.buyNow } : undefined });
+        } catch (err) {
+            const data = err?.response?.data;
+            const msg = (typeof data === 'string') ? data : (data?.message || data?.error || err?.message || 'Failed to save address');
+            alert(msg);
         }
-        else {
-            stored.push(updated);
-        }
-        localStorage.setItem('addresses',JSON.stringify(stored));
-        navigate('/user/addresses');
-
     }
 
     return (
