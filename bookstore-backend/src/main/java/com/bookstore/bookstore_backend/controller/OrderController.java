@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bookstore.bookstore_backend.dto.OrderDTO;
@@ -37,6 +38,11 @@ public class OrderController {
 	@GetMapping
 	public ResponseEntity<List<OrderDTO>> getAllOrders() {
 		return new ResponseEntity<>(orderService.getAllOrders(), HttpStatus.OK);
+	}
+
+	@GetMapping("/by-user")
+	public ResponseEntity<List<OrderDTO>> getOrdersByUser(@RequestParam Long userId) {
+		return ResponseEntity.ok(orderService.getOrdersByUser(userId));
 	}
 
 	@GetMapping("/{id}")

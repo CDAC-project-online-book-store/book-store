@@ -81,7 +81,20 @@ const AddressForm = ({ initialData = {}, onSubmit, mode = 'add' }) => {
       <h4 className="mb-4 text-primary">{mode === 'edit' ? 'Edit Address' : 'Add New Address'}</h4>
 
       <input name="fullName" className="form-control mb-2" value={formData.fullName} onChange={handleChange} placeholder="Full Name" required />
-      <input name="phone" className="form-control mb-2" value={formData.phone} onChange={handleChange} placeholder="Mobile Number" required />
+      <input
+        name="phone"
+        className="form-control mb-2"
+        value={formData.phone}
+        onChange={(e) => {
+          // Strip non-digits and limit to 10
+          const onlyDigits = e.target.value.replace(/\D/g, '').slice(0, 10);
+          handleChange({ target: { name: 'phone', value: onlyDigits } });
+        }}
+        placeholder="Mobile Number"
+        required
+        inputMode="numeric"
+        maxLength={10}
+      />
       <input
         type="number"
         name="pincode"
@@ -99,8 +112,8 @@ const AddressForm = ({ initialData = {}, onSubmit, mode = 'add' }) => {
       <input name="flat" className="form-control mb-2" value={formData.flat} onChange={handleChange} placeholder="Flat/House No." required />
       <input name="area" className="form-control mb-2" value={formData.area} onChange={handleChange} placeholder="Area/Street/Sector" required />
       <input name="landmark" className="form-control mb-2" value={formData.landmark} onChange={handleChange} placeholder="Landmark (Optional)" />
-      <input name="city" className="form-control mb-2" value={formData.city} onChange={handleChange} placeholder="City" readOnly required />
-      <input name="state" className="form-control mb-2" value={formData.state} onChange={handleChange} placeholder="State" readOnly required />
+      <input name="city" className="form-control mb-2" value={formData.city} onChange={handleChange} placeholder="City" required />
+      <input name="state" className="form-control mb-2" value={formData.state} onChange={handleChange} placeholder="State" required />
 
       <button type="submit" className="btn btn-primary">{mode === 'edit' ? 'Update Address' : 'Save Address'}</button>
     </form>

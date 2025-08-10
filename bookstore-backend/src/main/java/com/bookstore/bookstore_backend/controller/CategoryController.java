@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bookstore.bookstore_backend.dto.CategoryDTO;
 import com.bookstore.bookstore_backend.service.CategoryService;
 
-@CrossOrigin(maxAge = 48000) // Allow all origins for testing; adjust as needed for production
+@CrossOrigin(origins = {"http://localhost:5173"}, allowCredentials = "true", maxAge = 48000)
 @RestController
 @RequestMapping("/api/categories")
 public class CategoryController {

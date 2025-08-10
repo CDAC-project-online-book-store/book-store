@@ -10,4 +10,5 @@ import com.bookstore.bookstore_backend.entities.OrderEntity;
 @Repository
 public interface OrderDao extends JpaRepository<OrderEntity, Long> {
 	List<OrderEntity> findByOrderStatus(String status);
+    List<OrderEntity> findByUserId(Long userId);
 }

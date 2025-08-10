@@ -19,7 +19,7 @@ import com.bookstore.bookstore_backend.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 
-@CrossOrigin(maxAge = 48000) // Allow all origins for testing; adjust as needed for production
+@CrossOrigin(origins = {"http://localhost:5173"}, allowCredentials = "true", maxAge = 48000)
 @RestController
 @RequestMapping("/book")
 @AllArgsConstructor

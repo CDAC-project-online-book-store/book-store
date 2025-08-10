@@ -44,6 +44,12 @@ public class GlobalExceptionHandler {
 				.body(new ApiResponse("NOT_FOUND", e.getMessage(), "ADDRESS_NOT_FOUND"));
 	}
 
+	@ExceptionHandler(IllegalArgumentException.class)
+	public ResponseEntity<?> handleIllegalArgumentException(IllegalArgumentException e) {
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+				.body(new ApiResponse("BAD_REQUEST", e.getMessage(), "ILLEGAL_ARGUMENT"));
+	}
+
 	// equivalent to catch-all
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<?> handleException(Exception e) {
