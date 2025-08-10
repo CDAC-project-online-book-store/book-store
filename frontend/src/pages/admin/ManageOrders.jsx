@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import ViewOrderDetails from '../orders/ViewOrderDetails';
+import AdminOrderDetails from '../admin/orders/AdminOrderDetails';
 
 const PAGE_SIZE = 10;
 const ORDER_STATUSES = ['PENDING', 'SHIPPED', 'DELIVERED', 'CANCELLED'];
@@ -85,7 +85,8 @@ function ManageOrders() {
     <div className="container mt-4">
       <h2>Manage Orders</h2>
       {viewMode === "details" && selectedOrder ? (
-        <ViewOrderDetails order={selectedOrder} />
+        console.log('Selected Order id:', selectedOrder.orderId),
+        <AdminOrderDetails orderId={selectedOrder.orderId} />
       ) : (
         <>
           <div className="d-flex justify-content-between align-items-center mb-3">
@@ -152,7 +153,7 @@ function ManageOrders() {
                     <td>{order.deliveryDate ? new Date(order.deliveryDate).toLocaleString() : '-'}</td>
                     <td>{order.totalAmount}</td>
                     <td>
-                      <button className="btn btn-sm btn-info me-2" onClick={() => OnClickView(order)}>View</button>
+                      <button className="btn btn-sm btn-info me-2" onClick={() => navigate(`/admin/orders/${order.orderId}`)}>View</button>
                     </td>
                   </tr>
                 ))}

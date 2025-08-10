@@ -1,10 +1,13 @@
 package com.bookstore.bookstore_backend.dto;
 
 public class OrderStatusUpdateDTO {
+    private String status;
 
-	public String getStatus() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public String getStatus() {
+        return status;
+    }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

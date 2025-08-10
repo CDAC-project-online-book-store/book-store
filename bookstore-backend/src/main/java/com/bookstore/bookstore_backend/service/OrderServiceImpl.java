@@ -151,7 +151,11 @@ public class OrderServiceImpl implements OrderService {
 	// * @return AdminOrderRespDTO containing updated order details
 	@Override
 	public AdminOrderRespDTO updateOrderStatus(Long orderId, String status) {
-		return null;
+		OrderEntity order = orderDao.findById(orderId)
+				.orElseThrow(() -> new ResourceNotFoundException("Order not found with id " + orderId));
+		order.setOrderStatus(OrderStatus.valueOf(status.toUpperCase()));
+		orderDao.save(order);
+		return mapToAdminOrderRespDTO(order);
 	}
 
 	/*
@@ -239,8 +243,9 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public AdminOrderRespDTO getOrderDetailsForAdmin(Long orderId) {
-		// TODO Auto-generated method stub
-		return null;
+		OrderEntity order = orderDao.findById(orderId)
+				.orElseThrow(() -> new ResourceNotFoundException("Order not found with id " + orderId));
+		return mapToAdminOrderRespDTO(order);
 	}
 
 	@Override

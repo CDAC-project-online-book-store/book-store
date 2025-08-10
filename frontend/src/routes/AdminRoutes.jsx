@@ -9,6 +9,7 @@ import EditBookForm from '../pages/admin/forms/EditBookForm'
 import AddBookForm from '../pages/admin/forms/AddBookForm'
 import AdminBookDetails from '../pages/admin/book/AdminBookDetails';
 import AdminProfile from '../pages/admin/AdminProfile';
+import AdminOrderDetails from '../pages/admin/orders/AdminOrderDetails';
 import ProtectedRoute from './ProtectedRoute';
 
 function AdminRoutes() {
@@ -63,6 +64,11 @@ function AdminRoutes() {
         </ProtectedRoute>
       } />
 
+      <Route path='/admin/orders/:id' element={
+        <ProtectedRoute allowedRoles={['admin']}>
+          <AdminOrderDetails />
+        </ProtectedRoute>
+      } />
 
     </Routes>
 
