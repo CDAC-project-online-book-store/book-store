@@ -10,4 +10,7 @@ import com.bookstore.bookstore_backend.entities.UserEntity;
 
 public interface AddressDao extends JpaRepository<AddressEntity, Long> {
 	List<AddressEntity> findByUserAndIsActiveTrue(UserEntity user);
+	
+	// Add a method to find all addresses for debugging
+	List<AddressEntity> findByUser(UserEntity user);
 }
