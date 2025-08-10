@@ -2,13 +2,44 @@ package com.bookstore.bookstore_backend.service;
 
 import com.bookstore.bookstore_backend.dto.analytics.*;
 import org.springframework.stereotype.Service;
+import java.time.LocalDateTime;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.bookstore.bookstore_backend.dao.OrderDao;
+import com.bookstore.bookstore_backend.dao.UserDao;
+import com.bookstore.bookstore_backend.dao.BookDao;
+import com.bookstore.bookstore_backend.dao.OrderItemDao;
+import com.bookstore.bookstore_backend.dao.PaymentDao;
 
 @Service
 public class AdminAnalyticsServiceImpl implements AdminAnalyticsService {
+    @Autowired
+    private OrderDao orderDao;
+    @Autowired
+    private UserDao userDao;
+    @Autowired
+    private BookDao bookDao;
+    @Autowired
+    private OrderItemDao orderItemDao;
+    @Autowired
+    private PaymentDao paymentDao;
     @Override
     public OrderSummaryDTO getOrderSummary() {
-        // TODO: implement aggregation logic
-        return new OrderSummaryDTO();
+        OrderSummaryDTO dto = new OrderSummaryDTO();
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime startOfToday = now.toLocalDate().atStartOfDay();
+        LocalDateTime startOfWeek = now.minusDays(now.getDayOfWeek().getValue() - 1).toLocalDate().atStartOfDay();
+        LocalDateTime startOfMonth = now.withDayOfMonth(1).toLocalDate().atStartOfDay();
+
+        // Fetch all orders (could be optimized with custom queries)
+        var allOrders = orderDao.findAll();
+        dto.setTotalOrdersToday((int) allOrders.stream().filter(o -> o.getOrderDate() != null && o.getOrderDate().isAfter(startOfToday)).count());
+        dto.setTotalOrdersWeek((int) allOrders.stream().filter(o -> o.getOrderDate() != null && o.getOrderDate().isAfter(startOfWeek)).count());
+        dto.setTotalOrdersMonth((int) allOrders.stream().filter(o -> o.getOrderDate() != null && o.getOrderDate().isAfter(startOfMonth)).count());
+        dto.setPendingOrders((int) allOrders.stream().filter(o -> o.getOrderStatus() == com.bookstore.bookstore_backend.entities.OrderStatus.PENDING).count());
+        dto.setShippedOrders((int) allOrders.stream().filter(o -> o.getOrderStatus() == com.bookstore.bookstore_backend.entities.OrderStatus.SHIPPED).count());
+        dto.setDeliveredOrders((int) allOrders.stream().filter(o -> o.getOrderStatus() == com.bookstore.bookstore_backend.entities.OrderStatus.DELIVERED).count());
+        dto.setCancelledOrders((int) allOrders.stream().filter(o -> o.getOrderStatus() == com.bookstore.bookstore_backend.entities.OrderStatus.CANCELLED).count());
+        return dto;
     }
     @Override
     public TopBooksDTO getTopSellingBooks() {
