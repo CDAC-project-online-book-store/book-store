@@ -105,10 +105,43 @@ public class AdminAnalyticsServiceImpl implements AdminAnalyticsService {
             dto.setZeroSalesBooks(zeroSalesBooks);
             return dto;
     }
+    @Transactional
     @Override
     public UserSummaryDTO getUserSummary() {
-        // TODO: implement aggregation logic
-        return new UserSummaryDTO();
+            var users = userDao.findAll();
+            UserSummaryDTO dto = new UserSummaryDTO();
+            dto.setTotalUsers(users.size());
+
+            // New users this month
+            var now = java.time.LocalDateTime.now();
+            var startOfMonth = now.withDayOfMonth(1).toLocalDate().atStartOfDay();
+            int newUsersThisMonth = (int) users.stream()
+                .filter(u -> u.getCreatedOn() != null && u.getCreatedOn().isAfter(startOfMonth))
+                .count();
+            dto.setNewUsersThisMonth(newUsersThisMonth);
+
+            // Top buyers by total spent
+            var orders = orderDao.findAll();
+            var userSpentMap = new java.util.HashMap<Long, Double>();
+            for (var order : orders) {
+                if (order.getUser() != null && order.getOrderItems() != null) {
+                    double total = order.getOrderItems().stream().mapToDouble(i -> i.getPrice() * i.getQuantity()).sum();
+                    userSpentMap.put(order.getUser().getId(), userSpentMap.getOrDefault(order.getUser().getId(), 0.0) + total);
+                }
+            }
+            var topBuyers = userSpentMap.entrySet().stream()
+                .sorted((e1, e2) -> Double.compare(e2.getValue(), e1.getValue()))
+                .limit(10)
+                .map(e -> {
+                    var userOpt = users.stream().filter(u -> u.getId().equals(e.getKey())).findFirst();
+                    UserSummaryDTO.TopBuyer tb = new UserSummaryDTO.TopBuyer();
+                    tb.setUsername(userOpt.map(u -> u.getUserName()).orElse("Unknown"));
+                    tb.setTotalSpent(e.getValue());
+                    return tb;
+                })
+                .toList();
+            dto.setTopBuyers(topBuyers);
+            return dto;
     }
     @Override
     public RevenueSummaryDTO getRevenueSummary() {
