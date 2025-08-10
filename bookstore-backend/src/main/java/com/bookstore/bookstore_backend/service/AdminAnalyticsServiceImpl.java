@@ -145,7 +145,22 @@ public class AdminAnalyticsServiceImpl implements AdminAnalyticsService {
     }
     @Override
     public RevenueSummaryDTO getRevenueSummary() {
-        // TODO: implement aggregation logic
-        return new RevenueSummaryDTO();
+            var payments = paymentDao.findAll();
+            RevenueSummaryDTO dto = new RevenueSummaryDTO();
+            var now = java.time.LocalDateTime.now();
+            var startOfMonth = now.withDayOfMonth(1).toLocalDate().atStartOfDay();
+            // Only count successful payments
+            double totalRevenueMonth = payments.stream()
+                .filter(p -> p.getPaymentStatus() != null && p.getPaymentStatus().equalsIgnoreCase("SUCCESS"))
+                .filter(p -> p.getCreatedOn() != null && p.getCreatedOn().isAfter(startOfMonth))
+                .mapToDouble(p -> p.getAmount())
+                .sum();
+            double totalRevenueAllTime = payments.stream()
+                .filter(p -> p.getPaymentStatus() != null && p.getPaymentStatus().equalsIgnoreCase("SUCCESS"))
+                .mapToDouble(p -> p.getAmount())
+                .sum();
+            dto.setTotalRevenueMonth(totalRevenueMonth);
+            dto.setTotalRevenueAllTime(totalRevenueAllTime);
+            return dto;
     }
 }
