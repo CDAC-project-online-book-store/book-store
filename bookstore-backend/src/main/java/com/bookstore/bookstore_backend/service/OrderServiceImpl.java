@@ -12,7 +12,14 @@ import com.bookstore.bookstore_backend.dao.OrderDao;
 import com.bookstore.bookstore_backend.dao.PaymentDao;
 import com.bookstore.bookstore_backend.dao.UserDao;
 import com.bookstore.bookstore_backend.dto.OrderDTO;
+import com.bookstore.bookstore_backend.entities.AddressEntity;
+import com.bookstore.bookstore_backend.entities.BookEntity;
 import com.bookstore.bookstore_backend.entities.OrderEntity;
+import com.bookstore.bookstore_backend.entities.OrderItemEntity;
+import com.bookstore.bookstore_backend.entities.OrderStatus;
+import com.bookstore.bookstore_backend.entities.UserEntity;
+import com.bookstore.bookstore_backend.custom_exceptions.ResourceNotFoundException;
+import java.time.LocalDateTime;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
@@ -98,8 +105,37 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public OrderDTO createOrder(OrderDTO orderDTO) {
-		OrderEntity order = modelMapper.map(orderDTO, OrderEntity.class);
-		OrderEntity savedOrder = orderDao.save(order);
-		return orderDTO;
+        // Validate and fetch references
+        UserEntity user = userDao.findById(orderDTO.getUserId())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        AddressEntity address = addressDao.findById(orderDTO.getAddressId())
+                .orElseThrow(() -> new ResourceNotFoundException("Address not found"));
+        BookEntity book = bookDao.findById(orderDTO.getBookId())
+                .orElseThrow(() -> new ResourceNotFoundException("Book not found"));
+
+        OrderEntity order = new OrderEntity();
+        order.setUser(user);
+        order.setAddress(address);
+        order.setBook(book);
+        order.setOrderDate(LocalDateTime.now());
+        order.setOrderStatus(orderDTO.getOrderStatus() != null ? orderDTO.getOrderStatus() : OrderStatus.PENDING);
+        order.setIsActive(true);
+
+        if (orderDTO.getOrderItems() != null) {
+            for (var itemDto : orderDTO.getOrderItems()) {
+                OrderItemEntity item = modelMapper.map(itemDto, OrderItemEntity.class);
+                order.addOrderItem(item); // sets back-reference
+            }
+        }
+
+        OrderEntity savedOrder = orderDao.save(order);
+        return modelMapper.map(savedOrder, OrderDTO.class);
+	}
+
+	@Override
+	public List<OrderDTO> getOrdersByUser(Long userId) {
+		return orderDao.findByUserId(userId).stream()
+				.map(o -> modelMapper.map(o, OrderDTO.class))
+				.toList();
 	}
 }
