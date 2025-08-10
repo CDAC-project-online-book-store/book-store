@@ -3,14 +3,16 @@ package com.bookstore.bookstore_backend.config;
 import java.security.Key;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import javax.crypto.SecretKey;
+//import javax.crypto.SecretKey;
 
-import org.apache.tomcat.util.buf.UDecoder;
+//import org.apache.tomcat.util.buf.UDecoder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -87,5 +89,57 @@ public class JwtUtils {
 		}
 
 	}
+
+	public <T> T extractClaim(String token, Function<Claims, T> claimResolver) {
+		final Claims claims = extractAllClaims(token);
+		return claimResolver.apply(claims);
+	}
+
+	public String extractEmail(String token) {
+		return extractClaim(token, Claims::getSubject);
+	}
+
+	public List<String> extractAuthorities(String token) {
+		Claims claims = extractAllClaims(token);
+		Object authObject = claims.get("authorities");
+		if (authObject instanceof List) {
+			return (List<String>) authObject;
+		}
+		return List.of();
+	}
+
+	public List<GrantedAuthority> getAuthoritiesFromClaims(Claims claims) {
+		Object authObject = claims.get("authorities");
+		if (authObject instanceof List) {
+			var list = (List<String>) authObject;
+			return list.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+
+		}
+		return List.of();
+	}
+
+	public boolean isTokenExpired(String token) {
+		try {
+			return extractClaim(token, Claims::getExpiration).before(new Date());
+		} catch (Exception e) {
+			return true;
+		}
+	}
+	
+	public boolean validateToken(String token, String email) {
+		try {
+			final String extractedEmailString = extractEmail(token);
+			return (extractedEmailString.equals(email)) && !isTokenExpired(token);
+		} catch (JwtException | IllegalArgumentException e) {
+			log.debug("Token validation failed: {}", e.getMessage());
+			return false;
+		}
+	}
+	
+	 public Claims validateAndGetClaims(String token) throws JwtException {
+	        return extractAllClaims(token);
+	    }
+	
+	
 
 }
