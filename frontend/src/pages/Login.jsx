@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { loginUser } from '../services/userService';
 
 function Login() {
@@ -8,6 +8,7 @@ function Login() {
     const [error, setError] = useState('');
     
     const navigate = useNavigate();
+    const { state } = useLocation();
     const handleLogin = async (e) => {
         e.preventDefault();
         setError('');
@@ -16,7 +17,9 @@ function Login() {
             const user = res.data;
             localStorage.setItem('isLoggedIn', 'true');
             localStorage.setItem('user', JSON.stringify(user));
-            if (user.role?.toLowerCase() === 'admin') {
+            if (state?.redirectTo) {
+                navigate(state.redirectTo, { replace: true, state: state });
+            } else if (user.role?.toLowerCase() === 'admin') {
                 navigate('/admin/dashboard');
             } else {
                 navigate('/');
