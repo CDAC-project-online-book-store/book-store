@@ -53,6 +53,9 @@ public class AddressEntity extends BaseEntity {
 	@Column(name = "pincode")
 	private String pinCode;
 
+	@Column(name = "phone_number")
+	private String phoneNumber;
+
 	@Column(name = "country")
 	private String country = "India";
 

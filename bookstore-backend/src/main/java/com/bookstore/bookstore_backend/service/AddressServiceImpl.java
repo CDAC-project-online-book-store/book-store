@@ -58,10 +58,16 @@ public class AddressServiceImpl implements AddressService {
 		UserEntity userEntity = userDao.findById(userId)
 				.orElseThrow(() -> new UserNotFoundException("User ID does not exists"));
 
+		// Get all addresses for debugging
+		List<AddressEntity> allAddresses = addressDao.findByUser(userEntity);
+		System.out.println("Service: Found " + allAddresses.size() + " total addresses for user " + userId);
+		allAddresses.forEach(addr -> System.out.println("Service: Address ID " + addr.getId() + " - isActive: " + addr.getIsActive()));
+
+		// Get only active addresses
 		List<AddressEntity> addresses = addressDao.findByUserAndIsActiveTrue(userEntity);
+		System.out.println("Service: Found " + addresses.size() + " active addresses for user " + userId);
 
 		// mapping entities -> DTOs
-
 		return addresses.stream().map(address -> {
 			AddressResponseDTO dto = mapper.map(address, AddressResponseDTO.class);
 			dto.setLabel(address.getLabel().name()); // to convert enum to String for FE
@@ -99,14 +105,21 @@ public class AddressServiceImpl implements AddressService {
 	@Transactional
 	@Override
 	public void softDeleteAddress(Long userId, Long addressId) {
+		System.out.println("Service: Starting soft delete - User ID: " + userId + ", Address ID: " + addressId);
+		
 		AddressEntity addressEntity = addressDao.findById(addressId)
 				.orElseThrow(() -> new AddressNotFoundException("Address does not exists"));
+
+		System.out.println("Service: Found address - ID: " + addressEntity.getId() + ", User ID: " + addressEntity.getUser().getId());
 
 		if (!addressEntity.getUser().getId().equals(userId))
 			throw new IllegalArgumentException("This address does not belong to the given user");
 		
+		System.out.println("Service: Setting isActive to false for address ID: " + addressId);
 		addressEntity.setIsActive(false);
-		addressDao.save(addressEntity);
+		AddressEntity savedEntity = addressDao.save(addressEntity);
+		
+		System.out.println("Service: Address soft deleted successfully - ID: " + savedEntity.getId() + ", isActive: " + savedEntity.getIsActive());
 
 	}
 
