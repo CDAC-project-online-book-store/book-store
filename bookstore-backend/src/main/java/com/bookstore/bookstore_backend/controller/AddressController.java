@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.bookstore.bookstore_backend.dto.AddressRequestDTO;
 import com.bookstore.bookstore_backend.dto.AddressResponseDTO;
@@ -21,6 +23,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:5173"}, allowCredentials = "true", maxAge = 48000)
 @RequiredArgsConstructor
 @RequestMapping("/addresses")
 public class AddressController {
@@ -48,10 +51,10 @@ public class AddressController {
 		return ResponseEntity.ok(response);
 	}
 	
-	@DeleteMapping("/{addressId}")
-	public ResponseEntity<AddressResponseDTO> deleteAddress(@RequestParam Long userId, @RequestParam Long addressId){
-		addressService.softDeleteAddress(userId, addressId);
-		return ResponseEntity.noContent().build();
-	}
+    @DeleteMapping("/{addressId}")
+    public ResponseEntity<Void> deleteAddress(@RequestParam Long userId, @PathVariable("addressId") Long addressId){
+        addressService.softDeleteAddress(userId, addressId);
+        return ResponseEntity.noContent().build();
+    }
 	
 }
