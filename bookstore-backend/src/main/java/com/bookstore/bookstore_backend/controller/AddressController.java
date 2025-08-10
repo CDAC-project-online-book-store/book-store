@@ -23,7 +23,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:5173"}, allowCredentials = "true", maxAge = 48000)
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5174"}, allowCredentials = "true", maxAge = 48000)
 @RequiredArgsConstructor
 @RequestMapping("/addresses")
 public class AddressController {
@@ -53,8 +53,15 @@ public class AddressController {
 	
     @DeleteMapping("/{addressId}")
     public ResponseEntity<Void> deleteAddress(@RequestParam Long userId, @PathVariable("addressId") Long addressId){
-        addressService.softDeleteAddress(userId, addressId);
-        return ResponseEntity.noContent().build();
+        System.out.println("Delete request received - User ID: " + userId + ", Address ID: " + addressId);
+        try {
+            addressService.softDeleteAddress(userId, addressId);
+            System.out.println("Address deleted successfully - User ID: " + userId + ", Address ID: " + addressId);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            System.err.println("Error deleting address - User ID: " + userId + ", Address ID: " + addressId + ", Error: " + e.getMessage());
+            throw e;
+        }
     }
 	
 }
