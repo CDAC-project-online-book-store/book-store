@@ -46,8 +46,15 @@ function BookDetails() {
     alert('Added to cart!');
   };
   const handleBuyNow = () => {
-    // TODO: Call buyNow service
-    alert('Buy now!');
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const user = JSON.parse(localStorage.getItem('user'));
+    const roleLower = (user?.role || 'UNREGISTERED').toLowerCase();
+    if (!isLoggedIn || roleLower !== 'customer') {
+      navigate('/login', { replace: true, state: { redirectTo: `/payment/checkout`, buyNow: { isbn: book.isbn, quantity: Number(quantity) } } });
+      return;
+    }
+    // navigate to checkout with book info
+    navigate('/payment/checkout', { state: { book, quantity: Number(quantity), buyNow: { isbn: book.isbn, quantity: Number(quantity) } } });
   };
 
   if (loading) return <div className="container mt-4">Loading...</div>;

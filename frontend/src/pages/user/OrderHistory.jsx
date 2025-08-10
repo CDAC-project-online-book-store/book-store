@@ -1,8 +1,7 @@
-import Book1 from "../../assets/book covers/Book1.jpeg";
-import Book2 from "../../assets/book covers/Book2.jpeg";
-import Book3 from "../../assets/book covers/Book3.jpeg";
+import React, { useEffect, useState } from 'react';
+import api from '../../services/api';
 
-function CartItem({ image, title, author, quantity, price }) {
+function CartItem({ title, quantity, price }) {
     return (
         <div className="d-flex align-items-center p-2 pe-4 ps-4 mb-3"
             style={{
@@ -11,21 +10,11 @@ function CartItem({ image, title, author, quantity, price }) {
                 border: "1px solid #38a3a5ff",
                 borderRadius: "25px"
             }}>
-            {/* Image */}
-            <div style={{ width: "110px", height: "180px", backgroundColor: "red" }}>
-                <img
-                    src={image}
-                    alt="Book cover"
-                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                />
-            </div>
 
             {/* Details */}
             <div className="flex-grow-1 ps-3 d-flex flex-column justify-content-between" style={{ height: "180px" }}>
                 <div>
-                    <div className="fs-3">{title}</div>
-                    <div className="ms-1 pt-1 fs-5">by {author}</div>
-                    <div className="fs-6 fw-bold ps-1">Paperback</div>
+                    <div className="fs-4">{title}</div>
                     <div className="ms-1 pt-1 fs-6" style={{ color: "#22577aff" }}>
                         Delivered
                     </div>
@@ -43,20 +32,39 @@ function CartItem({ image, title, author, quantity, price }) {
 }
 
 function OrderHistory() {
-    return (
-        <div className="container-xl">
-            <h2>Order History</h2>
-            <div className="text-muted ps-1 pb-2">
-                Delivered to: 302, Maple Residency, Hadosiddhapura, Sarjapur Road, Bangalore
-            </div>
-            <div className="d-flex flex-row-reverse pe-2 fw-semibold">Price (Rupees)</div>
-            <hr />
+  const [orders, setOrders] = useState([]);
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const user = JSON.parse(localStorage.getItem('user'));
+        const res = await api.get('/order/by-user', { params: { userId: user?.id } });
+        setOrders(res.data || []);
+      } catch (e) {
+        setOrders([]);
+      }
+    };
+    fetchOrders();
+  }, []);
 
-            <CartItem image={Book1} title="The sum of all things" author="Nicole Brooks" quantity={3} price={690} />
-            <CartItem image={Book2} title="Never ending sky" author="Joseph Kirkland" quantity={3} price={690} />
-            <CartItem image={Book3} title="Soul" author="Olivia Wilson" quantity={3} price={690} />
-        </div>
-    );
+  return (
+    <div className="container-xl">
+      <h2>Order History</h2>
+      <div className="d-flex flex-row-reverse pe-2 fw-semibold">Price (Rupees)</div>
+      <hr />
+      {orders.length === 0 && <div className="text-muted">No orders yet.</div>}
+      {orders.map((order) => {
+        const firstItem = order.orderItems?.[0];
+        return (
+          <CartItem
+            key={order.id}
+            title={`Order #${order.id}`}
+            quantity={firstItem?.quantity || 1}
+            price={firstItem?.price || 0}
+          />
+        );
+      })}
+    </div>
+  );
 }
 
 export default OrderHistory;

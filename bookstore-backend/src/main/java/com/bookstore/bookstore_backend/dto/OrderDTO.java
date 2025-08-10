@@ -22,6 +22,7 @@ public class OrderDTO extends BaseDTO {
 
     private Long userId;              // user reference (flattened)
     private Long addressId;           // address reference (flattened)
+    private Long bookId;              // purchased book reference
 
     private List<OrderItemDTO> orderItems;
 

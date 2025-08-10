@@ -39,4 +39,5 @@ public interface OrderService {
 	List<AdminOrderRespDTO> searchOrdersForAdmin(String query);
 
 	Page<AdminOrderRespDTO> getOrdersByStatus(OrderStatus status, Pageable pageable);
+    List<OrderDTO> getOrdersByUser(Long userId);
 }

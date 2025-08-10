@@ -17,7 +17,7 @@ import com.bookstore.bookstore_backend.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-@CrossOrigin(origins = "http://localhost:5173", maxAge = 48000) // Allow all origins for testing; adjust as needed for production")
+@CrossOrigin(origins = {"http://localhost:5173"}, allowCredentials = "true", maxAge = 48000)
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")

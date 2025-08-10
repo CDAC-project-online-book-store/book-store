@@ -14,6 +14,8 @@ import com.bookstore.bookstore_backend.entities.OrderStatus;
 public interface OrderDao extends JpaRepository<OrderEntity, Long> {
 	List<OrderEntity> findByOrderStatus(String status);
 	// Method to find orders by status with pagination
-	
-	Page<OrderEntity> findByOrderStatus(OrderStatus status,Pageable pageable);
+
+	Page<OrderEntity> findByOrderStatus(OrderStatus status, Pageable pageable);
+
+	List<OrderEntity> findByUserId(Long userId);
 }
