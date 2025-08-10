@@ -2,6 +2,8 @@ package com.bookstore.bookstore_backend.service;
 
 import com.bookstore.bookstore_backend.dto.analytics.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.bookstore.bookstore_backend.dao.OrderDao;
@@ -41,10 +43,30 @@ public class AdminAnalyticsServiceImpl implements AdminAnalyticsService {
         dto.setCancelledOrders((int) allOrders.stream().filter(o -> o.getOrderStatus() == com.bookstore.bookstore_backend.entities.OrderStatus.CANCELLED).count());
         return dto;
     }
+    @Transactional(readOnly = true)
     @Override
     public TopBooksDTO getTopSellingBooks() {
-        // TODO: implement aggregation logic
-        return new TopBooksDTO();
+            var items = orderItemDao.findAll();
+            var bookSalesMap = new java.util.HashMap<String, Integer>();
+            for (var item : items) {
+                if (item.getBook() != null) {
+                    String title = item.getBook().getTitle();
+                    bookSalesMap.put(title, bookSalesMap.getOrDefault(title, 0) + item.getQuantity());
+                }
+            }
+            var topBooks = bookSalesMap.entrySet().stream()
+                .sorted((e1, e2) -> Integer.compare(e2.getValue(), e1.getValue()))
+                .limit(10)
+                .map(e -> {
+                    TopBooksDTO.BookSales bs = new TopBooksDTO.BookSales();
+                    bs.setTitle(e.getKey());
+                    bs.setQuantitySold(e.getValue());
+                    return bs;
+                })
+                .toList();
+            TopBooksDTO dto = new TopBooksDTO();
+            dto.setTopBooks(topBooks);
+            return dto;
     }
     @Override
     public InventorySummaryDTO getInventorySummary() {
