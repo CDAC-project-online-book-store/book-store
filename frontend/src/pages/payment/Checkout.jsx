@@ -96,7 +96,7 @@ const Checkout = () => {
         addressId: selectedAddressId,
         bookId: book.id,
         orderItems: [
-          { quantity, price: book.price }
+          { bookId: book.id, quantity, price: book.price }
         ],
         orderStatus: 'PENDING'
       };

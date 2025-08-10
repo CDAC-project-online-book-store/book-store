@@ -13,6 +13,9 @@ import lombok.ToString;
 @ToString(callSuper = true)
 public class OrderItemDTO extends BaseDTO {
 
+	@jakarta.validation.constraints.NotNull
+	private Long bookId;
+
 	private int quantity;
 
 	private double price;
