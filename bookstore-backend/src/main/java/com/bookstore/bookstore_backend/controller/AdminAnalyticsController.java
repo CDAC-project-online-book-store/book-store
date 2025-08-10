@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
-import org.springframework.beans.factory.annotation.Autowired;
+@CrossOrigin(origins = "http://localhost:5173", maxAge = 3600) // Allow all origins, adjust as needed
 @RestController
 @RequestMapping("/admin/analytics")
 @AllArgsConstructor
