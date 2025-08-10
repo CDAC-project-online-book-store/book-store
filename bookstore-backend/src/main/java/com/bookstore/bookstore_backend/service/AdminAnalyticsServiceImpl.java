@@ -68,10 +68,42 @@ public class AdminAnalyticsServiceImpl implements AdminAnalyticsService {
             dto.setTopBooks(topBooks);
             return dto;
     }
+    
     @Override
     public InventorySummaryDTO getInventorySummary() {
-        // TODO: implement aggregation logic
-        return new InventorySummaryDTO();
+            var books = bookDao.findByIsActiveTrue();
+            InventorySummaryDTO dto = new InventorySummaryDTO();
+            dto.setTotalBooksInStock(books.stream().mapToInt(b -> b.getStockQuantity() != null ? b.getStockQuantity() : 0).sum());
+
+            // Low stock books (threshold: 5)
+            var lowStockBooks = books.stream()
+                .filter(b -> b.getStockQuantity() != null && b.getStockQuantity() > 0 && b.getStockQuantity() <= 5)
+                .map(b -> {
+                    InventorySummaryDTO.LowStockBook lsb = new InventorySummaryDTO.LowStockBook();
+                    lsb.setTitle(b.getTitle());
+                    lsb.setStockQuantity(b.getStockQuantity());
+                    return lsb;
+                })
+                .toList();
+            dto.setLowStockBooks(lowStockBooks);
+
+            // Zero sales books
+            var items = orderItemDao.findAll();
+            var soldBookIds = items.stream()
+                .filter(i -> i.getBook() != null)
+                .map(i -> i.getBook().getId())
+                .collect(java.util.stream.Collectors.toSet());
+            var zeroSalesBooks = books.stream()
+                .filter(b -> !soldBookIds.contains(b.getId()))
+                .map(b -> {
+                    InventorySummaryDTO.ZeroSalesBook zsb = new InventorySummaryDTO.ZeroSalesBook();
+                    zsb.setTitle(b.getTitle());
+                    zsb.setStockQuantity(b.getStockQuantity() != null ? b.getStockQuantity() : 0);
+                    return zsb;
+                })
+                .toList();
+            dto.setZeroSalesBooks(zeroSalesBooks);
+            return dto;
     }
     @Override
     public UserSummaryDTO getUserSummary() {
