@@ -10,6 +10,7 @@ import com.bookstore.bookstore_backend.dto.UserResponseDTO;
 import jakarta.validation.Valid;
 
 public interface UserService {
+	java.util.Optional<com.bookstore.bookstore_backend.entities.UserEntity> findByEmail(String email);
 	/**
 	 * Method to register a new user
 	 * 

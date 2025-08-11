@@ -24,6 +24,10 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+	@Override
+	public java.util.Optional<com.bookstore.bookstore_backend.entities.UserEntity> findByEmail(String email) {
+		return userDao.findByEmail(email);
+	}
 	private final UserDao userDao;
 	private final PasswordEncoder passwordEncoder;
 	private final ModelMapper modelMapper;

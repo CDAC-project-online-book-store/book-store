@@ -29,8 +29,8 @@ const AdminProfile = () => {
               <strong>Joined:</strong> <span>{admin.joined}</span>
             </div>
             <div className="mt-4">
-              <button className="btn btn-outline-primary me-2">Edit Profile</button>
-              <button className="btn btn-outline-danger">Logout</button>
+              {/* <button className="btn btn-outline-primary me-2">Edit Profile</button>
+              <button className="btn btn-outline-danger">Logout</button> */}
             </div>
           </div>
         </div>

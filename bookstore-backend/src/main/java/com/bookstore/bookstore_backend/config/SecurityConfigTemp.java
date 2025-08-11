@@ -15,15 +15,15 @@ import org.springframework.web.filter.CorsFilter;
 
 import java.util.List;
 
-@Configuration
-public class SecurityConfig {
+// @Configuration
+public class SecurityConfigTemp {
 
-	@Bean
+	// @Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 	
-    @Bean
+    // @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
@@ -38,7 +38,7 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
+    // @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOriginPatterns(List.of("http://localhost:5173", "http://localhost:5174"));
@@ -52,7 +52,7 @@ public class SecurityConfig {
         return source;
     }
 
-    @Bean
+    // @Bean
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();

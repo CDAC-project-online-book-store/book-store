@@ -1,4 +1,19 @@
 import React, { useState } from 'react';
+
+// Helper to parse JWT token
+function parseJwt(token) {
+  if (!token) return null;
+  try {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(jsonPayload);
+  } catch (e) {
+    return null;
+  }
+}
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { loginUser } from '../services/userService';
 
@@ -13,17 +28,24 @@ function Login() {
         e.preventDefault();
         setError('');
         try {
-            const res = await loginUser({ email, password });
-            const user = res.data;
-            localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('user', JSON.stringify(user));
-            if (state?.redirectTo) {
-                navigate(state.redirectTo, { replace: true, state: state });
-            } else if (user.role?.toLowerCase() === 'admin') {
-                navigate('/admin/dashboard');
-            } else {
-                navigate('/');
-            }
+      const res = await loginUser({ email, password });
+      const user = res.data;
+      // Store JWT token
+      localStorage.setItem('token', user.token);
+      localStorage.setItem('isLoggedIn', 'true');
+      // Parse user info from token
+      const userInfo = parseJwt(user.token);
+      localStorage.setItem('user', JSON.stringify({
+        username: userInfo?.username,
+        role: userInfo?.role
+      }));
+      if (state?.redirectTo) {
+        navigate(state.redirectTo, { replace: true, state: state });
+      } else if (userInfo?.role?.toLowerCase() === 'admin') {
+        navigate('/admin/dashboard');
+      } else {
+        navigate('/');
+      }
         } catch (err) {
             setError(err?.response?.data?.message || 'Invalid email or password');
         }

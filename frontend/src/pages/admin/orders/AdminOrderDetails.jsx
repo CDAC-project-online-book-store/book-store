@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../../../services/api';
 import { useParams, useNavigate } from 'react-router-dom';
 
 const ORDER_STATUSES = ['PENDING', 'SHIPPED', 'DELIVERED', 'CANCELLED'];
@@ -22,7 +22,7 @@ function AdminOrderDetails() {
   const fetchOrderDetails = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`http://localhost:8080/admin/orders/${id}`);
+      const response = await api.get(`/admin/orders/${id}`);
       setOrder(response.data);
       setStatus(response.data.orderStatus);
     } catch (err) {
@@ -39,7 +39,7 @@ function AdminOrderDetails() {
     setUpdating(true);
     setError('');
     try {
-      await axios.put(`http://localhost:8080/admin/${id}/status`, { status });
+      await api.put(`/admin/${id}/status`, { status });
       fetchOrderDetails();
     } catch (err) {
       setError('Failed to update order status');

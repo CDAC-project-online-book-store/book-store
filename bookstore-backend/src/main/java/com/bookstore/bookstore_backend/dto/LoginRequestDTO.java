@@ -25,4 +25,9 @@ public class LoginRequestDTO {
 	@Size(min = 6, max = 256, message = "Password must be 6-256 characters")
 	@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d).+$", message = "Password must contain letters and digits")
 	private String password;
+	
+	// For JWT login, allow username-based login as well
+	public String getUsername() {
+		return email;
+	}
 }

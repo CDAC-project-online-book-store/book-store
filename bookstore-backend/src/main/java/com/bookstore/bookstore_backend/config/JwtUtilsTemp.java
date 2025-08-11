@@ -4,6 +4,7 @@ import java.security.Key;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.crypto.SecretKey;
 
 import org.apache.tomcat.util.buf.UDecoder;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-public class JwtUtils {
+public class JwtUtilsTemp {
 	@Value("${SECRET_KEY}")
 	private String secretKeyBase64;
 

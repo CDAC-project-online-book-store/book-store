@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../../services/api';
 import { useNavigate } from 'react-router-dom';
 import AdminOrderDetails from '../admin/orders/AdminOrderDetails';
 
@@ -29,7 +29,7 @@ function ManageOrders() {
   const fetchOrders = async (pageNum) => {
     setLoading(true);
     try {
-      const response = await axios.get('http://localhost:8080/admin/orders', {
+      const response = await api.get('/admin/orders', {
         params: { page: pageNum, size: PAGE_SIZE }
       });
       setOrders(response.data.content || []);
@@ -43,7 +43,7 @@ function ManageOrders() {
   const fetchOrdersByStatus = async (status, pageNum) => {
     setLoading(true);
     try {
-      const response = await axios.get(`http://localhost:8080/admin/orders/status/${status}`, {
+      const response = await api.get(`/admin/orders/status/${status}`, {
         params: { page: pageNum, size: PAGE_SIZE }
       });
       setOrders(response.data.content || []);

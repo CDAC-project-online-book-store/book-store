@@ -88,7 +88,7 @@ useEffect(() => {
                 <h2 className="mb-3" style={{ color: '#333', borderBottom: '1px solid #e9ecef', paddingBottom: '0.5rem' }}>Quick Actions</h2>
                 <div className="quick-actions d-flex flex-wrap gap-3">
                   <Link to="/admin/books/add" className="btn btn-dark">Add New Book</Link>
-                  <Link to="/admin/users/add" className="btn btn-dark">Add User</Link>
+                  {/* <Link to="/admin/users/add" className="btn btn-dark">Add User</Link> */}
                   <Link to="/admin/orders" className="btn btn-outline-dark">View Orders</Link>
                   <Link to="/admin/analytics" className="btn btn-outline-dark">View Analytics</Link>
                 </div>

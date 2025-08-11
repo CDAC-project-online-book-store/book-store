@@ -13,7 +13,15 @@ import com.bookstore.bookstore_backend.dto.LoginRequestDTO;
 import com.bookstore.bookstore_backend.dto.ProfileDTO;
 import com.bookstore.bookstore_backend.dto.SignupRequestDTO;
 import com.bookstore.bookstore_backend.dto.UserResponseDTO;
+import com.bookstore.bookstore_backend.dto.JwtResponseDTO;
+import com.bookstore.bookstore_backend.security.JwtUtil;
+import com.bookstore.bookstore_backend.security.UserDetailsServiceImpl;
 import com.bookstore.bookstore_backend.service.UserService;
+
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +31,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/users")
 public class UserController {
+
 	private final UserService userService;
+	private final AuthenticationManager authenticationManager;
+	private final JwtUtil jwtUtil;
+	private final UserDetailsServiceImpl userDetailsService;
 		
 	/**
 	 * Register a new user account.
@@ -44,9 +56,26 @@ public class UserController {
 	 */
 	@Operation(summary = "User login", description = "Authenticates user and returns user details if credentials are valid.")
 	@PostMapping("/login")
-	public ResponseEntity<UserResponseDTO> login(@Valid @RequestBody LoginRequestDTO loginRequest){
-		UserResponseDTO response = userService.login(loginRequest);
-		return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
+	public ResponseEntity<JwtResponseDTO> login(@Valid @RequestBody LoginRequestDTO loginRequest){
+		Authentication authentication = authenticationManager.authenticate(
+			new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
+		);
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		String role = userDetails.getAuthorities().iterator().next().getAuthority();
+		// Remove 'ROLE_' prefix if present
+		if (role.startsWith("ROLE_")) {
+			role = role.substring(5);
+		}
+		String token = jwtUtil.generateToken(userDetails.getUsername(), role);
+
+		// Fetch userName from UserEntity using email
+		String userName = "";
+		var userOpt = userService.findByEmail(userDetails.getUsername());
+		if (userOpt.isPresent()) {
+			userName = userOpt.get().getUserName();
+		}
+		JwtResponseDTO response = new JwtResponseDTO(token, userName, role);
+		return ResponseEntity.ok(response);
 	}
 	
 	/**
