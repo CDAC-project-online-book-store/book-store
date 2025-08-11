@@ -40,6 +40,10 @@ public class JwtUtils {
     public void init() {
         try {
             byte[] keyBytes = Decoders.BASE64.decode(secretKeyBase64);
+            
+            if(keyBytes.length<32)
+            	throw new IllegalStateException("JWT secret key must be at least 256 bits (32 bytes) for HS256");
+            
             key = Keys.hmacShaKeyFor(keyBytes);
             log.debug("JwtUtils initialized (keyBytes={} expMs={})", keyBytes.length, jwtExpirationMs);
         } catch (Exception e) {
@@ -104,9 +108,11 @@ public class JwtUtils {
     public List<String> extractAuthorities(String token) {
         Claims claims = extractAllClaims(token);
         Object authObj = claims.get("authorities");
-        if (authObj instanceof List) {
-            //noinspection unchecked
-            return (List<String>) authObj;
+        if (authObj instanceof List<?> list) {
+            return list.stream()
+                       .filter(String.class::isInstance)
+                       .map(String.class::cast)
+                       .toList();
         }
         return List.of();
     }
