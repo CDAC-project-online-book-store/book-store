@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Plus from "../../assets/icons/plus.svg?react";
 import Minus from "../../assets/icons/minus.svg?react";
 import api from "../../services/api";
+import { createOrder } from "../../services/orderService";
 import { getBookByIsbn } from "../../services/publicBookService";
 
 const Checkout = () => {
@@ -90,17 +91,16 @@ const Checkout = () => {
       return;
     }
     try {
-      // Create a minimal order: userId, addressId, orderItems with one item (price and quantity), status PENDING
       const payload = {
         userId: user.id,
         addressId: selectedAddressId,
         bookId: book.id,
-        orderItems: [
-          { quantity, price: book.price }
-        ],
-        orderStatus: 'PENDING'
+        orderItems: [ { quantity, price: book.price } ],
+        orderStatus: 'PENDING',
+        totalAmount: orderTotal,
+        deliveryCharge
       };
-      await api.post('/order', payload);
+      await createOrder(payload);
       navigate('/payment/order-placed', { replace: true, state: { book, quantity, total: orderTotal } });
     } catch (e) {
       alert('Failed to place order');
@@ -123,7 +123,7 @@ const Checkout = () => {
                   <div className="fw-semibold">{book.title}</div>
                   <div className="fw-bold text-success">{book.price} rupees</div>
                 </div>
-                <button type="button" onClick={handleRemoveItem} className="btn btn-link text-danger text-decoration-none mt-2 p-0">Remove item</button>
+                <button type="button" onClick={handleRemoveItem} className="btn btn-link text-danger text-decoration-none mt-2 p-0">Cancel</button>
               </div>
 
               <div className="d-flex flex-column align-items-end justify-content-between ms-3">

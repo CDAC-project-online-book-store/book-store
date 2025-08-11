@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -23,12 +22,10 @@ import com.bookstore.bookstore_backend.dto.OrderRequestDTO;
 import com.bookstore.bookstore_backend.entities.OrderEntity;
 import com.bookstore.bookstore_backend.entities.OrderItemEntity;
 import com.bookstore.bookstore_backend.entities.OrderStatus;
-import com.bookstore.bookstore_backend.entities.PaymentDetailsEntity;
 import com.bookstore.bookstore_backend.entities.UserEntity;
 
 import com.bookstore.bookstore_backend.entities.AddressEntity;
 import com.bookstore.bookstore_backend.entities.BookEntity;
-import com.bookstore.bookstore_backend.custom_exceptions.ResourceNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
@@ -40,7 +37,7 @@ public class OrderServiceImpl implements OrderService {
 	private final OrderDao orderDao;
 	private final UserDao userDao;
 	private final AddressDao addressDao;
-	private final PaymentDao paymentDao;
+    private final PaymentDao paymentDao; // reserved for future use
 	private final BookDao bookDao;
 	private final ModelMapper modelMapper;
 
@@ -85,15 +82,15 @@ public class OrderServiceImpl implements OrderService {
 	 * * @return OrderDTO containing created order details * This method creates a
 	 * new order based on the provided OrderRequestDTO.
 	 */
-	@Override
-	public List<OrderDTO> getAllOrders() {
-		return orderDao.findAll().stream().map(orders -> modelMapper.map(orders, OrderDTO.class)).toList();
-	}
+    @Override
+    public List<OrderDTO> getAllOrders() {
+        return orderDao.findAll().stream().map(this::mapToOrderDTO).toList();
+    }
 
 	@Override
-	public OrderDTO getOrderById(Long id) {
-		return orderDao.findById(id).map(orders -> modelMapper.map(orders, OrderDTO.class)).orElse(null);
-	}
+    public OrderDTO getOrderById(Long id) {
+        return orderDao.findById(id).map(this::mapToOrderDTO).orElse(null);
+    }
 
 	@Override
 	public String getOrderStatus(Long id) {
@@ -118,7 +115,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public OrderDTO createOrder(OrderDTO orderDTO) {
+    public OrderDTO createOrder(OrderDTO orderDTO) {
         // Validate and fetch references
         UserEntity user = userDao.findById(orderDTO.getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
@@ -142,16 +139,32 @@ public class OrderServiceImpl implements OrderService {
             }
         }
 
+        // if client passes precomputed totals, use them; otherwise compute
+        if (orderDTO.getTotalAmount() != null) {
+            order.setTotalAmount(orderDTO.getTotalAmount());
+        } else {
+            double total = 0.0;
+            if (order.getOrderItems() != null) {
+                for (OrderItemEntity item : order.getOrderItems()) {
+                    total += item.getPrice() * item.getQuantity();
+                }
+            }
+            order.setTotalAmount(total);
+        }
+        if (orderDTO.getDeliveryCharge() != null) {
+            order.setDeliveryCharge(orderDTO.getDeliveryCharge());
+        }
+
         OrderEntity savedOrder = orderDao.save(order);
-        return modelMapper.map(savedOrder, OrderDTO.class);
+        return mapToOrderDTO(savedOrder);
 	}
 
 	@Override
-	public List<OrderDTO> getOrdersByUser(Long userId) {
-		return orderDao.findByUserId(userId).stream()
-				.map(o -> modelMapper.map(o, OrderDTO.class))
-				.toList();
-	}
+    public List<OrderDTO> getOrdersByUser(Long userId) {
+        return orderDao.findByUserId(userId).stream()
+                .map(this::mapToOrderDTO)
+                .toList();
+    }
 
 	// Admin methods for managing orders
 
@@ -285,4 +298,28 @@ public class OrderServiceImpl implements OrderService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+    @Override
+    public OrderDTO updateOrderStatusForUser(Long orderId, String status) {
+        OrderEntity order = orderDao.findById(orderId)
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found with id " + orderId));
+        order.setOrderStatus(OrderStatus.valueOf(status.toUpperCase()));
+        OrderEntity saved = orderDao.save(order);
+        return mapToOrderDTO(saved);
+    }
+
+    private OrderDTO mapToOrderDTO(OrderEntity order) {
+        OrderDTO dto = modelMapper.map(order, OrderDTO.class);
+        if (order.getBook() != null) {
+            dto.setBookId(order.getBook().getId());
+        }
+        // Ensure orderItems DTOs exist
+        if (order.getOrderItems() != null) {
+            dto.setOrderItems(order.getOrderItems().stream()
+                    .map(item -> modelMapper.map(item, com.bookstore.bookstore_backend.dto.OrderItemDTO.class))
+                    .toList());
+        }
+        dto.setTotalAmount(order.getTotalAmount());
+        return dto;
+    }
 }

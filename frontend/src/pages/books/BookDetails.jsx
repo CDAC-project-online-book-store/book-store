@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getAdminBookById } from '../../services/adminBookService';
 import { getBookByIsbn } from '../../services/publicBookService';
-import AddToCartButton from '../../components/AddToCartButton';
+import { getAverageRating, getReviewsForBook } from '../../services/reviewService';
 import BuyNowButton from '../../components/BuyNowButton';
 import { getUserRole } from '../../utils/getUserRole';
 
@@ -10,10 +10,12 @@ function BookDetails() {
   const { id, isbn } = useParams();
   const [book, setBook] = useState(null);
   const [coverUrl, setCoverUrl] = useState("");
-  const [quantity, setQuantity] = useState(1);
+  // Quantity control removed; default buy quantity is 1
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [selectedRating, setSelectedRating] = useState(0);
+  const [selectedRating, setSelectedRating] = useState(0); // no longer used for display; kept for potential future UX
+  const [averageRating, setAverageRating] = useState(null);
+  const [reviews, setReviews] = useState([]);
   const navigate = useNavigate();
   const role = getUserRole();
 
@@ -40,11 +42,14 @@ function BookDetails() {
     }
   }, [id, isbn, role]);
 
+  useEffect(() => {
+    if (book?.id) {
+      getAverageRating(book.id).then(r => setAverageRating(r.data ?? 0)).catch(() => setAverageRating(0));
+      getReviewsForBook(book.id).then(r => setReviews(r.data || [])).catch(() => setReviews([]));
+    }
+  }, [book?.id]);
+
   const handleStarClick = (index) => setSelectedRating(index + 1);
-  const handleAddToCart = () => {
-    // TODO: Call addToCart service
-    alert('Added to cart!');
-  };
   const handleBuyNow = () => {
     const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
     const user = JSON.parse(localStorage.getItem('user'));
@@ -53,8 +58,8 @@ function BookDetails() {
       navigate('/login', { replace: true, state: { redirectTo: `/payment/checkout`, buyNow: { isbn: book.isbn, quantity: Number(quantity) } } });
       return;
     }
-    // navigate to checkout with book info
-    navigate('/payment/checkout', { state: { book, quantity: Number(quantity), buyNow: { isbn: book.isbn, quantity: Number(quantity) } } });
+    // navigate to checkout with book info; default quantity = 1
+    navigate('/payment/checkout', { state: { book, quantity: 1, buyNow: { isbn: book.isbn, quantity: 1 } } });
   };
 
   if (loading) return <div className="container mt-4">Loading...</div>;
@@ -98,62 +103,55 @@ function BookDetails() {
                 : (typeof book.category === 'object' ? book.category.name : book.category)
             }</div>
             <div className="mb-3"><strong>Publication Date:</strong> {book.publicationDate}</div>
-            <div className="mb-3"><strong>Rating:</strong> {book.rating}</div>
+            <div className="mb-3"><strong>Rating:</strong> {averageRating ?? book.rating ?? 0}</div>
             <div className="mb-3"><strong>Description:</strong> {book.description}</div>
             <div className="d-flex mt-4 gap-2">
               <button className="btn btn-outline-secondary me-2" onClick={() => navigate(-1)}>Back</button>
               {(role?.toLowerCase() === 'customer' || role?.toLowerCase() === 'unregistered') && <>
                 <BuyNowButton onClick={handleBuyNow} />
-                <AddToCartButton onClick={handleAddToCart} />
-                <input type="number" value={quantity} min="1" onChange={e => setQuantity(e.target.value)} className="form-control w-auto ms-2" style={{ maxWidth: '80px' }} />
               </>}
             </div>
             <div className="mt-4">
-              <strong>Your Rating:</strong>
-              <div>
-                {[...Array(5)].map((_, idx) => (
-                  <span
-                    key={idx}
-                    className={`fs-4 me-1 ${selectedRating > idx ? 'text-warning' : 'text-secondary'}`}
-                    style={{ cursor: 'pointer' }}
-                    onClick={() => handleStarClick(idx)}
+              <strong>Rating:</strong> {typeof averageRating === 'number' ? averageRating.toFixed(1) : (book.rating ?? 0)}
+              <div aria-label={`Average rating ${typeof averageRating === 'number' ? averageRating.toFixed(1) : (book.rating ?? 0)} out of 5`}>
+                <div style={{ position: 'relative', display: 'inline-block', lineHeight: 1 }}>
+                  <div style={{ color: '#ccc' }}>★★★★★</div>
+                  <div
+                    style={{
+                      color: '#ffc107',
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: `${Math.min(Math.max(((Number(averageRating ?? book.rating ?? 0) / 5) * 100), 0), 100)}%`,
+                      overflow: 'hidden',
+                      whiteSpace: 'nowrap'
+                    }}
                   >
-                    ★
-                  </span>
-                ))}
+                    ★★★★★
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      {/* Reviews Section (static for now) */}
       <div className="card p-4 shadow-sm mt-4">
         <h4 className="mb-3">Reviews</h4>
-        {/* Example reviews, replace with dynamic if needed */}
-        <div className="card mb-3">
-          <div className="row g-0 align-items-center">
-            <div className="col-md-2 text-center p-2">
-              <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User Avatar" className="img-fluid rounded-circle" style={{ width: '60px', height: '60px', objectFit: 'cover' }} />
-              <p className="mb-0 mt-1"><strong>John Doe</strong></p>
-            </div>
-            <div className="col-md-10 p-2">
-              <p className="mb-1 text-warning">★★★★☆</p>
-              <textarea className="form-control" defaultValue="Engaging and thrilling read!" />
-            </div>
-          </div>
-        </div>
-        <div className="card mb-3">
-          <div className="row g-0 align-items-center">
-            <div className="col-md-2 text-center p-2">
-              <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User Avatar" className="img-fluid rounded-circle" style={{ width: '60px', height: '60px', objectFit: 'cover' }} />
-              <p className="mb-0 mt-1"><strong>Jane Smith</strong></p>
-            </div>
-            <div className="col-md-10 p-2">
-              <p className="mb-1 text-warning">★★★★★</p>
-              <textarea className="form-control" defaultValue="Classic fantasy that never gets old." />
+        {reviews.length === 0 && <div className="text-muted">No reviews yet.</div>}
+        {reviews.map(r => (
+          <div key={r.id} className="card mb-3">
+            <div className="row g-0 align-items-center">
+              <div className="col-md-2 text-center p-2">
+                <div className="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center" style={{ width: '60px', height: '60px' }}>{(r.userName || 'U').slice(0,1).toUpperCase()}</div>
+                <p className="mb-0 mt-1"><strong>{r.userName}</strong></p>
+              </div>
+              <div className="col-md-10 p-2">
+                <p className="mb-1 text-warning">{'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}</p>
+                <div className="form-control-plaintext">{r.comments}</div>
+              </div>
             </div>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );
