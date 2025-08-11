@@ -1,5 +1,6 @@
 package com.bookstore.bookstore_backend.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,14 +23,27 @@ public class ReviewController {
 
 	private final ReviewService reviewService;
 
+	/**
+	 * Get the average rating for a book.
+	 * @param bookId ID of the book
+	 * @return Average rating value
+	 */
+	@Operation(summary = "Get average rating for a book", description = "Returns the average rating for the specified book ID.")
 	@GetMapping("/average-rating/{bookId}")
 	public @ResponseBody Double getAverageRating(@PathVariable Long bookId) {
 		return reviewService.getAverageRatingForBook(bookId);
 	}
 
+	/**
+	 * Add a new review for a book.
+	 * @param request Review details
+	 * @return Created review
+	 */
+	@Operation(summary = "Add a new review", description = "Creates and returns a new review for a book.")
 	@PostMapping
 	public ResponseEntity<ReviewDTO> addReview(@RequestBody ReviewRequestDTO request) {
 		ReviewDTO createdReview = reviewService.addReview(request);
 		return ResponseEntity.ok(createdReview);
 	}
+
 }

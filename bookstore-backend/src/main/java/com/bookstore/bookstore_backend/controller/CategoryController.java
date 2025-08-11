@@ -1,4 +1,5 @@
 package com.bookstore.bookstore_backend.controller;
+import io.swagger.v3.oas.annotations.Operation;
 
 import java.util.List;
 
@@ -24,16 +25,34 @@ public class CategoryController {
 	@Autowired
 	private CategoryService categoryService;
 
+	/**
+	 * Get all categories.
+	 * @return List of all categories
+	 */
+	@Operation(summary = "Get all categories", description = "Returns a list of all book categories.")
 	@GetMapping
 	public List<CategoryDTO> getAllCategories() {
 		return categoryService.getAllCategories();
 	}
 
+	/**
+	 * Add a new category.
+	 * @param categoryDTO Category details
+	 * @return Created category
+	 */
+	@Operation(summary = "Add a new category", description = "Creates and returns a new book category.")
 	@PostMapping
 	public CategoryDTO addCategory(@RequestBody CategoryDTO categoryDTO) {
 		return categoryService.addCategory(categoryDTO);
 	}
 
+	/**
+	 * Add a category to a book.
+	 * @param bookId Book ID
+	 * @param dto Category details
+	 * @return Created category
+	 */
+	@Operation(summary = "Add category to book", description = "Adds a category to the specified book and returns the category.")
 	@PostMapping("/{bookId}")
 	public ResponseEntity<CategoryDTO> addCategory(@PathVariable Long bookId, @RequestBody CategoryDTO dto) {
 		CategoryDTO createdCategory = categoryService.addCategoryToBook(bookId, dto);
