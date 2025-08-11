@@ -10,7 +10,6 @@ import com.bookstore.bookstore_backend.dto.OrderDTO;
 import com.bookstore.bookstore_backend.dto.OrderRequestDTO;
 import com.bookstore.bookstore_backend.entities.OrderStatus;
 
-import jakarta.validation.Valid;
 
 public interface OrderService {
 
@@ -41,6 +40,8 @@ public interface OrderService {
 	Page<AdminOrderRespDTO> getOrdersByStatus(OrderStatus status, Pageable pageable);
     
 	List<OrderDTO> getOrdersByUser(Long userId);
+
+    OrderDTO updateOrderStatusForUser(Long orderId, String status);
 
 }
 
