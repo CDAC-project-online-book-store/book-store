@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	private final JwtUtils jwtUtils;
-	private final UserDetailsService userDetailsService;
+//	private final UserDetailsService userDetailsService;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -55,20 +55,35 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		}
 
 		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-			var userDetails = userDetailsService.loadUserByUsername(username);
-
-			if (jwtUtils.validateToken(token, userDetails.getUsername())) {
+			if (jwtUtils.validateToken(token, username)) {
 				List<String> authNames = jwtUtils.extractAuthorities(token);
-				var authorities = authNames.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
-				var auth = new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
+
+				var authorities = authNames.stream().map(auth -> auth.startsWith("ROLE_") ? auth : "ROLE_" + auth)
+						.map(SimpleGrantedAuthority::new).toList();
+
+				var auth = new UsernamePasswordAuthenticationToken(username, null, authorities);
 				SecurityContextHolder.getContext().setAuthentication(auth);
-				log.debug("Authenticated user {} via JWT", username);
-			}
-			else {
+				log.debug("Authenticated user {} via JWT (claims only, no DB hit)", username);
+			} else {
 				log.debug("Token validation failed for {}", username);
 			}
 		}
-		
+
+//		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+//			var userDetails = userDetailsService.loadUserByUsername(username);
+//
+//			if (jwtUtils.validateToken(token, userDetails.getUsername())) {
+//				List<String> authNames = jwtUtils.extractAuthorities(token);
+//				var authorities = authNames.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+//				var auth = new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
+//				SecurityContextHolder.getContext().setAuthentication(auth);
+//				log.debug("Authenticated user {} via JWT", username);
+//			}
+//			else {
+//				log.debug("Token validation failed for {}", username);
+//			}
+//		}
+
 		filterChain.doFilter(request, response);
 
 	}
