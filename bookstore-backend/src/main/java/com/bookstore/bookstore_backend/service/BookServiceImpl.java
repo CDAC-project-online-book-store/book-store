@@ -38,6 +38,27 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
+	public List<BookRespDTO> searchBooks(String title, String category, String author, Double priceMin, Double priceMax) {
+		List<BookEntity> books = bookDao.findByIsActiveTrue();
+		if (title != null && !title.isEmpty()) {
+			books = books.stream().filter(b -> b.getTitle() != null && b.getTitle().toLowerCase().contains(title.toLowerCase())).toList();
+		}
+		if (category != null && !category.isEmpty()) {
+			books = books.stream().filter(b -> b.getCategories().stream().anyMatch(c -> c.getName().equalsIgnoreCase(category))).toList();
+		}
+		if (author != null && !author.isEmpty()) {
+			books = books.stream().filter(b -> b.getAuthors().stream().anyMatch(a -> a.getAuthor().equalsIgnoreCase(author))).toList();
+		}
+		if (priceMin != null) {
+			books = books.stream().filter(b -> b.getPrice() >= priceMin).toList();
+		}
+		if (priceMax != null) {
+			books = books.stream().filter(b -> b.getPrice() <= priceMax).toList();
+		}
+		return books.stream().map(this::mapToDto).toList();
+	}
+
+	@Override
 	public List<BookRespDTO> getAllBooksIncludingInactive() {
 		List<BookEntity> books = bookDao.findAll();
 		return books.stream().map(this::mapToDto).collect(Collectors.toList());

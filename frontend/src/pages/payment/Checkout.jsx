@@ -99,7 +99,7 @@ const Checkout = () => {
           { bookId: book.id, quantity, price: book.price }
         ],
         orderStatus: 'PENDING'
-      };
+      }; 
       await api.post('/order', payload);
       navigate('/payment/order-placed', { replace: true, state: { book, quantity, total: orderTotal } });
     } catch (e) {

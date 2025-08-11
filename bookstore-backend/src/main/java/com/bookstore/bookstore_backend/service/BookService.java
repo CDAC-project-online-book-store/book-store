@@ -36,4 +36,6 @@ public interface BookService {
 	BookRespDTO updateBook(Long id, @Valid AdminUpdateBookDTO bookDTO);
 
 	void softDeleteBook(Long id);
+
+	List<BookRespDTO> searchBooks(String title, String category, String author, Double priceMin, Double priceMax);
 }

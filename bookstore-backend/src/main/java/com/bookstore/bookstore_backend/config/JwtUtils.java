@@ -58,4 +58,20 @@ public class JwtUtils {
 		return generateToken(subject,auths);
 	}
 
+	/**
+	 * Generates a JWT token for the given subject and authorities.
+	 * @param subject Username or user identifier
+	 * @param auths List of authorities/roles
+	 * @return JWT token as String
+	 */
+	public String generateToken(String subject, List<String> auths) {
+		return io.jsonwebtoken.Jwts.builder()
+			.setSubject(subject)
+			.claim("roles", auths)
+			.setIssuedAt(new java.util.Date())
+			.setExpiration(new java.util.Date(System.currentTimeMillis() + jwtExpirationMs))
+			.signWith(key)
+			.compact();
+	}
+
 }

@@ -38,6 +38,19 @@ public class BookController {
 		return ResponseEntity.ok(books);
 	}
 
+	@GetMapping("/search")
+	@Operation(description = "Search and filter books by title, category, author, price range")
+	public ResponseEntity<List<BookRespDTO>> searchBooks(
+			@RequestParam(required = false) String title,
+			@RequestParam(required = false) String category,
+			@RequestParam(required = false) String author,
+			@RequestParam(required = false) Double priceMin,
+			@RequestParam(required = false) Double priceMax
+	) {
+		List<BookRespDTO> books = bookService.searchBooks(title, category, author, priceMin, priceMax);
+		return ResponseEntity.ok(books);
+	}
+
 	@GetMapping("/all")
 	@Operation(description = "Books including out of stock")
 	public ResponseEntity<List<BookRespDTO>> getAllBooksIncludingInactive() {
