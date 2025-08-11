@@ -8,7 +8,7 @@ const OrderPlaced = () => {
     <div className="container mt-5">
       <div className="card p-5 text-center shadow-sm">
         <h3>Your Order is placed</h3>
-        <button className="btn btn-primary mt-3" onClick={() => navigate('/user/order-history')}>Go to Order History</button>
+        <button className="btn btn-primary mt-3" onClick={() => navigate('/user/order-history', { replace: true })}>Go to Order History</button>
       </div>
     </div>
   );
