@@ -62,12 +62,12 @@ VALUES
 (NOW(), DATE_ADD(NOW(), INTERVAL 7 DAY), 'SHIPPED', 4, 4, 1);
 
 -- Insert sample order items
-INSERT INTO order_item (book_id, order_id, price, quantity, is_active)
+INSERT INTO order_item ( order_id, price, quantity, is_active)
 VALUES 
-(1, 1, 45.99, 1, 1),
-(2, 1, 39.99, 2, 1),
-(3, 2, 49.99, 1, 1),
-(4, 3, 59.99, 1, 1);
+( 1, 45.99, 1, 1),
+( 1, 39.99, 2, 1),
+( 2, 49.99, 1, 1),
+( 3, 59.99, 1, 1);
 
 -- Insert sample payment details
 INSERT INTO payment_detail (amount, contact, currency, email, method, payment_status, razorpay_order_id, razorpay_payment_id, order_id, is_active)

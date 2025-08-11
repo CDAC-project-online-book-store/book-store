@@ -3,7 +3,6 @@ import io.swagger.v3.oas.annotations.Operation;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,18 +10,17 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bookstore.bookstore_backend.dto.OrderDTO;
-import com.bookstore.bookstore_backend.dto.OrderRequestDTO;
+import com.bookstore.bookstore_backend.dto.OrderStatusUpdateDTO;
 import com.bookstore.bookstore_backend.service.OrderService;
 
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 @CrossOrigin(origins = "http://localhost:5173", maxAge = 3600) // Allow all origins, adjust as needed
 @RestController
@@ -116,5 +114,11 @@ public class OrderController {
 	public ResponseEntity<List<OrderDTO>> getOrdersbyStatus(@PathVariable String status) {
 		return new ResponseEntity<>(orderService.getAllOrderswithStatus(status), HttpStatus.OK);
 	}
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<OrderDTO> updateOrderStatus(@PathVariable Long id, @RequestBody OrderStatusUpdateDTO status) {
+        OrderDTO updated = orderService.updateOrderStatusForUser(id, status.getStatus());
+        return ResponseEntity.ok(updated);
+    }
 
 }

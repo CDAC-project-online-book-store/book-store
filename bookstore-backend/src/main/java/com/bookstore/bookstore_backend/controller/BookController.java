@@ -65,6 +65,14 @@ public class BookController {
 		return ResponseEntity.ok(book);
 	}
 
+	@GetMapping("/{id}")
+	@Operation(description = "Get book by ID")
+	public ResponseEntity<?> getBookById(@PathVariable Long id) {
+		BookRespDTO book = bookService.getBookById(id);
+		if (book == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		return ResponseEntity.ok(book);
+	}
+
 	@GetMapping("/search/title")
 	@Operation(summary = "Search books by title", description = "Returns books whose title contains the specified substring.")
 	public ResponseEntity<List<BookRespDTO>> searchBooks(@RequestParam String title) {

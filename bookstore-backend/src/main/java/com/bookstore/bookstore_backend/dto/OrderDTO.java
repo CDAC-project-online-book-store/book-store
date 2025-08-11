@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @Data
@@ -16,6 +17,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 @ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 // DTO for order get order status
 public class OrderDTO extends BaseDTO {
 
@@ -31,4 +33,7 @@ public class OrderDTO extends BaseDTO {
     private LocalDateTime orderDate;
     private OrderStatus orderStatus;
     private LocalDateTime deliveryDate;
+
+    private Double totalAmount;
+    private Double deliveryCharge;
 }
