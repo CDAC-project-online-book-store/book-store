@@ -60,6 +60,12 @@ public class OrderEntity extends BaseEntity {
 	@Column(name = "delivery_date")
 	private LocalDateTime deliveryDate;
 
+    @Column(name = "total_amount")
+    private Double totalAmount;
+
+    @Column(name = "delivery_charge")
+    private Double deliveryCharge;
+
 	public OrderEntity(Long id, LocalDateTime createdOn, LocalDateTime updatedOn, Boolean isActive,
 			LocalDateTime orderDate, OrderStatus orderStatus, LocalDateTime deliveryDate) {
 		super(id, createdOn, updatedOn, isActive);

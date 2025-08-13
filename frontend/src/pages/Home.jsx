@@ -12,13 +12,16 @@ function Home() {
 
   useEffect(() => {
     getBooks()
-      .then(res => setBooks(res.data))
+      .then(res => {
+        const data = Array.isArray(res?.data) ? res.data : [];
+        setBooks(data);
+      })
       .catch(() => setError("Failed to fetch books."))
       .finally(() => setLoading(false));
   }, []);
 
   // Group books by category
-  const booksByCategory = books.reduce((acc, book) => {
+  const booksByCategory = (Array.isArray(books) ? books : []).reduce((acc, book) => {
     const category = book.category || (Array.isArray(book.categories) ? book.categories[0] : 'Uncategorized');
     if (!acc[category]) acc[category] = [];
     acc[category].push(book);

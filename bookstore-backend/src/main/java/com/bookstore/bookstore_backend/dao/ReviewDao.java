@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.bookstore.bookstore_backend.entities.ReviewEntity;
+import java.util.List;
+import java.util.Optional;
 
 public interface ReviewDao extends JpaRepository<ReviewEntity, Long> {
 
@@ -13,4 +15,7 @@ public interface ReviewDao extends JpaRepository<ReviewEntity, Long> {
 
 	boolean existsByUserIdAndBookId(Long userId, Long bookId);
 
+    Optional<ReviewEntity> findByUserIdAndBookId(Long userId, Long bookId);
+
+    List<ReviewEntity> findByBookId(Long bookId);
 }
