@@ -54,7 +54,7 @@ const Checkout = () => {
       }
       // fetch addresses for user
       try {
-        const res = await api.get(`/addresses/get`, { params: { userId: user.id } });
+        const res = await api.get(`/addresses/get`, { params: { userId: user.userId } });
         setAddresses(res.data || []);
         if ((res.data || []).length > 0) setSelectedAddressId(res.data[0].id);
       } catch (e) {
@@ -92,7 +92,7 @@ const Checkout = () => {
     }
     try {
       const payload = {
-        userId: user.id,
+        userId: user.userId,
         addressId: selectedAddressId,
         bookId: book.id,
         orderItems: [

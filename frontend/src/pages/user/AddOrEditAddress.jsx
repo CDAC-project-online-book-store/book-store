@@ -22,7 +22,7 @@ const AddOrEditAddress = () => {
         try {
             setLoading(true);
             const user = JSON.parse(localStorage.getItem('user'));
-            const response = await api.get(`/addresses/get`, { params: { userId: user.id } });
+            const response = await api.get(`/addresses/get`, { params: { userId: user.userId } });
             const address = response.data.find(addr => addr.id === parseInt(location.state.addressId));
             if (address) {
                 setExisting({
@@ -58,9 +58,9 @@ const AddOrEditAddress = () => {
         };
         try {
             if (isEdit && location.state?.addressId) {
-                await api.put(`/addresses/edit`, payload, { params: { userId: user.id, addressId: location.state.addressId } });
+                await api.put(`/addresses/edit`, payload, { params: { userId: user.userId, addressId: location.state.addressId } });
             } else {
-                await api.post(`/addresses/create`, payload, { params: { userId: user.id } });
+                await api.post(`/addresses/create`, payload, { params: { userId: user.userId } });
             }
             const redirectTo = location.state?.redirectTo || '/user/addresses';
             const fromCheckout = location.state?.fromCheckout;

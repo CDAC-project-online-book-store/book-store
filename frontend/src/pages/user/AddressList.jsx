@@ -15,11 +15,11 @@ const AddressList = () => {
   const fetchAddresses = async () => {
     try {
       const user = JSON.parse(localStorage.getItem('user'));
-      if (user && user.id) {
-        console.log('Fetching addresses for user:', user.id);
-        console.log('API URL:', `${api.defaults.baseURL}addresses/get?userId=${user.id}`);
+      if (user && user.userId) {
+        console.log('Fetching addresses for user:', user.userId);
+        console.log('API URL:', `${api.defaults.baseURL}addresses/get?userId=${user.userId}`);
         
-        const response = await api.get('/addresses/get', { params: { userId: user.id } });
+        const response = await api.get('/addresses/get', { params: { userId: user.userId } });
         console.log('Addresses response:', response.data);
         setAddresses(response.data);
       } else {
@@ -57,18 +57,18 @@ const AddressList = () => {
     if (confirmDelete) {
       try {
         const user = JSON.parse(localStorage.getItem('user'));
-        if (!user || !user.id) {
+        if (!user || !user.userId) {
           alert('User not found. Please login again.');
           return;
         }
         
-        console.log('Deleting address with ID:', addressId, 'for user:', user.id);
-        console.log('Delete URL:', `/addresses/${addressId}?userId=${user.id}`);
-        console.log('Full API URL:', `${api.defaults.baseURL}addresses/${addressId}?userId=${user.id}`);
+        console.log('Deleting address with ID:', addressId, 'for user:', user.userId);
+        console.log('Delete URL:', `/addresses/${addressId}?userId=${user.userId}`);
+        console.log('Full API URL:', `${api.defaults.baseURL}addresses/${addressId}?userId=${user.userId}`);
         
         // Make the delete request
         console.log('Making DELETE request...');
-        const response = await api.delete(`/addresses/${addressId}?userId=${user.id}`);
+        const response = await api.delete(`/addresses/${addressId}?userId=${user.userId}`);
         console.log('Delete response status:', response.status);
         console.log('Delete response data:', response.data);
         console.log('Delete response headers:', response.headers);

@@ -30,7 +30,7 @@ const UserNavbar = () => {
             </div>
           </Link>
           <div className="d-flex align-items-center ms-auto">
-            <span className="me-3 fw-bold text-primary">{user ? `Hi, ${user.userName}` : ''}</span>
+            <span className="me-3 fw-bold text-primary">{user ? `Hi, ${user.userName || user.username}` : ''}</span>
             <Link className="btn btn-secondary" to="/user/dashboard"><FaRegUserCircle /> Dashboard</Link>
             <button className="btn btn-outline-danger ms-2" onClick={handleLogout}>Logout</button>
           </div>

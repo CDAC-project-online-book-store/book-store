@@ -70,8 +70,8 @@ function OrderHistory() {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        if (!user?.id) { setOrders([]); return; }
-        const res = await getOrdersByUser(user.id);
+        if (!user?.userId) { setOrders([]); return; }
+        const res = await getOrdersByUser(user.userId);
         setOrders(res.data || []);
       } catch (e) {
         setOrders([]);
@@ -83,7 +83,7 @@ function OrderHistory() {
   const handleCancel = async (orderId) => {
     try {
       await updateOrderStatus(orderId, 'CANCELLED');
-      const res = await getOrdersByUser(user.id);
+      const res = await getOrdersByUser(user.userId);
       setOrders(res.data || []);
     } catch (e) {
       alert('Failed to cancel order');

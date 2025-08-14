@@ -33,11 +33,13 @@ function Login() {
       // Store JWT token
       localStorage.setItem('token', user.token);
       localStorage.setItem('isLoggedIn', 'true');
-      // Parse user info from token
+      // Store username from backend response, role from response or token
       const userInfo = parseJwt(user.token);
       localStorage.setItem('user', JSON.stringify({
-        username: userInfo?.username,
-        role: userInfo?.role
+        username: user.username,
+        userName: user.username,
+        userId: user.userId,
+        role: user.role || userInfo?.role
       }));
       if (state?.redirectTo) {
         navigate(state.redirectTo, { replace: true, state: state });

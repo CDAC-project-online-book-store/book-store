@@ -73,7 +73,9 @@ const AddressForm = ({ initialData = {}, onSubmit, mode = 'add' }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(formData);
+    const user = JSON.parse(localStorage.getItem('user'));
+    const userId = user?.userId;
+    onSubmit({ ...formData, userId });
   };
 
   return (

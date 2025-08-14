@@ -37,7 +37,7 @@ function Reviews() {
       return;
     }
     try {
-      const payload = { userId: user.id, bookId, rating, comments: review };
+      const payload = { userId: user.userId, bookId, rating, comments: review };
       if (isUpdate) {
         await updateReview(payload);
       } else {
