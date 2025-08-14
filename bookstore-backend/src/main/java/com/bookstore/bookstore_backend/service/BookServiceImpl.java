@@ -4,9 +4,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import com.bookstore.bookstore_backend.custom_exceptions.ResourceNotFoundException;
 import com.bookstore.bookstore_backend.dao.AuthorDao;
 import com.bookstore.bookstore_backend.dao.BookDao;
 import com.bookstore.bookstore_backend.dao.CategoryDao;
@@ -61,7 +64,11 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public List<BookRespDTO> getAllBooksIncludingInactive() {
 		List<BookEntity> books = bookDao.findAll();
-		return books.stream().map(this::mapToDto).collect(Collectors.toList());
+		if (books.isEmpty()) {
+			throw new ResourceNotFoundException ("No books found");
+		}
+		return books.stream().map(b -> mapToDto(b)).collect(Collectors.toList());								
+		//return books.stream().map(this::mapToDto).collect(Collectors.toList());
 	}
 
 	private BookRespDTO mapToDto(BookEntity entity) {

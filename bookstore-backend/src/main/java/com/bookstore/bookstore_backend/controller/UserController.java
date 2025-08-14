@@ -70,11 +70,13 @@ public class UserController {
 
 		// Fetch userName from UserEntity using email
 		String userName = "";
+		Long userId = null;
 		var userOpt = userService.findByEmail(userDetails.getUsername());
 		if (userOpt.isPresent()) {
 			userName = userOpt.get().getUserName();
+			userId = userOpt.get().getId();
 		}
-		JwtResponseDTO response = new JwtResponseDTO(token, userName, role);
+		JwtResponseDTO response = new JwtResponseDTO(token, userName, role, userId);
 		return ResponseEntity.ok(response);
 	}
 	
