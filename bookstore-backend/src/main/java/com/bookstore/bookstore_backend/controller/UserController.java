@@ -1,6 +1,6 @@
 package com.bookstore.bookstore_backend.controller;
-import io.swagger.v3.oas.annotations.Operation;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.bookstore.bookstore_backend.dto.LoginRequestDTO;
 import com.bookstore.bookstore_backend.dto.ProfileDTO;
 import com.bookstore.bookstore_backend.dto.SignupRequestDTO;
@@ -48,6 +47,7 @@ public class UserController {
 		UserResponseDTO response = userService.login(loginRequest);
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
 	}
+
 	
 	/**
 	 * Update user profile settings.

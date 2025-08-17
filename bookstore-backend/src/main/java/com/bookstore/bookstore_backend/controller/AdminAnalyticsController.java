@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 @RequestMapping("/admin/analytics")
 @AllArgsConstructor
 public class AdminAnalyticsController {
-
+ 
 	private final AdminAnalyticsService analyticsService;
 
     /**

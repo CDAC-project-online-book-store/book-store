@@ -51,7 +51,7 @@ public class AddressController {
 	 */
 	@Operation(summary = "Get all addresses for a user", description = "Returns all addresses associated with the specified user.")
 	@GetMapping("/get")
-	public ResponseEntity<List<AddressResponseDTO>> getAllAddresses(@RequestParam Long userId) {
+	public  ResponseEntity<List<AddressResponseDTO>> getAllAddresses(@RequestParam Long userId) {
 		List<AddressResponseDTO> addresslist = addressService.getAddresses(userId);
 		return ResponseEntity.ok(addresslist);
 	}
