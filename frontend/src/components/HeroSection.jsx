@@ -1,7 +1,10 @@
 import React from 'react'
 import '../css/HeroSection.css'; // Import CSS file for styling
 
+import { useNavigate } from 'react-router-dom';
+
 function HeroSection() {
+    const navigate = useNavigate();
     return (
         <div className='hero-section text-light text-center p-5 rounded'>
             <div className="hero-content">
@@ -9,9 +12,9 @@ function HeroSection() {
                 <p className='lead'>Discover your next great read, your one stop shop for all genres and titles.</p>
                 <button 
                     className='btn btn-primary' 
-                    onClick={() => {document.getElementById('shop-section').scrollIntoView({ behavior: 'smooth' })}}>
-                        Shop Now
-                        </button>
+                    onClick={() => navigate('/search')}>
+                        Search Books
+                </button>
             </div>
         </div>
     )

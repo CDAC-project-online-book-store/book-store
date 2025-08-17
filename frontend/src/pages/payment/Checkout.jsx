@@ -95,12 +95,14 @@ const Checkout = () => {
         userId: user.id,
         addressId: selectedAddressId,
         bookId: book.id,
-        orderItems: [ { quantity, price: book.price } ],
+        orderItems: [
+          { bookId: book.id, quantity, price: book.price }
+        ],
         orderStatus: 'PENDING',
         totalAmount: orderTotal,
         deliveryCharge
-      };
-      await createOrder(payload);
+      }; 
+      await api.post('/order', payload);
       navigate('/payment/order-placed', { replace: true, state: { book, quantity, total: orderTotal } });
     } catch (e) {
       alert('Failed to place order');

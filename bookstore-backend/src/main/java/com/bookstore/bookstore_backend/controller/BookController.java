@@ -29,7 +29,7 @@ public class BookController {
 	private final BookService bookService;
 
 	@GetMapping
-	@Operation(description = "Get all books")
+	@Operation(summary = "Get all active books", description = "Returns all active books available in the store.")
 	public ResponseEntity<?> listAvailableBooks() {
 		System.out.println("in list");
 		List<BookRespDTO> books = bookService.getAllBooks();
@@ -38,15 +38,28 @@ public class BookController {
 		return ResponseEntity.ok(books);
 	}
 
+	@GetMapping("/search")
+	@Operation(summary = "Search and filter books", description = "Search and filter books by title, category, author, and price range.")
+	public ResponseEntity<List<BookRespDTO>> searchBooks(
+			@RequestParam(required = false) String title,
+			@RequestParam(required = false) String category,
+			@RequestParam(required = false) String author,
+			@RequestParam(required = false) Double priceMin,
+			@RequestParam(required = false) Double priceMax
+	) {
+		List<BookRespDTO> books = bookService.searchBooks(title, category, author, priceMin, priceMax);
+		return ResponseEntity.ok(books);
+	}
+
 	@GetMapping("/all")
-	@Operation(description = "Books including out of stock")
+	@Operation(summary = "Get all books including inactive", description = "Returns all books, including those that are out of stock or inactive.")
 	public ResponseEntity<List<BookRespDTO>> getAllBooksIncludingInactive() {
 		List<BookRespDTO> books = bookService.getAllBooksIncludingInactive();
 		return ResponseEntity.ok(books);
 	}
 
 	@GetMapping("/isbn/{isbn}")
-	@Operation(description = "Get books by its ISBN no.")
+	@Operation(summary = "Get book by ISBN", description = "Returns book details for the specified ISBN number.")
 	public ResponseEntity<?> getBookByIsbn(@PathVariable String isbn) {
 		BookRespDTO book = bookService.getBookByIsbn(isbn);
 		return ResponseEntity.ok(book);
@@ -61,43 +74,43 @@ public class BookController {
 	}
 
 	@GetMapping("/search/title")
-	@Operation(description = "Search books by title substring")
+	@Operation(summary = "Search books by title", description = "Returns books whose title contains the specified substring.")
 	public ResponseEntity<List<BookRespDTO>> searchBooks(@RequestParam String title) {
 		return ResponseEntity.ok(bookService.searchBooksByTitle(title));
 	}
 
 	@GetMapping("/sort/price/asc")
-	@Operation(description = "Book price (lowest to highest)")
+	@Operation(summary = "Sort books by price ascending", description = "Returns books sorted by price from lowest to highest.")
 	public List<BookRespDTO> getBooksSortedByPriceAsc() {
 		return bookService.getBooksSortedByPriceAsc();
 	}
 
 	@GetMapping("/sort/price/desc")
-	@Operation(description = "Book price (highest to lowest)")
+	@Operation(summary = "Sort books by price descending", description = "Returns books sorted by price from highest to lowest.")
 	public List<BookRespDTO> getBooksSortedByPriceDesc() {
 		return bookService.getBooksSortedByPriceDesc();
 	}
 
 	@GetMapping("/filter/price-range")
-	@Operation(description = "Book price within range (min price and max price)")
+	@Operation(summary = "Filter books by price range", description = "Returns books within the specified price range.")
 	public List<BookRespDTO> getBooksByPriceRange(@RequestParam double minPrice, @RequestParam double maxPrice) {
 		return bookService.getBooksByPriceRange(minPrice, maxPrice);
 	}
 
 	@GetMapping("/filter/format")
-	@Operation(description = "Book by its format")
+	@Operation(summary = "Filter books by format", description = "Returns books matching the specified format.")
 	public List<BookRespDTO> getBooksByFormat(@RequestParam Format format) {
 		return bookService.getBooksByFormat(format);
 	}
 
 	@GetMapping("/filter/language")
-	@Operation(description = "Book by its language")
+	@Operation(summary = "Filter books by language", description = "Returns books matching the specified language.")
 	public List<BookRespDTO> getBooksByLanguage(@RequestParam String language) {
 		return bookService.getBooksByLanguage(language);
 	}
 
 	@GetMapping("/books/rating")
-	@Operation(description = "Books with rating >= 4.0")
+	@Operation(summary = "Get books with high rating", description = "Returns books with rating greater than or equal to 4.0.")
 	public ResponseEntity<List<BookRespDTO>> getBooksWithHighRating() {
 		List<BookRespDTO> books = bookService.getBooksWithHighRating();
 		return ResponseEntity.ok(books);

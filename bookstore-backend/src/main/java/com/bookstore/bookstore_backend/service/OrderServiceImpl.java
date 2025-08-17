@@ -132,12 +132,18 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderStatus(orderDTO.getOrderStatus() != null ? orderDTO.getOrderStatus() : OrderStatus.PENDING);
         order.setIsActive(true);
 
-        if (orderDTO.getOrderItems() != null) {
-            for (var itemDto : orderDTO.getOrderItems()) {
-                OrderItemEntity item = modelMapper.map(itemDto, OrderItemEntity.class);
-                order.addOrderItem(item); // sets back-reference
-            }
-        }
+		if (orderDTO.getOrderItems() != null) {
+			for (var itemDto : orderDTO.getOrderItems()) {
+				OrderItemEntity item = modelMapper.map(itemDto, OrderItemEntity.class);
+				if (itemDto.getBookId() == null) {
+					throw new IllegalArgumentException("Order item must have a bookId");
+				}
+				BookEntity itemBook = bookDao.findById(itemDto.getBookId())
+					.orElseThrow(() -> new ResourceNotFoundException("Book not found with id " + itemDto.getBookId()));
+				item.setBook(itemBook);
+				order.addOrderItem(item); // sets back-reference
+			}
+		}
 
         // if client passes precomputed totals, use them; otherwise compute
         if (orderDTO.getTotalAmount() != null) {

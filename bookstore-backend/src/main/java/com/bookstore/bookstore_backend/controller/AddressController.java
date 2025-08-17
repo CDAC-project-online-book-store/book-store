@@ -19,6 +19,7 @@ import com.bookstore.bookstore_backend.dto.AddressRequestDTO;
 import com.bookstore.bookstore_backend.dto.AddressResponseDTO;
 import com.bookstore.bookstore_backend.service.AddressService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -29,7 +30,13 @@ import lombok.RequiredArgsConstructor;
 public class AddressController {
 	private final AddressService addressService;
 
-	//create a new address
+	/**
+	 * Create a new address for a user.
+	 * @param userId ID of the user
+	 * @param addressRequest Address details
+	 * @return Created address
+	 */
+	@Operation(summary = "Create a new address for a user", description = "Creates and returns the newly added address for the specified user.")
 	@PostMapping("/create")
 	public ResponseEntity<AddressResponseDTO> createAddress(@RequestParam Long userId,
 			@Valid @RequestBody AddressRequestDTO addressRequest) {
@@ -37,13 +44,26 @@ public class AddressController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
 
-	//get all addresses
+	/**
+	 * Get all addresses for a user.
+	 * @param userId ID of the user
+	 * @return List of addresses
+	 */
+	@Operation(summary = "Get all addresses for a user", description = "Returns all addresses associated with the specified user.")
 	@GetMapping("/get")
-	public ResponseEntity<List<AddressResponseDTO>> getAllAddresses(@RequestParam Long userId) {
+	public  ResponseEntity<List<AddressResponseDTO>> getAllAddresses(@RequestParam Long userId) {
 		List<AddressResponseDTO> addresslist = addressService.getAddresses(userId);
 		return ResponseEntity.ok(addresslist);
 	}
 	
+	/**
+	 * Edit an existing address for a user.
+	 * @param userId ID of the user
+	 * @param addressId ID of the address
+	 * @param addressRequestDTO Updated address details
+	 * @return Updated address
+	 */
+	@Operation(summary = "Edit an address for a user", description = "Updates and returns the address for the specified user and address ID.")
 	@PutMapping("/edit")
 	public ResponseEntity<AddressResponseDTO> editAddress(@RequestParam Long userId, @RequestParam Long addressId, @Valid @RequestBody AddressRequestDTO addressRequestDTO){
 		AddressResponseDTO response = addressService.editMyAddress(userId, addressId, addressRequestDTO);
@@ -51,7 +71,14 @@ public class AddressController {
 		return ResponseEntity.ok(response);
 	}
 	
-    @DeleteMapping("/{addressId}")
+	/**
+	 * Delete an address for a user (soft delete).
+	 * @param userId ID of the user
+	 * @param addressId ID of the address
+	 * @return No content
+	 */
+	@Operation(summary = "Delete an address for a user", description = "Soft deletes the address for the specified user and address ID.")
+	@DeleteMapping("/{addressId}")
     public ResponseEntity<Void> deleteAddress(@RequestParam Long userId, @PathVariable("addressId") Long addressId){
         System.out.println("Delete request received - User ID: " + userId + ", Address ID: " + addressId);
         try {
