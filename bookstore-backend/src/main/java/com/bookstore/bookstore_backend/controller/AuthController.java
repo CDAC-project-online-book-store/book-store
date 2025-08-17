@@ -19,6 +19,7 @@ import com.bookstore.bookstore_backend.dto.UserResponseDTO;
 import com.bookstore.bookstore_backend.security.JwtUtils;
 import com.bookstore.bookstore_backend.service.UserService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,7 +34,7 @@ public class AuthController {
     private final UserService userService;
     
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequestDTO req) {
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequestDTO req) {
         try {
             // Authenticate user
             Authentication authentication = authenticationManager.authenticate(
@@ -59,7 +60,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody SignupRequestDTO signupRequest) {
+    public ResponseEntity<?> signup(@Valid @RequestBody SignupRequestDTO signupRequest) {
         // delegate to service which already encodes password & saves
         UserResponseDTO saved = userService.signup(signupRequest);
 

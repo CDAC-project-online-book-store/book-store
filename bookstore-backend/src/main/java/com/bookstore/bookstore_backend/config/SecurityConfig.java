@@ -47,7 +47,7 @@ public class SecurityConfig {
             .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers("/users/login", "/users/signup").permitAll()
+                .requestMatchers("/users/login", "/users/signup", "/books").permitAll()
                 .requestMatchers(
                         "/v3/api-docs/**",
                         "/swagger-ui/**",
@@ -59,7 +59,7 @@ public class SecurityConfig {
                 .requestMatchers("/addresses/**").hasRole("CUSTOMER")
                 .requestMatchers("/order/**").hasRole("CUSTOMER")
                 .requestMatchers("/cart/**").hasRole("CUSTOMER")
-                // Public book/category/author/review endpoints (if needed, adjust as per your requirements)
+                // Public book/category/author/review endpoints  adjust as per your requirements
                 .requestMatchers("/book/**", "/api/categories/**", "/api/authors/**", "/api/reviews/**").permitAll()
                 // All other requests require authentication
                 .anyRequest().authenticated()
@@ -76,7 +76,8 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:5174"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH", "HEAD"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));
-        configuration.setExposedHeaders(List.of("Authorization"));
+//        configuration.setExposedHeaders(List.of("Authorization"));
+        configuration.setExposedHeaders(List.of("Authorization", "X-Token-Expired"));
         configuration.setAllowCredentials(true);
         configuration.setMaxAge(3600L);
 
