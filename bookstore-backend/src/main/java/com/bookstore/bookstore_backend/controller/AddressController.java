@@ -39,7 +39,7 @@ public class AddressController {
 
 	//get all addresses
 	@GetMapping("/get")
-	public ResponseEntity<List<AddressResponseDTO>> getAllAddresses(@RequestParam Long userId) {
+	public  ResponseEntity<List<AddressResponseDTO>> getAllAddresses(@RequestParam Long userId) {
 		List<AddressResponseDTO> addresslist = addressService.getAddresses(userId);
 		return ResponseEntity.ok(addresslist);
 	}

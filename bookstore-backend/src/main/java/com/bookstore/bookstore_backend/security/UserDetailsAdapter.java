@@ -8,7 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.bookstore.bookstore_backend.entities.UserEntity;
-import com.bookstore.bookstore_backend.entities.UserRole;
+import com.bookstore.bookstore_backend.entities.UserRole; 
 
 @SuppressWarnings("serial")
 public class UserDetailsAdapter implements UserDetails {

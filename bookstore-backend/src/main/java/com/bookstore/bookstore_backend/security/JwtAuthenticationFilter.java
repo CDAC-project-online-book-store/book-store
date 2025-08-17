@@ -52,22 +52,55 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			log.warn("Invalid JWT token for request {}: {}", request.getRequestURI(), e.getMessage());
 			filterChain.doFilter(request, response);
 			return;
+		} catch (RuntimeException e) {
+			// Defensive: catch unexpected runtime exceptions from jwtUtils
+			log.error("Unexpected error while parsing token for {}: {}", request.getRequestURI(), e.getMessage());
+			filterChain.doFilter(request, response);
+			return;
 		}
 
 		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 			if (jwtUtils.validateToken(token, username)) {
 				List<String> authNames = jwtUtils.extractAuthorities(token);
 
-				var authorities = authNames.stream().map(auth -> auth.startsWith("ROLE_") ? auth : "ROLE_" + auth)
-						.map(SimpleGrantedAuthority::new).toList();
+				// Normalize authorities to ROLE_ prefix for compatibility with hasRole checks
+				List<SimpleGrantedAuthority> authorities = authNames.stream()
+						.map(auth -> auth.startsWith("ROLE_") ? auth : "ROLE_" + auth).map(SimpleGrantedAuthority::new)
+						.toList();
 
-				var auth = new UsernamePasswordAuthenticationToken(username, null, authorities);
+				// Use username (subject) as principal. If you prefer UserDetails object,
+				// reinstate DB lookup.
+				UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(username, null,
+						authorities);
+
 				SecurityContextHolder.getContext().setAuthentication(auth);
+
+				// Mask token in logs if you ever log it (we don't log token here)
 				log.debug("Authenticated user {} via JWT (claims only, no DB hit)", username);
 			} else {
 				log.debug("Token validation failed for {}", username);
 			}
 		}
+
+		filterChain.doFilter(request, response);
+
+	}
+
+}
+//		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+//			if (jwtUtils.validateToken(token, username)) {
+//				List<String> authNames = jwtUtils.extractAuthorities(token);
+//
+//				var authorities = authNames.stream().map(auth -> auth.startsWith("ROLE_") ? auth : "ROLE_" + auth)
+//						.map(SimpleGrantedAuthority::new).toList();
+//
+//				var auth = new UsernamePasswordAuthenticationToken(username, null, authorities);
+//				SecurityContextHolder.getContext().setAuthentication(auth);
+//				log.debug("Authenticated user {} via JWT (claims only, no DB hit)", username);
+//			} else {
+//				log.debug("Token validation failed for {}", username);
+//			}
+//		}
 
 //		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 //			var userDetails = userDetailsService.loadUserByUsername(username);
@@ -83,8 +116,3 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 //				log.debug("Token validation failed for {}", username);
 //			}
 //		}
-
-		filterChain.doFilter(request, response);
-
-	}
-}

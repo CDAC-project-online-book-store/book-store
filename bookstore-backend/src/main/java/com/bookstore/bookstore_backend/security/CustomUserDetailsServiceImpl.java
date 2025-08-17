@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bookstore.bookstore_backend.dao.UserDao;
-import com.bookstore.bookstore_backend.entities.UserEntity;
+import com.bookstore.bookstore_backend.entities.UserEntity; 
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

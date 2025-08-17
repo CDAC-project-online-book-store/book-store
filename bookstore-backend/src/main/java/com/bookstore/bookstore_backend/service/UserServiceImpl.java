@@ -19,9 +19,11 @@ import com.bookstore.bookstore_backend.entities.UserEntity;
 import com.bookstore.bookstore_backend.entities.UserRole;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 	private final UserDao userDao;
@@ -64,8 +66,12 @@ public class UserServiceImpl implements UserService {
 	@Transactional(readOnly = true)
 	@Override
 	public UserResponseDTO login(LoginRequestDTO loginRequest) {
-		UserEntity user = userDao.findByEmail(loginRequest.getEmail())
-				.orElseThrow(() -> new InvalidCredentialsException("Invalid email or password"));
+		System.out.println("Login of UserServiceImpl");
+		
+	UserEntity user = userDao.findByEmail(loginRequest.getEmail())
+		.orElseThrow(() -> new InvalidCredentialsException("Invalid email or password"));
+	// Debug log to check if entity fields are populated
+	log.info("[DEBUG] UserEntity: id=" + user.getId() + ", createdOn=" + user.getCreatedOn() + ", updatedOn=" + user.getUpdatedOn());
 
 		// for soft-deleted user
 		if (Boolean.FALSE.equals(user.getIsActive()))
@@ -75,9 +81,13 @@ public class UserServiceImpl implements UserService {
 		if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword()))
 			throw new InvalidCredentialsException("Invalid email or password");
 
-		UserResponseDTO responseDTO = modelMapper.map(user, UserResponseDTO.class);
-		responseDTO.setRole(user.getRole().name());
-		return responseDTO;
+	UserResponseDTO responseDTO = modelMapper.map(user, UserResponseDTO.class);
+	responseDTO.setRole(user.getRole().name());
+	// Explicitly set id, createdOn, updatedOn to ensure they are not null
+	responseDTO.setId(user.getId());
+	responseDTO.setCreatedOn(user.getCreatedOn());
+	responseDTO.setUpdatedOn(user.getUpdatedOn());
+	return responseDTO;
 	}
 
 	//update profile
@@ -133,8 +143,6 @@ public class UserServiceImpl implements UserService {
 		UserEntity savedUser = userDao.save(user);
 		return modelMapper.map(savedUser, UserResponseDTO.class);
 	}
-
-
 
 
 	@Override
