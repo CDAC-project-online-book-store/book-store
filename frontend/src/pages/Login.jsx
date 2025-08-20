@@ -12,21 +12,26 @@ function Login() {
     const handleLogin = async (e) => {
         e.preventDefault();
         setError('');
-        try {
-            const res = await loginUser({ email, password });
-            const user = res.data;
-            localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('user', JSON.stringify(user));
-            if (state?.redirectTo) {
-                navigate(state.redirectTo, { replace: true, state: state });
-            } else if (user.role?.toLowerCase() === 'admin') {
-                navigate('/admin/dashboard');
-            } else {
-                navigate('/');
-            }
-        } catch (err) {
-            setError(err?.response?.data?.message || 'Invalid email or password');
-        }
+    try {
+      
+      const res = await loginUser({ email, password });
+      const { token, user, type } = res.data;
+      
+      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('token', token);
+      localStorage.setItem('tokenType', type);
+      localStorage.setItem('user', JSON.stringify(user));
+      
+      if (state?.redirectTo) {
+        navigate(state.redirectTo, { replace: true, state: state });
+      } else if (user.role?.toLowerCase() === 'admin') {
+        navigate('/admin/dashboard');
+      } else {
+        navigate('/');
+      }
+    } catch (err) {
+      setError(err?.response?.data?.message || 'Invalid email or password');
+    }
     };
 
 

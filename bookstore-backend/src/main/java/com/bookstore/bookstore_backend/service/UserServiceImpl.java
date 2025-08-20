@@ -121,7 +121,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserResponseDTO updateUserByAdmin(Long userId, com.bookstore.bookstore_backend.dto.SignupRequestDTO updateRequest) {
+	public UserResponseDTO updateUserByAdmin(Long userId, SignupRequestDTO updateRequest) {
 		UserEntity user = userDao.findById(userId)
 				.orElseThrow(() -> new UserNotFoundException("User " + userId + " not found"));
 
@@ -143,7 +143,6 @@ public class UserServiceImpl implements UserService {
 		UserEntity savedUser = userDao.save(user);
 		return modelMapper.map(savedUser, UserResponseDTO.class);
 	}
-
 
 	@Override
 	public UserResponseDTO deactivateUser(Long userId) {
