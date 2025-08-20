@@ -1,3 +1,4 @@
+	
 package com.bookstore.bookstore_backend.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,29 +25,29 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 	private final UserService userService;
 		
-	/**
-	 * Register a new user account.
-	 * @param signupRequest User registration details
-	 * @return Created user response
-	 */
-	@Operation(summary = "Register a new user", description = "Creates a new user account and returns the user details.")
-	@PostMapping("/signup")
-	public ResponseEntity<UserResponseDTO> signup(@Valid @RequestBody SignupRequestDTO signupRequest){
-		UserResponseDTO response = userService.signup(signupRequest);
-		return ResponseEntity.status(HttpStatus.CREATED).body(response);
-	}
-	
-	/**
-	 * Login for an existing user.
-	 * @param loginRequest User login credentials
-	 * @return User response if login is successful
-	 */
-	@Operation(summary = "User login", description = "Authenticates user and returns user details if credentials are valid.")
-	@PostMapping("/login")
-	public ResponseEntity<UserResponseDTO> login(@Valid @RequestBody LoginRequestDTO loginRequest){
-		UserResponseDTO response = userService.login(loginRequest);
-		return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
-	}
+//	/**
+//	 * Register a new user account.
+//	 * @param signupRequest User registration details
+//	 * @return Created user response
+//	 */
+//	@Operation(summary = "Register a new user", description = "Creates a new user account and returns the user details.")
+//	@PostMapping("/signup")
+//	public ResponseEntity<UserResponseDTO> signup(@Valid @RequestBody SignupRequestDTO signupRequest){
+//		UserResponseDTO response = userService.signup(signupRequest);
+//		return ResponseEntity.status(HttpStatus.CREATED).body(response);
+//	}
+//	
+//	/**
+//	 * Login for an existing user.
+//	 * @param loginRequest User login credentials
+//	 * @return User response if login is successful
+//	 */
+//	@Operation(summary = "User login", description = "Authenticates user and returns user details if credentials are valid.")
+//	@PostMapping("/login")
+//	public ResponseEntity<UserResponseDTO> login(@Valid @RequestBody LoginRequestDTO loginRequest){
+//		UserResponseDTO response = userService.login(loginRequest);
+//		return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
+//	}
 
 	
 	/**
